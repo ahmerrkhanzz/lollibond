@@ -1,0 +1,460 @@
+/* ------------------------------------------------------------------------------
+*
+*  # Demo styles
+*
+*  Styles used for demostration purposes only
+*
+*  Version: 1.1
+*  Latest update: Nov 25, 2015
+*
+* ---------------------------------------------------------------------------- */
+
+
+// jQuery UI
+// ------------------------------
+
+// Draggable
+.jqueryui-demo-container {
+    font-size: 0;
+}
+.jqueryui-demo-element {
+    width: 90px;
+    height: 90px;
+    border-radius: 100px;
+    background-color: #fafafa;
+    border: 2px dashed #ddd;
+    color: @color-grey-500;
+    font-size: @font-size-small;
+    vertical-align: middle;
+    margin: auto;
+    position: relative;
+    z-index: 10;
+
+    & + & {
+        margin: @line-height-computed auto 0 auto;
+    }
+
+    > span {
+        position: absolute;
+        top: 50%;
+        margin-top: -(@line-height-computed / 2);
+        left: 0;
+        right: 0;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        display: inline-block;
+
+        & + & {
+            margin: 0 0 0 @grid-gutter-width;
+        }
+    }
+}
+
+// Selectable
+.selectable-demo-list {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+
+    > .ui-sortable-handle,
+    > .ui-selectee {
+        padding: (@padding-base-vertical - 1) @padding-base-horizontal;
+        background-color: #fcfcfc;
+        border: 1px solid #ddd;
+        border-radius: @border-radius-small;
+        cursor: pointer;
+        color: @color-grey-500;
+        font-size: @font-size-small;
+
+        &.ui-selecting {
+            background-color: @color-blue-400;
+            border-color: @color-blue-600;
+            color: #fff;
+        }
+
+        &.ui-selected {
+            background-color: @color-blue-500;
+            border-color: @color-blue-700;
+            color: #fff;
+        }
+    }
+
+    > li + li {
+        margin-top: 5px;
+    }
+
+    > .ui-sortable-helper:first-child + li {
+        margin-top: 0;
+    }
+}
+
+// Sortable hand;e
+.ui-handle-excluded {
+    &:extend(.selectable-demo-list > .ui-sortable-handle);
+}
+
+// Selectable
+.selectable-demo-connected {
+    & + & {
+        margin-top: @line-height-computed;
+
+        @media (min-width: @screen-sm-min) {
+            margin-top: 0;
+            margin-left: @grid-gutter-width;
+        }
+    }
+}
+
+// Droppable
+.droppable-demo-target {
+    width: 110px;
+    height: 110px;
+    background-color: @color-primary-50;
+    border-color: @color-primary-500;
+    color: @color-primary-800;
+    z-index: 9;
+}
+.droppable-demo-drop {
+    background-color: @color-success-50;
+    border-color: @color-success-500;
+    color: @color-success-800;
+}
+
+
+// Color palette
+// ------------------------------
+
+.demo-color {
+    height: 150px;
+    position: relative;
+    .border-top-radius(@border-radius-base);
+
+    > span {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 6px;
+        background-color: fade(#000, 20%);
+        font-size: @font-size-small;
+        color: #fff;
+    }
+}
+
+
+// Page loader overlay
+// ------------------------------
+
+.overlay-demo {
+    display: inline-block;
+    background-color: #333;
+    border-radius: @border-radius-base;
+}
+.overlay-demo-light {
+    background-color: @body-bg;
+}
+
+
+// Icons showcase
+// ------------------------------
+
+.glyphs > div {
+    padding: @padding-base-vertical @padding-base-horizontal;
+    cursor: pointer;
+
+    // Icon
+    > i {
+        margin-right: 10px;
+        width: 1em;
+        text-align: center;
+    }
+
+    // Hover state
+    &:hover {
+        background-color: @color-teal-500;
+        color: #fff;
+        border-radius: @border-radius-small;
+
+        span {
+            color: #fff;
+        }
+    }
+}
+
+
+// Grid demo
+// ------------------------------
+
+.grid-demo [class*="col-"] > div:not(.row) {
+    margin-bottom: @line-height-computed;
+    padding: 10px;
+    text-align: center;
+    background-color: #F7F7FC;
+    border: 1px solid #ddd;
+    color: @text-color;
+}
+
+
+// Velocity animations box
+// ------------------------------
+
+.demo-velocity-box {
+    padding: 12px 15px;
+    margin-bottom: @line-height-computed;
+    position: relative;
+    border: 1px solid #ccc;
+    text-align: center;
+    background-color: #fcfcfc;
+    border-radius: @border-radius-base;
+    .box-shadow(0 0 0 0 @brand-primary);
+
+    > span {
+        float: left;
+    }
+
+    span {
+        vertical-align: middle;
+    }
+
+    // List with icons
+    .icons-list {
+        float: right;
+        margin-top: 2px;
+
+        a {
+            .opacity(0.8);
+
+            &:hover {
+                .opacity(1);
+            }
+        }
+    }
+}
+
+
+// BlockUI growl notification
+// ------------------------------
+
+// Base
+.blockui-growl {
+    display: none;
+    text-align: left;
+    padding: 15px;
+    background-color: @color-slate-700;
+    color: #fff;
+    border-radius: @border-radius-base;
+
+    h6 {
+        margin-top: 2px;
+        margin-bottom: 8px;
+    }
+}
+
+// Message
+.blockui-message {
+    display: none;
+    background-color: @color-slate-700;
+    color: #fff;
+    border-radius: @border-radius-base;
+    padding: 15px 15px 10px 15px;
+
+    > i {
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+
+// Containers
+.multiple-messages-container,
+.blockui-animation-container {
+    display: none;
+}
+.blockui-animation-container {
+    background-color: #555;
+    padding: 10px;
+    line-height: 1;
+    border-radius: @border-radius-base;
+}
+
+
+// Tag inputs results
+// ------------------------------
+
+.val-demo {
+    display: block;
+    margin-top: @line-height-computed;
+
+    > span {
+        font-weight: 500;
+    }
+}
+
+
+// Custom CSS Library - NgTokenInput 
+tags-input {
+  display: block;
+}
+tags-input *, tags-input *:before, tags-input *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+tags-input .host {
+  position: relative;
+  height: 100%;
+}
+tags-input .host:active {
+  outline: none;
+}
+
+tags-input .tags {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  padding: 1px;
+  overflow: hidden;
+  word-wrap: break-word;
+  cursor: text;
+  background-color: #fff;
+  height: 100%;
+}
+tags-input .tags.focused {
+  outline: none;
+}
+tags-input .tags .tag-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+tags-input .tags .tag-item {
+  display: inline-block;
+  float: left;
+  line-height: 25px;
+}
+tags-input .tags .tag-item.selected {
+    .tag{
+        background-color: @color-danger-500;
+        border-color: @color-danger-500;
+        color: #fff;
+    }
+}
+tags-input .tags .tag-item .remove-button {
+  margin: 0 0 0 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  vertical-align: middle;
+  font: bold 16px Arial, sans-serif;
+  color: #585858;
+}
+tags-input .tags .tag-item .remove-button:active {
+  color: #ff0000;
+}
+tags-input .tags .input {
+  border: 0;
+  outline: none;
+  margin: 2px;
+  padding: 0;
+  padding-left: 5px;
+  float: left;
+  height: 26px;
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+tags-input .tags .input.invalid-tag {
+  color: #ff0000;
+}
+tags-input .tags .input::-ms-clear {
+  display: none;
+}
+tags-input.ng-invalid .tags {
+  -webkit-box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.6);
+  box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.6);
+}
+tags-input[disabled] .host:focus {
+  outline: none;
+}
+tags-input[disabled] .tags {
+  background-color: #eee;
+  cursor: default;
+}
+tags-input[disabled] .tags .tag-item {
+  opacity: 0.65;
+  background: -webkit-linear-gradient(top, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%);
+  background: linear-gradient(to bottom, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%);
+}
+tags-input[disabled] .tags .tag-item .remove-button {
+  cursor: default;
+}
+tags-input[disabled] .tags .tag-item .remove-button:active {
+  color: #585858;
+}
+tags-input[disabled] .tags .input {
+  background-color: #eee;
+  cursor: default;
+}
+
+tags-input .autocomplete {
+  margin-top: 5px;
+  position: absolute;
+  padding: 5px 0;
+  z-index: 999;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+tags-input .autocomplete .suggestion-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-height: 280px;
+  overflow-y: auto;
+  position: relative;
+}
+tags-input .autocomplete .suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000;
+  background-color: #fff;
+}
+tags-input .autocomplete .suggestion-item.selected {
+  color: #fff;
+  background-color: #0097cf;
+}
+tags-input .autocomplete .suggestion-item.selected em {
+  color: #fff;
+  background-color: #0097cf;
+}
+tags-input .autocomplete .suggestion-item em {
+  font: normal bold 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000;
+  background-color: #fff;
+}
+.tag-input-scroll {
+  height: auto;
+  .tags {
+    max-height: 70px;
+    height: auto;
+    overflow-y: scroll;
+ }
+}
+.no-background{
+  background: none;
+}
+#user-profile-btn{
+  span{
+    text-transform: capitalize;
+  }
+}
+/*# sourceMappingURL=ng-tags-input.css.map */

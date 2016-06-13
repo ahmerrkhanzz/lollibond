@@ -1,0 +1,253 @@
+<div>
+  <script type="text/ng-template" id="tag-template">
+    <span class="tag label label-info">
+  {{$getDisplayText()}}
+  <span data-role="remove"  ng-click="$removeTag()"></span>
+    </span>
+  </script>
+  <script type="text/ng-template" id="autocomplete-template">
+    <div class="autocomplete-template">
+      <div class="right-panel">
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+      </div>
+    </div>
+  </script>
+  <div class="row row-min">
+    <div class="col-md-1 sidebar-xs">
+     <!--  <div class="nav-tabs-vertical sidebar sidebar-main sidebar-default"  sticky offset="70">
+        <ul class="nav  nav-tabs nav-pills panel no-border">
+          <li offset="100" du-scrollspy="{{section.id}}" ng-repeat="section in vm.aboutSections" class=" border-bottom" ng-if="section.isActive">
+            <a class="no-margin-left" 
+              ng-href="{{(section.isActive) ? '#'+section.id : 'javascript:;'}}" 
+              du-smooth-scroll>
+              <i class="{{section.icon}} position-left"></i>
+            </a>
+          </li>
+          <li ng-if="vm.profileService.ownProfile">  
+            <a href="javascript:;" ng-click="addSectionCollpased = !addSectionCollpased" class="has-ul">
+              <i class=" icon-googleplus5 position-left"></i>
+              Add Section 
+            </a>
+            <ul class="nav no-border panel no-padding-bottom nav-tabs-highlight" uib-collapse="!addSectionCollpased" >
+              <li ng-repeat="section in vm.aboutSections"  ng-if="!section.isActive">
+                <a href="#{{section.id}}" class="label-striped" ng-click="section.isActive = true" du-smooth-scroll>
+                  {{section.name}} <span class="label label-info pull-right">New</span> 
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div> -->
+      <div class="sidebar-main sidebar-default" sticky offset="130">
+        <div class="panel no-margin-bottom sidebar-content">
+          <!-- Main navigation -->
+          <div class="sidebar-category sidebar-category-visible">
+            <div class="category-title h6">
+              <span>Main navigation</span>
+              <ul class="icons-list">
+                <li>
+                  <a href="javascript:;" data-action="collapse"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="category-content sidebar-user no-padding pt-10">
+              <div class="media">
+                <a href="javascript:;" class="media-left"><img src="assets/images/dummy/users/face11.jpg" class="img-circle img-sm" alt=""></a>
+                <div class="media-right media-middle">
+                  <ul class="icons-list">
+                    <li>
+                      <a href="javascript:;"><i class="icon-cog3"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="category-content no-padding">
+              <ul class="navigation navigation-main navigation-accordion">
+                <!-- Main -->
+                <li class="navigation-header">
+                  <span>Main</span> <i class="icon-menu" title="" data-original-title="Main pages"></i>
+                </li>
+                <li offset="100" du-scrollspy="{{section.id}}" ng-repeat="section in vm.aboutSections" class=" border-bottom" ng-if="section.isActive">
+                  <a class="no-margin-left" ng-href="{{(section.isActive) ? '#'+section.id : 'javascript:;'}}" du-smooth-scroll>
+                    <i class="{{section.icon}} position-left"></i> <span>{{section.name}}</span>
+                  </a>
+                </li>
+                
+              </ul>
+             <ul class="navigation-accordian navigation-add">
+               <li ng-if="vm.profileService.ownProfile">
+                  <a href="javascript:;" ng-click="addSectionCollpased = !addSectionCollpased" class="has-ul">
+                    <i class=" icon-googleplus5 position-left"></i>
+                  </a>
+                  <ul class="navigation navigation-main navigation-accordion" uib-collapse="!addSectionCollpased">
+                    <li ng-repeat="section in vm.aboutSections" ng-if="!section.isActive">
+                      <a href="#{{section.id}}" class="label-striped" ng-click="section.isActive = true" du-smooth-scroll>
+                        <i class="{{section.icon}} position-left"></i> <span>{{section.name}}</span> 
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+             </ul>
+            </div>
+          </div>
+          <!-- /main navigation -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-11 about-section">
+      <!-- Profile information -->
+      <personal-profile id="personal-profile" content="vm.user" ng-show="vm.aboutSections[0].isActive"></personal-profile>
+      <!-- /Profile information -->
+      <div class="row row-min">
+        <div class="col-md-6">
+          <!-- Experience -->
+          <experience id="experience" content="vm.experiences" ng-show="vm.aboutSections[6].isActive"></experience>
+          <!-- /Experience -->
+          <!-- College -->
+          <education id="education" content="vm.colleges" ng-show="vm.aboutSections[2].isActive"></education>
+          <!-- /College -->
+          <!-- Education -->
+          <school id="school" content="vm.schools" ng-show="vm.aboutSections[3].isActive"></school>
+          <!-- /Education -->
+          <!-- Skills -->
+          <skills id="skills" ng-show="vm.aboutSections[4].isActive"></skills>
+          <!-- /Skills -->
+          <!-- Language -->
+          <language id="language" content="vm.languages" ng-show="vm.aboutSections[5].isActive"></language>
+          <!-- /Language -->
+          
+          
+        </div>
+        <div class="col-sm-6">
+          <div class="row row-min">
+            <div class="col-md-6">
+              <!-- Why Me -->
+              <why-me id="why-me" content="vm.user" ng-show="vm.aboutSections[1].isActive"></why-me>
+              <!-- /Why Me -->
+
+              <!-- Awards Honors -->
+              <awards-honor id="award-honors" content="vm.awards" ng-show="vm.aboutSections[7].isActive"></awards-honor>
+              <!-- /Awards Honors -->
+
+              <!-- Training Experience -->
+              <training-experience id="training-experience" content="vm.training" ng-show="vm.aboutSections[8].isActive"></training-experience>
+              <!-- /Training Experience -->
+
+              
+
+              <div class="panel recommendations-box bg-green">
+                <div class="panel-body text-center">
+                  <h5 class="text-semibold">Recommendations</h5>
+                  <q class="mb-15">Ouch found swore much dear conductively hid submissively hatchet vexed far inanimately alongside candidly much and jeez</q>
+                  <div class="media">
+                    <div class="media-left">
+                      <a href="#" data-popup="lightbox">
+                        <img src="assets/images/dummy/users/face6.jpg" class="img-circle img-lg" alt="">
+                      </a>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="media-heading">James Alexander</h6>
+                      <span>Lead developer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel recommendations-box bg-primary">
+                <div class="panel-body text-center">
+                  <h5 class="text-semibold">Recommendations</h5>
+                  <q class="mb-15">Ouch found swore much dear conductively hid submissively hatchet vexed far inanimately alongside candidly much and jeez</q>
+                  <div class="media">
+                    <div class="media-left">
+                      <a href="#" data-popup="lightbox">
+                        <img src="assets/images/dummy/users/face6.jpg" class="img-circle img-lg" alt="">
+                      </a>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="media-heading">James Alexander</h6>
+                      <span>Lead developer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-white suggestion-widget">
+                <h4>Suggestions</h4>
+              </div>
+
+              <!-- Volunteering Experience -->
+              <volunteering-experience id="volunteering-experience" content="vm.volunteers" ng-show="vm.aboutSections[9].isActive"> </volunteering-experience>
+              <!-- /Volunteering Experience -->
+
+              <!-- Affiliation Membership -->
+              <affiliations-memberships id="affiliations-memberships" content="vm.affiliations" ng-show="vm.aboutSections[11].isActive"></affiliations-memberships>
+              <!-- /Affiliation Membership -->
+
+              <!-- Publication Presentation -->
+              <publication id="publication" content="vm.publications" ng-show="vm.aboutSections[12].isActive"></publication>
+              <!-- /Publication Presentation -->
+
+              <!-- License Certification -->
+              <license-certification id="license-certification" content="vm.certifications" ng-show="vm.aboutSections[10].isActive"></license-certification>
+              <!-- /License Certification -->
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <!--poeples to follow-->
+      <h4>Peoples to follow</h4>
+      <div class="row recommendations">
+        <div class="col-sm-3 col-xs-6">
+          <div class="thumbnail no-padding">
+            <div class="thumb">
+              <img src="assets/images/dummy/users/face1.jpg" alt="">
+              <div class="caption">
+                <h6 class="text-semibold no-margin">James Alexander <small class="display-block">Lead developer</small></h6>
+              </div>
+            </div>
+            <a href="javascript:;" class="lu-action btn btn-primary btn-xs">Bond</a>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="thumbnail no-padding">
+              <div class="thumb">
+                <img src="assets/images/dummy/users/face2.jpg" alt="">
+                <div class="caption">
+                  <h6 class="text-semibold no-margin">James Alexander <small class="display-block">Lead developer</small></h6>
+                </div>
+              </div>
+              <a href="javascript:;" class="lu-action btn btn-primary btn-xs">Bond</a>
+            </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="thumbnail no-padding">
+              <div class="thumb">
+                <img src="assets/images/dummy/users/face3.jpg" alt="">
+                <div class="caption">
+                  <h6 class="text-semibold no-margin">James Alexander <small class="display-block">Lead developer</small></h6>
+                </div>
+              </div>
+              <a href="javascript:;" class="lu-action btn btn-primary btn-xs">Bond</a>
+            </div>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <div class="thumbnail no-padding">
+              <div class="thumb">
+                <img src="assets/images/dummy/users/face4.jpg" alt="">
+                <div class="caption text-center">
+                  <h6 class="text-semibold no-margin">James Alexander <small class="display-block">Lead developer</small></h6>
+                </div>
+              </div>
+              <a href="javascript:;" class="lu-action btn btn-primary btn-xs">Bond</a>
+            </div>
+        </div>
+      </div>
+      <!--peoples to follow-->
+    </div>
+  </div>
+</div>

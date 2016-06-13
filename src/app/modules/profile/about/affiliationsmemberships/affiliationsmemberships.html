@@ -1,0 +1,45 @@
+<div class="customized">
+  <div class="panel panel-white" id="affiliations-memberships">
+    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/cover6.jpg') no-repeat top center / cover;">
+      <h4 class="panel-title"><i class="icon-credit-card position-left"></i> Affiliations</h4>
+    </div>
+    <div class="panel-body border-top-danger">
+      <div ng-init="fields = vm.copyFields(vm.fields)">
+        <div class="lb-panel--view" ng-repeat="aff in vm.content track by $index">
+          <div ng-if="!aff.isEditable">
+            <div class="panel-heading no-padding">
+              <div class="lb-panel--description">
+                <h5 class="panel-title">
+                  <span class="main-title text-semibold">{{aff.data.role}}</span>
+                  <span class="issued" ng-if="aff.data.organization">at {{aff.data.organization}}</span>
+                  <span class="issued">{{aff.data.fromDate | date:"MMM/yyyy"}} <strong> to </strong> {{aff.data.toDate | date:"MMM/yyyy"}}</span>
+                  <!-- <div class="pull-right">
+                    <privacy-dropdown current-selected="awr.currentSelectedPrivacy"></privacy-dropdown>
+                  </div> -->
+                </h5>
+              </div>
+              <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(aff)">
+                <i class=" mr-5 icon-pencil"></i>
+              </a>
+            </div>
+          </div>
+          <div class="panel-body no-padding row pb-15" ng-if="aff.isEditable">
+            <form ng-submit="vm.onSubmit(aff)" name="form" novalidate>
+              <formly-form model="aff.data" fields="fields" form="form">
+              </formly-form>
+              <div class="text-right mt-10 col-md-12">
+                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteAffiliation($index)">
+                  Remove this Affiliation
+                </button>
+                <button ng-click="vm.updateAffiliation($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
+      <button type="button" ng-click="vm.addAffiliationModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<li uib-dropdown auto-close="disabled">
+  <a href="#" id="notification-btn" uib-dropdown-toggle>
+    <i class="icon-user-plus"></i>
+    <span class="visible-xs-inline-block position-right">Request</span>
+    <span class="badge bg-warning-400">{{vm.requestList.length}}</span>
+  </a>
+  <div class="dropdown-content width-350" uib-dropdown-menu role="menu" aria-labelledby="notification-btn">
+    <div class="dropdown-content-heading">
+      {{vm.requestList.length}} new Bond Request
+    </div>
+
+    <ul class="media-list dropdown-content-body width-300">
+      <li class="media" ng-repeat="request in vm.requestList">
+        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
+        <div class="media-body">
+          <a href="#" class="media-heading text-semibold">{{::request.firstName}} {{::request.lastName}}</a>
+          <span class="display-block text-muted text-size-small">{{::request.title}}</span>
+        </div>
+        <div class="media-right media-middle">
+          <ul class="icons-list text-nowrap">
+            <li>
+              <a ng-click="vm.approveRequest(request.userId, $index)"><i class=" icon-checkmark3"></i></a>
+            </li>
+            <li>
+              <a ng-click="vm.declineRequest(request.userId, $index)"><i class="icon-cross2"></i></a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <div class="dropdown-content-footer">
+      <a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
+    </div>
+  </div>
+</li>

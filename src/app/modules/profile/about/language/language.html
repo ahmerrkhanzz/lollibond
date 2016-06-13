@@ -1,0 +1,52 @@
+<div class="customized">
+  <div class="panel panel-white" id="language">
+    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/language.jpg') no-repeat top center / cover;">
+      <h4 class="panel-title"><i class="icon-earth position-left"></i> Languages</h4>
+    </div>
+    <div class="panel-body no-padding border-top-danger">
+      <div ng-init="fields = vm.copyFields(vm.fields)">
+        <div class="no-padding-right" ng-repeat="lang in vm.content track by $index">
+          <div ng-if="!lang.isEditable">
+            <div class="panel-heading border-bottom">
+              <div class="col-md-4">
+                <h5 class="panel-title">
+                  <span class="main-title text-semibold">{{lang.data.language}}</span>
+                  <!-- <div class="pull-right">
+                    <privacy-dropdown current-selected="awr.currentSelectedPrivacy"></privacy-dropdown>
+                  </div> -->
+                </h5>
+              </div>
+              <div class="col-md-7">
+                <div class="progress">
+                  <div class="progress-bar bg-teal" style="width: {{(lang.data.rate /5) * 100}}%">
+                    <span>{{lang.data.rate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1 text-right">
+                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(lang)">
+                  <i class=" mr-5 icon-pencil"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body" ng-if="lang.isEditable">
+            <form ng-submit="vm.onSubmit(lang)" name="form" novalidate>
+              <formly-form model="lang.data" fields="fields" form="form">
+              </formly-form>
+              <div class="text-right col-md-12 mt-10">
+                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteLanguage($index)">
+                  Remove this Language
+                </button>
+                <button ng-click="vm.updateLanguage($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
+      <button type="button" ng-click="vm.addLanguageModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    </div>
+  </div>
+</div>

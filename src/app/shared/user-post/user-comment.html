@@ -1,0 +1,39 @@
+<div class="media-left">
+  <a><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+</div>
+<div class="media-body">
+  <div class="media-heading">
+    <a ui-sref="personal.profile.posts({ uid: vm.commentData.author.id })" class="text-semibold">{{::vm.commentData.author.firstName}} {{::vm.commentData.author.lastName}}</a>
+    <span class="media-annotation dotted" title="{{::vm.commentData.time | date:'medium'}}">{{::vm.getTimestamp(vm.commentData.time)}}</span>
+  </div>
+  <p>{{::vm.commentData.text}}</p>
+
+  <ul class="list-inline list-inline-separate text-size-small">
+    <li>
+      <a ng-click="vm.aceComment()">
+        <i class="icon-thumbs-up2"></i> {{vm.commentData.aced ? 'Aced' : 'Ace'}} ({{vm.commentData.aceCount || 0}})
+      </a>
+    </li>
+    <li><a ng-click="::vm.showReplyForm()">Reply</a></li>
+    <li><a ng-click="::vm.showReply()">Replies ({{vm.commentData.replyCount || 0}})</a></li>
+  </ul>
+
+  <!-- Replies section start -->
+  <div ng-if="vm.commentReplies.length > 0" class="mt-15">
+    <button class="btn btn-link no-padding" ng-click="vm.loadMore()">Load previous replies</button>
+    <user-reply class="media show" ng-repeat="reply in vm.commentReplies.slice().reverse()" reply-data="reply"></user-reply>
+  </div>
+  <!-- Replies section end -->
+
+  <!-- Add reply form -->
+  <div class="pt-10 pb-20" ng-show="vm.addReplyForm" ng-if="vm.profileService.isBonded || vm.profileService.ownProfile">
+    <form ng-submit="::vm.addReply()" name="formCommentReply">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="vm.userReply" placeholder="Your reply" required>
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-disabled="formCommentReply.$invalid"><i class="icon-paperplane"></i></button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+.ace-button {
+  margin-top: 5px;
+  button {
+    padding: 1px 10px;
+    img.ace-icon {
+      width: 14px;
+      height: 100%;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+      margin-bottom: 0px;
+      display: flex;
+      margin-top: 2px;
+      li {
+        width: 15px;
+        height: 4px;
+        margin-right: 2px;
+        background: #ddd;
+        display: inline-block;
+        border-radius: 25%;
+      }
+    }
+  }
+  .dropdown-menu {
+    text-align: center;
+    > li {
+      display: inline-block;
+      margin-right: 5px;
+      > button {
+        border-radius: 5px;
+        display: inline;
+        text-align: center;
+        color: #fff;
+        padding: 0px;
+        border: none;
+        .icon {
+          text-align: center;
+          padding: 6px 0px;
+          border-radius: 5px 5px 0 0;
+          width: 50px;
+          img {
+            width: auto;
+          }
+        }
+        &.bg-primary {
+          .icon {
+            border: 1px solid rgba(0, 0, 0, 0.10);
+          }
+          .count {
+            background-color: rgba(0, 0, 0, 0.10);
+            border-radius: 0 0 5px 5px;
+          }
+        }
+        &.bg-green {
+          .icon {
+            border: 1px solid rgba(0, 0, 0, 0.10);
+          }
+          .count {
+            background: rgba(0, 0, 0, 0.10);
+            border-radius: 0 0 5px 5px;
+          }
+          &:disabled {
+            background: rgba(53, 174, 68, 0.32);
+            .icon {
+              border: 1px solid rgba(45, 159, 59, 0.10);
+            }
+            .count {
+              background: rgba(45, 159, 59, 0.10);
+              border-radius: 0 0 5px 5px;
+            }
+          }
+        }
+        &.bg-orange {
+          .icon {
+            border: 1px solid rgba(0, 0, 0, 0.10);
+          }
+          .count {
+            background: rgba(0, 0, 0, 0.10);
+            border-radius: 0 0 5px 5px;
+          }
+        }
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+}

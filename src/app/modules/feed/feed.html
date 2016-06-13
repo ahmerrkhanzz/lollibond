@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row mt-20">
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6">
+        <!-- Share your thoughts -->
+        <create-post post-list="vm.wallPosts" share-method="vm.shareMethod(data)"></create-post>
+        <!-- /share your thoughts -->
+
+        <!-- Timeline -->
+        <!-- filter by last entered shown first -->
+        <div ng-repeat="wallPost in vm.wallPosts">
+          <user-post post-data="wallPost"></user-post>
+        </div>
+        <!-- /timeline -->
+
+        <button class="btn btn-link" ng-click="::vm.loadMore()">Show more</button>
+    </div>
+
+    <div class="col-md-3"></div>
+  </div>
+</div>

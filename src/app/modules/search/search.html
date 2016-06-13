@@ -1,0 +1,48 @@
+<!-- Page container -->
+<div class="page-container">
+  <!-- Page content -->
+  <div class="page-content">
+    <!-- Main content -->
+    <div class="content-wrapper">
+      <!-- Content area -->
+      <div class="content container mt-20">
+        <div class="row">
+          <div class="col-md-3">
+            <!-- Basic layout-->
+            <form action="#">
+              <div class="panel panel-flat">
+                <div class="panel-heading">
+                  <h5 class="panel-title">Advance Search</h5>
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label class="display-block">Gender:</label>
+                    <label class="radio-inline">
+                      <div class="choice"><span class="checked"><input type="radio" class="styled" name="gender" checked="checked"></span></div>
+                      Male
+                    </label>
+                    <label class="radio-inline">
+                      <div class="choice"><span><input type="radio" class="styled" name="gender"></span></div>
+                      Female
+                    </label>
+                  </div>
+                  <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- /basic layout -->
+          </div>
+          <div class="col-md-6">
+            <lb-user-card ng-repeat="people in vm.peopleList" card-data="people"></lb-user-card>
+          </div>
+        </div>
+      </div>
+      <!-- /content area -->
+    </div>
+    <!-- /main content -->
+  </div>
+  <!-- /page content -->
+</div>
+<!-- /page container -->

@@ -1,0 +1,79 @@
+<div class="panel panel-flat">
+
+  <div class="post-tabs">
+    <ul class="nav nav-pills">
+      <li ng-repeat="tab in ::vm.postTypes" ng-class="{'active': vm.selectedPostTypeIndex === $index}" ng-click="::vm.changePostType(tab, $index)">
+        <a><i class="{{tab.icon}}"></i> {{tab.name | translate}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="panel-body post-content">
+    <form name="formPost">
+      <!-- Post content -->
+      <div class="form-group">
+        <textarea name="post-content" class="form-control mb-15" ng-model="vm.postContent" rows="3" cols="1" placeholder="{{vm.selectedPostType.placeholder | translate}}" required></textarea>
+        <div class="post-icons">
+          <ul class="icons-list icons-list-extended mt-10">
+            <li>
+              <label  title="Add photo"
+                      class="cursor-pointer"
+                      ngf-select="vm.uploadImage($files)"
+                      multiple
+                      accept="image/*">
+                <i class="icon-images2"></i>
+              </label>
+            </li>
+            <li>
+              <label title="Add video" class="cursor-pointer">
+                <i class="icon-film2"></i>
+              </label>
+            </li>
+            <li>
+              <a title="Add Location" class="cursor-pointer" ng-click="vm.addLocation()">
+                <i class=" icon-location3"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Select Location Section -->
+      <div ng-if="vm.locationSection">
+        <lb-autocomplete-location></lb-autocomplete-location>
+      </div>
+
+      <!-- Image upload section -->
+      <div ng-if="vm.files" class="pb-15">
+        <div class="clearfix">
+          <div ng-repeat="f in vm.files" class="thumbnail pull-left">
+            <div class="thumb">
+              <img class="media-preview" ngf-thumbnail="f">
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="progress">
+            <div class="progress-bar bg-teal" style="width:{{vm.uploadProgress}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-offset-5 col-sm-7 text-right">
+          <div class="btn-group" uib-dropdown is-open="privacy.isopen">
+            <button type="button" class="btn bg-slate-700" uib-dropdown-toggle>
+              <span class="{{vm.selectedPostPrivacy.icon}}"></span> {{vm.selectedPostPrivacy.name | translate}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+              <li role="menuitem" ng-repeat="postPrivacy in vm.postPrivacyOpts" ng-click="vm.changePostPrivacy(postPrivacy)">
+                <a><span class="{{postPrivacy.icon}}"></span> {{::postPrivacy.name | translate}}</a>
+              </li>
+            </ul>
+          </div>
+          <button type="button" ng-click="vm.sharePost()" ng-disabled="formPost.$invalid" class="btn btn-primary btn-labeled btn-labeled-right">{{'Share' | translate}} <b><i class="icon-circle-right2"></i></b></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

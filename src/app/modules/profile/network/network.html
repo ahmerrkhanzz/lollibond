@@ -1,0 +1,256 @@
+<div>
+  <div class="col-md-3">
+    <div class="nav-tabs-vertical " >
+      <ul class="nav  nav-tabs nav-pills panel no-border">
+        <li class=" border-bottom" >
+          <a class="no-margin-left" href="javascript:;" ng-click="vm.getUsers()">
+            All Contacts
+          </a>
+        </li>
+        <li class=" border-bottom" >
+          <a class="no-margin-left" href="javascript:;" ng-click="vm.getPendingRequests()" >
+            Pending Requests
+          </a>
+        </li>
+        <li class=" border-bottom" >
+          <a class="no-margin-left" href="javascript:;" ng-click="vm.getRequestSent()" >
+            Request Sent
+          </a>
+        </li>
+        <li class=" border-bottom" >
+          <a class="no-margin-left" href="javascript:;" ng-click="vm.getFollowers()" >
+            My Followers
+          </a>
+        </li>
+        <li class=" border-bottom" >
+          <a class="no-margin-left" href="javascript:;" ng-click="vm.getPeopleIFollow()">
+            People I Follow
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <!-- Collapsible list -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">{{vm.userListType}}</h5>
+      </div>
+      <div class="panel-body">
+        <ul class="media-list ">
+          <li class="media" ng-repeat="user in vm.userList">
+            <div class="media-left">
+              <a href="#/personal/{{::user.userId}}">
+                <img src="{{::user.userImg || 'assets/images/placeholder.jpg'}}" class="img-circle" alt="{{::user.user || user.firstName + ' ' + user.lastName}} ">
+              </a>
+            </div>
+            <div class="media-body">
+              <div class="media-heading text-semibold"> 
+                <a href="#/personal/{{::user.userId}}"> {{::user.user || user.firstName + ' ' + user.lastName}} </a>
+              </div>
+              <span class="text-muted">{{::user.company || 'Microsoft'}}</span>
+            </div>
+            <div class="media-right media-middle">
+              <ul class="icons-list text-nowrap">
+                <li>
+                  <a href="javascript:;" tooltip-placement="top" uib-tooltip="Accept Bond Request">
+                    <i class="icon-plus2"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:;" tooltip-placement="top" uib-tooltip="Cancel Bond Request">
+                    <i class=" icon-cross3"></i>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target="#{{::user.user}}"  ng-click="userDetailCollpased = !userDetailCollpased">
+                    <i ng-class="{'icon-arrow-up32': userDetailCollpased, 'icon-arrow-down32': !userDetailCollpased}"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div uib-collapse="!userDetailCollpased" id="{{::user.user}}" >
+              <div class="contact-details">
+                <ul class="list-extended list-unstyled list-icons">
+                  <li><i class="icon-pin position-left"></i> {{::user.country || 'United Arab Emirated'}}</li>
+                  <li><i class="icon-user-tie position-left"></i>  {{::user.education || 'Harward University'}}</li>
+                  <li><i class="icon-phone position-left"></i> +1(800)431 8996</li>
+                  <li><i class="icon-mail5 position-left"></i> <a href="#">james@alexander.com</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /collapsible list -->
+  </div>
+  <div class="col-lg-3">
+    <!-- Navigation -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h6 class="panel-title">Navigation</h6>
+        <div class="heading-elements">
+          <a href="#" class="heading-text">See all &rarr;</a>
+        </div>
+      </div>
+      <div class="list-group no-border no-padding-top">
+        <a href="#" class="list-group-item"><i class="icon-user"></i> My profile</a>
+        <a href="#" class="list-group-item"><i class="icon-cash3"></i> Balance</a>
+        <a href="#" class="list-group-item"><i class="icon-tree7"></i> Connections <span class="badge bg-danger pull-right">29</span></a>
+        <a href="#" class="list-group-item"><i class="icon-users"></i> Friends</a>
+        <div class="list-group-divider"></div>
+        <a href="#" class="list-group-item"><i class="icon-calendar3"></i> Events <span class="badge bg-teal-400 pull-right">48</span></a>
+        <a href="#" class="list-group-item"><i class="icon-cog3"></i> Account settings</a>
+      </div>
+    </div>
+    <!-- /navigation -->
+    <!-- Share your thoughts -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h6 class="panel-title">Share your thoughts</h6>
+        <div class="heading-elements">
+          <ul class="icons-list">
+            <li>
+              <a data-action="close"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form action="#">
+          <div class="form-group">
+            <textarea name="enter-message" class="form-control mb-15" rows="3" cols="1" placeholder="What's on your mind?"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="icons-list icons-list-extended mt-10">
+                <li><a href="#" data-popup="tooltip" title="Add photo" data-container="body"><i class="icon-images2"></i></a></li>
+                <li><a href="#" data-popup="tooltip" title="Add video" data-container="body"><i class="icon-film2"></i></a></li>
+                <li><a href="#" data-popup="tooltip" title="Add event" data-container="body"><i class="icon-calendar2"></i></a></li>
+              </ul>
+            </div>
+            <div class="col-sm-6 text-right">
+              <button type="button" class="btn btn-primary btn-labeled btn-labeled-right">Share <b><i class="icon-circle-right2"></i></b></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /share your thoughts -->
+    <!-- Balance chart -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h6 class="panel-title">Balance changes</h6>
+        <div class="heading-elements">
+          <span class="heading-text"><i class="icon-arrow-down22 text-danger"></i> <span class="text-semibold">- 29.4%</span></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="chart-container">
+          <div class="chart" id="visits" style="height: 300px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- /balance chart -->
+    <!-- Connections -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h6 class="panel-title">Latest connections</h6>
+        <div class="heading-elements">
+          <span class="badge badge-success heading-text">+32</span>
+        </div>
+      </div>
+      <ul class="media-list media-list-linked pb-5">
+        <li class="media-header">Office staff</li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <span class="media-heading text-semibold">James Alexander</span>
+              <span class="media-annotation">UI/UX expert</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-success"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <span class="media-heading text-semibold">Jeremy Victorino</span>
+              <span class="media-annotation">Senior designer</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-danger"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <div class="media-heading"><span class="text-semibold">Jordana Mills</span></div>
+              <span class="text-muted">Sales consultant</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-grey-300"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <div class="media-heading"><span class="text-semibold">William Miles</span></div>
+              <span class="text-muted">SEO expert</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-success"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media-header">Partners</li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <span class="media-heading text-semibold">Margo Baker</span>
+              <span class="media-annotation">Google</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-success"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <span class="media-heading text-semibold">Beatrix Diaz</span>
+              <span class="media-annotation">Facebook</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-warning-400"></span>
+            </div>
+          </a>
+        </li>
+        <li class="media">
+          <a href="#" class="media-link">
+            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+            <div class="media-body">
+              <span class="media-heading text-semibold">Richard Vango</span>
+              <span class="media-annotation">Microsoft</span>
+            </div>
+            <div class="media-right media-middle">
+              <span class="status-mark bg-grey-300"></span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- /connections -->
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="customized">
+  <div class="panel panel-white" id="training-experience">
+    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/affiliation.jpg') no-repeat top center / cover;">
+      <h4 class="panel-title"><i class="icon-copy position-left"></i> Training Experiences</h4>
+
+    </div>
+    <div class="panel-body border-top-danger">
+      <div ng-init="fields = vm.copyFields(vm.fields)">
+        <div class="lb-panel--view" ng-repeat="training in vm.content track by $index">
+          <div ng-if="!training.isEditable">
+            <div class="panel-heading no-padding">
+              <div class="lb-panel--description">
+                <h5 class="panel-title">
+                  <span class="main-title text-semibold">{{training.data.title}}</span>
+                  <span class="issued" ng-if="training.data.institute">By: {{training.data.institute}}</span>
+                  <span class="issued">{{training.data.fromDate | date:"MMM/yyyy"}} <strong> to </strong> {{training.data.toDate | date:"MMM/yyyy"}}</span>
+                  <!-- <div class="pull-right">
+                    <privacy-dropdown current-selected="training.currentSelectedPrivacy"></privacy-dropdown>
+                  </div> -->
+                </h5>
+              </div>
+              <div class="lb-panel--actions">
+                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(training)">
+                  <i class=" mr-5 icon-pencil"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body no-padding row pb-15" ng-if="training.isEditable">
+            <form ng-submit="vm.onSubmit(training)" name="form" novalidate>
+              <formly-form model="training.data" fields="fields" form="form">
+              </formly-form>
+              <div class="text-right col-md-12 mt-10">
+                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteTraining($index)">
+                  Remove this Training
+                </button>
+                <button ng-click="vm.updateTraining($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
+    	<button type="button" ng-click="vm.addTrainingModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+		</div>
+  </div>
+</div>

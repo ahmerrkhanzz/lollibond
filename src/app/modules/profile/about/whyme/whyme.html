@@ -1,0 +1,62 @@
+<div class="customized">
+  <!-- view -->
+  <div class="panel panel-white" id="why-me">
+    <!--<div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/whyme.jpg') no-repeat top center / cover;">
+      <h4 class="panel-title"><i class="icon-user-tie position-left"></i> Why Me</h4>
+      <div class="heading-elements">
+        <ul class="icons-list no-margin">
+            <li>
+              <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm()">
+                <i class=" mr-5 icon-pencil"></i>
+              </a>
+            </li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel-body border-top-danger"  ng-if="!vm.isEditable">
+      <div class="panel-heading no-padding">
+          <div class="lb-panel--description no-padding">
+              <p>
+                  {{vm.content.whyMe}}
+              </p>
+          </div>
+      </div>
+    </div>-->
+    <div class="thumbnail no-margin no-border">
+      <div class="thumb thumb-rounded thumb-slide">
+        <img src="assets/images/dummy/covers/profile-pic.jpg" alt="">
+        <!--<div class="caption">
+          <span>
+            <a href="#" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-plus2"></i></a>
+            <a href="user_pages_profile.html" class="btn bg-success-400 btn-icon btn-xs"><i class="icon-link"></i></a>
+          </span>
+        </div>-->
+      </div>
+    
+        <div class="caption text-center">
+          <h6 class="text-semibold no-margin">Why Me <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm()">
+                <i class=" mr-5 icon-pencil"></i>
+              </a></h6>
+              <div ng-if="!vm.isEditable">
+                <p>
+                  {{vm.content.whyMe}}
+                </p>
+                <p uib-collapse="!isCollapsed">
+                  {{vm.content.whyMe}}
+                </p>
+                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                  show more
+                </a>
+              </div>
+        </div>
+    </div>
+    <div class="panel-body"  ng-if="vm.isEditable">
+      <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
+      </formly-form>
+      <div class="col-md-12 no-padding text-right mt-10">
+        <button ng-click="vm.updateWhyMe()" class="btn btn-primary btn-xs submit-button" ng-disabled="vm.form.$invalid">Save</button>
+      </div>
+    </div>
+  </div>
+  <!-- view -->
+</div>

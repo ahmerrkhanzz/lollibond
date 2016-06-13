@@ -1,0 +1,27 @@
+<div class="col-md-3">
+  <div class="thumbnail">
+    <div class="thumb">
+      <img src="assets/images/dummy/thumbnails/{{::vm.photoData.image}}.png" alt="">
+      <div class="caption-overflow">
+        <span>
+          <a  href="assets/images/dummy/thumbnails/{{::vm.photoData.image}}.png" 
+              data-popup="lightbox" 
+              class="btn border-white text-white btn-flat btn-icon btn-rounded">
+            <i class="icon-plus3"></i>
+          </a>
+          <a href="javascript:;" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5">
+            <i class="icon-link2"></i>
+          </a>
+        </span>
+      </div>
+    </div>
+    <div class="caption">
+      <h6 class="no-margin">
+        <a href="javascript:;" class="text-default">{{::vm.photoData.title || "Dummy test title"}}</a>
+        <a href="javascript:;" class="text-muted">
+          <i class="icon-three-bars pull-right"></i>
+        </a>
+      </h6>
+    </div>
+  </div>
+</div>

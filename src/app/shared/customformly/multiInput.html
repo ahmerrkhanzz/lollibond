@@ -1,0 +1,26 @@
+<div>
+  <div class="{{hideRepeat}}" >
+    <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
+        <formly-form class="no-padding "
+                       fields="fields"
+                       model="element"
+                       form="form">
+        </formly-form>
+        <div class="col-xs-2 text-right">
+          <button type="button" 
+                  class="btn btn-primary btn-xs btn-icon" 
+                  ng-click="addNew()"
+                  ng-hide="!$last">
+            <i class=" icon-plus2"></i>
+          </button>
+          <button type="button" 
+                  class="btn btn-danger btn-xs btn-icon" 
+                  ng-click="model[options.key].splice($index, 1)"
+                  ng-hide="$first">
+            <i class=" icon-cross3"></i>
+          </button>
+          
+        </div>
+    </div>
+  </div>
+</div>

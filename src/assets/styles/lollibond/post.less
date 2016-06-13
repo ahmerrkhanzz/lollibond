@@ -1,0 +1,135 @@
+.post {
+  &-tabs {
+  	.nav-pills{
+  		display: flex;
+	    li {
+	    	width: 130px;
+	      a {
+	        text-align: center;
+	        border-radius: 0px;
+	        padding: 15.2px;
+	        background: #fff;
+	        font-weight: bold;
+	        i {
+	          display: block;
+	        }
+	        &:hover,
+	        &:focus {
+	          background: transparent;
+	        }
+	      }
+	      &.active a {
+	          background: transparent;
+	          color: #2196F3;
+	          &:hover,
+	          &:focus {
+	            background: transparent;
+	            color: #2196F3;
+	          }
+	      }
+	      &:focus{
+	      	outline: none;
+	      }
+	      &:nth-child(1) {
+	        border-top: 3px solid #2196F3;
+	      }
+	      &:nth-child(2) {
+	        border-top: 3px solid #edb220;
+	        a:hover {
+	           color: #edb220;
+	        }
+	        &.active a {
+	            color: #edb220;
+	            &:hover,
+	            &:focus {
+	              color: #edb220;
+	            }
+	        }
+	      }
+	      &:nth-child(3) {
+	        border-top: 3px solid #7cbb2f;
+	        a:hover {
+	            color: #7cbb2f;
+	        }
+	        &.active a {
+		        color: #7cbb2f;
+		        &:hover,
+		        &:focus {
+		          color: #7cbb2f;
+		        }
+	        }
+	      }
+	      &:nth-child(4) {
+	        border-top: 3px solid #dc4b89;
+	        a:hover {
+	            color: #dc4b89;
+	        }
+	        &.active a {
+	            color: #dc4b89;
+	            &:hover,
+	            &:focus {
+	              color: #dc4b89;
+	            }
+	        }
+	      }
+	      &:nth-child(5) {
+	        border-top: 3px solid #8d6cab;
+	        a:hover {
+	            color: #8d6cab;
+	        }
+	        &.active a {
+	            color: #8d6cab;
+	            &:hover,
+	            &:focus {
+	              color: #8d6cab;
+	            }
+	        }
+	      }
+	      &:nth-child(6) {
+	        border-top: 3px solid #00aeb3;
+	        a:hover {
+	            color: #00aeb3;
+	        }
+	        &.active a {
+	            color: #00aeb3;
+	            &:hover,
+	            &:focus {
+	              color: #00aeb3;
+	            }
+	        }
+	      }
+	      &:nth-child(7) {
+	        border-top: 3px solid #ffa600;
+	        a:hover {
+	            color: #ffa600;
+	        }
+	        &.active a {
+	            color: #ffa600;
+	            &:hover,
+	            &:focus {
+	              color: #ffa600;
+	            }
+	        }
+	      }
+	    }
+    }
+  }
+  &-content {
+    padding-top: 0px;
+    textarea {
+      background: #f0f0f0;
+      min-height: 36px;
+      height: 36px;
+      resize: none;
+      transition: all 0.5s ease;
+      &:focus {
+        height: 84px !important;
+      }
+    }
+  }
+  &-icons {
+    position: absolute;
+    right: 10px;
+    bottom: 3px;
+  }
+}

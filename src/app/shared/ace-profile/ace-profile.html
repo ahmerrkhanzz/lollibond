@@ -1,0 +1,24 @@
+<div class="ace-button">
+  <div class="btn-group" uib-dropdown>
+    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+      <img class="ace-icon" src="assets/images/ace.png"> Ace
+      <ul>
+        <li ng-class="{'bg-primary': vm.data.individualAce}"></li>
+        <li ng-class="{'bg-green': vm.data.corporateAce}"></li>
+        <li ng-class="{'bg-orange': vm.data.academicAce}"></li>
+      </ul>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+      <li role="menuitem"  ng-repeat="ace in vm.aceTypes">
+        <button class="bg-{{ace.name}}" ng-disabled="!ace.isBond" ng-click="vm.giveAce(ace.name)">
+          <div class="icon">
+            <img class="ace-icon" ng-src="{{::ace.icon}}">
+          </div>
+          <div class="count">
+            {{ace.value}}
+          </div>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

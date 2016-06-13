@@ -1,0 +1,11 @@
+<li class="language-switch" uib-dropdown>
+  <a id="lg-switch-btn" class="dropdown-toggle" uib-dropdown-toggle>
+    <span>{{vm.currentLocaleDisplayName}}</span>
+    <span class="caret"></span>
+  </a>
+  <ul uib-dropdown-menu role="menu" aria-labelledby="lg-switch-btn">
+    <li ng-repeat="localeName in vm.localesDisplayNames" ng-click="vm.changeLanguage(localeName)">
+      <a>{{::localeName}}</a>
+    </li>
+  </ul>
+</li>

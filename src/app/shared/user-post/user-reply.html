@@ -1,0 +1,17 @@
+<div class="media-left">
+  <a href="#"><img ng-src="{{::vm.postData.author.profilePicture || 'assets/images/placeholder.jpg'}}" class="img-circle img-sm" alt=""></a>
+</div>
+<div class="media-body">
+  <div class="media-heading">
+    <a ui-sref="personal.profile.posts({ uid: vm.replyData.author.id })" class="text-warning">{{::vm.replyData.author.firstName}} {{::vm.replyData.author.lastName}}</a>
+    <span class="media-annotation dotted" title="{{::vm.replyData.time | date:'medium'}}">{{::vm.getTimestamp(vm.replyData.timestamp)}}</span>
+  </div>
+  <p>{{::vm.replyData.text}}</p>
+  <ul class="list-inline list-inline-separate text-size-small">
+    <li>
+      <a ng-click="::vm.aceReply()">
+        <i class="icon-thumbs-up2 "></i> {{vm.replyAced ? 'Aced' : 'Ace'}} ({{vm.replyData.aceCount || 0}})
+      </a>
+    </li>
+  </ul>
+</div>

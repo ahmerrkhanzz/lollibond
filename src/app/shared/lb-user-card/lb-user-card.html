@@ -1,0 +1,20 @@
+<div class="panel panel-flat">
+  <ul class="media-list media-list-linked">
+    <li class="media">
+      <div class="media-link">
+        <div class="media-left"><img ng-src="{{::vm.cardData.userImg}}" class="img-circle" alt=""></div>
+        <div class="media-body">
+          <div class="media-heading text-semibold">{{::vm.cardData.user}}</div>
+          <span class="text-muted"><b>{{::vm.cardData.designation}}</b> at <b>{{::vm.cardData.company}}</b></span>
+        </div>
+      </div>
+
+      <div class="contact-details">
+        <ul class="list-extended list-unstyled list-icons">
+          <li><i class="icon-pin position-left"></i> {{::vm.cardData.country}}</li>
+          <li><i class="icon-graduation2 position-left"></i> {{::vm.cardData.education}}</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>

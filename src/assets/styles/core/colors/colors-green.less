@@ -1,0 +1,301 @@
+/* ------------------------------------------------------------------------------
+*
+*  # Lollibond color system
+*
+*  Custom color system styles, includes background, border and text colors
+*
+*  Version: 1.0
+*  Latest update: May 12, 2016
+*
+* ---------------------------------------------------------------------------- 
+ *** Primary is setup according to Portal Name 
+------------------------------------------------------------------------------*/
+
+
+// Import color variables
+@import "palette.less";
+
+.corporate{
+
+	// Links
+	a {
+	  color: @color-green-500;
+	  text-decoration: none;
+
+	  &:hover,
+	  &:focus {
+	    color: @color-green-700;
+	    text-decoration: @link-hover-decoration;
+	  }
+
+	  &:focus {
+	    .tab-focus();
+	  }
+	}
+
+
+	//Button 
+	.btn-primary {
+  		.button-variant(@btn-primary-color; @color-green-500; darken(@color-green-600, 5%));
+	    &:focus,
+	    &.focus,
+	    &:hover {
+	        background-color: @color-green-600;
+	        border-color: darken(@color-green-600, 5%);
+	    }
+	    &:active,
+	    &.active,
+	    .open > .dropdown-toggle& {
+	        background-color: @color-green-600;
+	        border-color: darken(@color-green-600, 5%);
+
+	        &:hover,
+	        &:focus,
+	        &.focus {
+	            background-color: @color-green-600;
+	        	border-color: darken(@color-green-600, 5%);
+	        }
+	    }
+	    &.disabled {
+	        .box-shadow(none);
+	    }
+	}
+
+	//Background
+	.bg{
+   		&-primary {
+	        background-color: @color-green-500;
+	        border-color: @color-green-500;
+	        color: #fff;
+
+	        &-300 {
+	            background-color: @color-green-300;
+	            border-color: @color-green-300;
+	            color: #fff;
+	        }
+
+	        &-400 {
+	            background-color: @color-green-400;
+	            border-color: @color-green-400;
+	            color: #fff;
+	        }
+
+	        &-600 {
+	            background-color: @color-green-600;
+	            border-color: @color-green-600;
+	            color: #fff;
+	        }
+
+	        &-700 {
+	            background-color: @color-green-700;
+	            border-color: @color-green-700;
+	            color: #fff;
+	        }
+
+	        &-800 {
+	            background-color: @color-green-800;
+	            border-color: @color-green-800;
+	            color: #fff;
+	        }
+	    }
+	}
+
+	// Single border colors
+	// ------------------------------
+
+	.border {
+	    &-primary {
+	        border-color: @color-green-500;
+
+	        &-300 {
+	            border-color: @color-green-300;
+	        }
+
+	        &-400 {
+	            border-color: @color-green-400;
+	        }
+
+	        &-600 {
+	            border-color: @color-green-600;
+	        }
+
+	        &-700 {
+	            border-color: @color-green-700;
+	        }
+
+	        &-800 {
+	            border-color: @color-green-800;
+	        }
+	    }
+	}
+
+	// Separate border colors
+	// ------------------------------
+
+	// Top
+	.border-top {
+
+	    // Primary
+	    &-primary {
+	        border-top-color: @color-green-500;
+
+	        &-300 {
+	            border-top-color: @color-green-300;
+	        }
+
+	        &-400 {
+	            border-top-color: @color-green-400;
+	        }
+
+	        &-600 {
+	            border-top-color: @color-green-600;
+	        }
+
+	        &-700 {
+	            border-top-color: @color-green-700;
+	        }
+
+	        &-800 {
+	            border-top-color: @color-green-800;
+	        }
+	    }
+	}
+
+	// Bottom
+	.border-bottom {
+
+	    // Primary
+	    &-primary {
+	        border-bottom-color: @color-green-500;
+
+	        &-300 {
+	            border-bottom-color: @color-green-300;
+	        }
+
+	        &-400 {
+	            border-bottom-color: @color-green-400;
+	        }
+
+	        &-600 {
+	            border-bottom-color: @color-green-600;
+	        }
+
+	        &-700 {
+	            border-bottom-color: @color-green-700;
+	        }
+
+	        &-800 {
+	            border-bottom-color: @color-green-800;
+	        }
+	    }
+	}
+
+	// Left
+	.border-left {
+		
+	    // Primary
+	    &-primary {
+	        border-left-color: @color-green-500;
+
+	        &-300 {
+	            border-left-color: @color-green-300;
+	        }
+
+	        &-400 {
+	            border-left-color: @color-green-400;
+	        }
+
+	        &-600 {
+	            border-left-color: @color-green-600;
+	        }
+
+	        &-700 {
+	            border-left-color: @color-green-700;
+	        }
+
+	        &-800 {
+	            border-left-color: @color-green-800;
+	        }
+	    }
+	}
+
+
+	// Right
+	.border-right {
+	    
+	    // primary
+	    &-primary {
+	        border-right-color: @color-green-500;
+
+	        &-300 {
+	            border-right-color: @color-green-300;
+	        }
+
+	        &-400 {
+	            border-right-color: @color-green-400;
+	        }
+
+	        &-600 {
+	            border-right-color: @color-green-600;
+	        }
+
+	        &-700 {
+	            border-right-color: @color-green-700;
+	        }
+
+	        &-800 {
+	            border-right-color: @color-green-800;
+	        }
+	    }
+	}
+	.text {
+	    // primary
+	    &-primary {
+	        &,
+	        &:hover,
+	        &:focus {
+	            color: @color-green-500!important;
+	        }
+
+	        &-300 {
+	            &,
+	            &:hover,
+	            &:focus {
+	                color: @color-green-300!important;
+	            }
+	        }
+
+	        &-400 {
+	            &,
+	            &:hover,
+	            &:focus {
+	                color: @color-green-400!important;
+	            }
+	        }
+
+	        &-600 {
+	            &,
+	            &:hover,
+	            &:focus {
+	                color: @color-green-600!important;
+	            }
+	        }
+
+	        &-700 {
+	            &,
+	            &:hover,
+	            &:focus {
+	                color: @color-green-700!important;
+	            }
+	        }
+
+	        &-800 {
+	            &,
+	            &:hover,
+	            &:focus {
+	                color: @color-green-800!important;
+	            }
+	        }
+	    }
+	}
+}
