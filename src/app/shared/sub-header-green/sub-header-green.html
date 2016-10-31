@@ -1,16 +1,18 @@
-<div>
+<div class="navbar-top lb-navbar navbar-fixed-top sub-navbar sub-navbar-fixed-top">
 	<div class="navbar navbar-inverse bg-primary no-border navbar-default navbar-xs" id="navbar-second">
 		<ul class="nav navbar-nav no-margin no-border visible-xs-block">
 			<li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-circle-down2"></i></a></li>
 		</ul>
 
 		<div class="navbar-collapse collapse" id="navbar-second-toggle">
-			<div class="container">
+			<div class="container" uib-collapse="vm.navbarCollapsed">
 				<ul class="nav navbar-nav">
-					<li><a href="javascript:;">Members</a></li>
-					<li><a href="javascript:;"> Departments </a></li>
+					<li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
+						<a href="javascript:;">{{tab.title}}</a>
+					</li>
+					<!--<li><a href="javascript:;"> Departments </a></li>
 					<li><a href="javascript:;"> Groups</a></li>
-					<li><a href="javascript:;"> Jobs</a></li>
+					<li><a href="javascript:;"> Jobs</a></li>-->
 				</ul>
 			</div>
 		</div>

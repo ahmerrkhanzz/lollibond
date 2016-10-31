@@ -4,13 +4,11 @@
   // 3rdparty libraries
   angular
     .module('3rdparty', [
-      'ngAnimate',
       'ngCookies',
       'ngTouch',
       'ngSanitize',
       'ngMessages',
       'ngAria',
-      'ngResource',
       'ui.router',
       'ui.bootstrap',
       'ngTagsInput',
@@ -21,13 +19,15 @@
       // Formly (Used to make reuseable forms and apply validations)
       'formly',
       'formlyBootstrap',
+      'mgo-angular-wizard',
       // Angular Slider input
       'rzModule',
       // Angular Affix and Scrollspy
       'sticky',
       'duScroll',
-      // OCLazyload
-      'oc.lazyLoad'
+      'toaster',
+      'ui.select',
+      'ngTable'
     ]);
 
   angular
@@ -42,7 +42,11 @@
       'lollibond.profile',
       'lollibond.search',
       'lollibond.corporateprofile',
-      'lollibond.feed'
+      'lollibond.feed',
+      'lollibond.setting',
+      'lollibond.setup',
+      'lollibond.companypage',
+      'lollibond.pptraits'
     ]);
 
 })();

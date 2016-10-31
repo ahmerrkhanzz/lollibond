@@ -1,9 +1,9 @@
 <div class="customized">
   <div class="panel panel-white" id="license-certification">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/certification.png') no-repeat top center / cover;">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/certification.png')">
       <h4 class="panel-title"><i class="icon-certificate position-left"></i> License &amp; Certifications</h4>
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="cert in vm.content track by $index">
           <div ng-if="!cert.isEditable">
@@ -11,31 +11,29 @@
               <div class="lb-panel--description">
                 <h5 class="panel-title">
                   <span class="main-title text-semibold">{{cert.data.title}}</span>
-                <span class="issued">By: {{cert.data.authority}}</span>
-                  <!-- <div class="pull-right">
-                    <privacy-dropdown current-selected="cert.data.currentSelectedPrivacy"></privacy-dropdown>
-                  </div> -->
+                  <span class="issued" ng-if="cert.data.authority">By: {{cert.data.authority}}</span>
+                  <span class="issued" ng-if="!cert.data.toDate">
+                    Since {{cert.data.fromDate | date:"MMM/yyyy"}}
+                  </span>
+                  <span class="issued" ng-if="cert.data.toDate">
+                    {{cert.data.fromDate | date:"MMM/yyyy"}} - {{cert.data.toDate | date:"MMM/yyyy"}}
+                  </span>
                 </h5>
               </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(cert)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteCertifications($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode"  ng-click="vm.editForm(cert)">
                   <i class="mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a href="javascript:;" ng-show="cert.data.url || cert.data.number" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
             </div>
             <div class="list-padding border-bottom" uib-collapse="!isCollapsed">
               <ul class="list-condensed list-unstyled">
-                <li ng-if="cert.data.fromDate">
-                  <span class="text-semibold">From: </span> {{cert.data.fromDate | date:"MMM/yyyy"}}
-                </li>
-                <li ng-if="cert.data.toDate">
-                  <span class="text-semibold">To: </span> {{cert.data.toDate | date:"MMM/yyyy"}}
-                </li>
                 <li ng-if="cert.data.url">
-                  <span class="text-semibold">URL: </span> {{cert.data.url}}
+                  <span class="text-semibold">Website: </span> <a lb-href="{{cert.data.url}}" lb-util-anchor target="blank">{{cert.data.url}}</a>
                 </li>
                 <li ng-if="cert.data.number">
                   <span class="text-semibold">Number: </span> {{cert.data.number}}
@@ -44,22 +42,32 @@
             </div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="cert.isEditable">
-            <form ng-submit="vm.onSubmit(cert)" name="form" novalidate>
-              <formly-form model="cert.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(cert)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="cert.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteCertifications($index)">
-                  Remove this Certifications
-                </button>
-                <button ng-click="vm.updateCertifications($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteCertifications($index)" ng-if="!cert.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updateCertifications($index)" class="btn btn-primary btn-xs submit-button" type="submit">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs submit-button">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-      <button type="button" ng-click="vm.addCertificationsModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-certificate"></i> <span>Add License</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addCertificationsModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
     </div>
   </div>
 </div>

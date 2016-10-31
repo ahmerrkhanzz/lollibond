@@ -1,0 +1,20 @@
+<div class="panel panel-flat">
+    <div class="panel-heading">
+      <div ng-show="vm.postsLoading" class="text-center">
+        <i class="icon-spinner2 spinner"></i>
+        Loading ...
+      </div>
+      <h5 class="panel-title">Profile Pictures</h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4" ng-repeat="profilePicture in vm.profilePictures">
+              <lb-photo-thumb
+                  photo-data="profilePicture"
+                  config-dropdown="vm.configDropdown"
+                  index="{{$index}}"
+                  photo-type="p"></lb-photo-thumb>
+            </div>
+        </div>
+    </div>
+</div>

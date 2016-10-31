@@ -1,0 +1,32 @@
+<div class="panel">
+    <div class="panel-heading">
+        <h6 class="panel-title">Add your best professional skills</h6>
+    </div>
+    <div class="panel-body">
+        <pre>vm.model|json</pre>
+        <form name="vm.form" novalidate>
+            <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
+            </formly-form>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button ng-click="vm.addSkills()" type="button" class="btn btn-primary btn-xs ">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/ng-template" id="tag-template">
+  <span class="tag label label-info">
+    {{$getDisplayText()}}
+    <span data-role="remove"  ng-click="$removeTag()"></span>
+  </span>
+</script>
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="autocomplete-template">
+        <div class="right-panel">
+            <span ng-bind-html="$highlight($getDisplayText())"></span>
+        </div>
+    </div>
+</script>

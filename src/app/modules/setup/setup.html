@@ -1,0 +1,37 @@
+<!-- Page container -->
+<div class="page-container">
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="container">
+                <div class="steps-basic wizard clearfix">
+                    <div class="steps clearfix">
+                        <ul role="tablist">
+                            <li ng-repeat="step in vm.wizardSteps" 
+                                    ng-class="{
+                                      'first': $first,
+                                      'disabled': $index > vm.currentState,
+                                      'done': $index < vm.currentState,
+                                      'current': $index == vm.currentState,
+                                      'last': $last}">
+                                <a href="javascript:;">
+                                  <span class="number">
+                                    {{$index + 1}}
+                                  </span> 
+                                  {{::step.name}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ui-view></ui-view>
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->

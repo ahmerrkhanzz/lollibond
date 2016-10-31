@@ -1,0 +1,37 @@
+<div class="col-md-3">
+    <div class="border-top-info">
+        <div class="text-center">
+            <h6 class="text-semibold no-margin">Job Family(ies)</h6>
+            <p class="content-group-sm text-muted">Create or Edit Job Family</p>
+        </div>
+        <div class="input-group full-width form-group">
+            <div ng-form="myForm">
+                <div class="input-group">
+                    <input type="text" ng-model="vm.jobFamilyName" class="form-control" required placeholder="Enter Job Family Name to add">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-icon" ng-click="vm.addJobFamily();" ng-disabled="myForm.$invalid">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+            <li ng-repeat="job in vm.jobFamiliesList" ui-sref-active="active" ui-sref="corporate.structure.function.department.jobfamily.position({ jid: job.id })">
+                <a href="javascript:;">
+                    {{job.name}}
+                    <div class="navbar-right lb-action-drop">
+                        <ul class="nav navbar-nav">
+                            <li uib-dropdown>
+                                <a href="javascript:;" id="setting-btn" uib-dropdown-toggle><i class="icon-more"></i></a>
+                                <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="setting-btn">
+                                    <li><a href="javascript:;" ng-click="vm.editJobFamily($index, vm.jobFamiliesList)"><i class="icon-pencil"></i> Edit</a></li>
+                                    <li><a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.removeJobFamily($index)"><i class="icon-trash"></i> Remove</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-view></div>

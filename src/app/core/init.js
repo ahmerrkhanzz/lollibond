@@ -3,7 +3,7 @@
 
   angular.element(document).ready(function($window) {
     var keycloak = new Keycloak({
-      'url': 'http://dev1.bond.local:8080/auth',
+      'url': 'http://bondinco.dyndns.org:8080/auth',
       'realm': 'lollibond',
       'realm-public-key': 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArWEvJv14u9IcdbGMbesY0ZSqjaZumjNB1Is18BoOHCNMvbnPTQmqddfNlJlSql3uZ3Qc0AhR/rnpaW51+4QA6T28RcY8kaIb30WrrloCvzmjI5q+XfESuIh2g4HAUD6yto7T00FMi5DECJOECltdYHvodYw/+58jfcSTMIlmhH8s/KZMKXto4nFZbgcvHTeJG5JCjmPto3D7qZRMnU0vHfsKL8rzfmbg4EoPi/4UKZDnTcv9LKu8CXMurI+6eR0C+STzyWT57beeIcU99U+tJzAmg3CXcx58FG7APvEJHGEgmiy6nT0BtDZtpv1S1vWhyLGEfjXTEbceNGPaTp5n5QIDAQAB',
       'ssl-required': 'none',
@@ -65,7 +65,10 @@
 
     function logout() {
       localStorage.removeItem('currentUser');
-      keycloak.logout();
+      keycloak.clearToken();
+      keycloak.logout({
+        redirectUri: keycloak.createLoginUrl()
+      });
     }
 
     if (user) {
@@ -95,9 +98,10 @@
 
     // Used when the page or action is
     // for only authorized users
-    function verifyAuth() {
+    function verifyAuth(callbackFunc) {
       // Redirect the user to login screen
       if (!service.user) {
+        callbackFunc();
         keycloak.login();
       }
     }

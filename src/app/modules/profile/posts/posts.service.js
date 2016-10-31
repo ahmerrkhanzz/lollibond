@@ -6,7 +6,7 @@
     .factory('postService', postService);
 
   /** @ngInject */
-  function postService($http) {
+  function postService(baseService) {
     return {
       loadPosts: loadPosts,
       getPost: getPost,
@@ -32,8 +32,10 @@
       // If last ID is not there forward empty string
       lastId = lastId || '';
 
-      return $http.get('http://dev1.bond.local:9999/user/' + UID + '/wall?lastPostId=' + lastId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/user/' + UID + '/wall')
+        .setGetParams({ lastPostId: lastId })
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -44,8 +46,9 @@
      * @return {obj}            Post data
      */
     function getPost(postId) {
-      return $http.get('http://dev1.bond.local:9999/post/' + postId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + postId)
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -59,10 +62,12 @@
       // If last ID is not there forward empty string
       lastId = lastId || '';
 
-      return $http.get('http://dev1.bond.local:9999/post/' + postId + '/comments?lastCommentId=' + lastId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + postId + '/comments')
+        .setGetParams({ lastCommentId: lastId })
+        .execute(function(res) {
           return res.data;
-        })
+        });
     }
 
     /**
@@ -75,10 +80,12 @@
       // If last ID is not there forward empty string
       lastId = lastId || '';
 
-      return $http.get('http://dev1.bond.local:9999/post/' + postId + '/' + commentId + '/comments?lastCommentId=' + lastId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + postId + '/' + commentId + '/comments')
+        .setGetParams({ lastCommentId: lastId })
+        .execute(function(res) {
           return res.data;
-        })
+        });
     }
 
     /**
@@ -88,8 +95,11 @@
      * @return {obj}            Comment ID and data
      */
     function pushComment(parent, data) {
-      return $http.post('http://dev1.bond.local:9999/post/' + parent + '/comment', data)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + parent + '/comment')
+        .setPostMethod()
+        .setPostParams(data)
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -101,8 +111,10 @@
      * @return {bool}             status
      */
     function deleteComment(parent, commentId) {
-      return $http.delete('http://dev1.bond.local:9999/post/' + parent + '/comment/' + commentId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + parent + '/comment/' + commentId)
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -112,9 +124,15 @@
      * @param  {obj} data data to be posted
      * @return {obj}      Post ID and data
      */
-    function pushPostMyWall(data) {
-      return $http.post('http://dev1.bond.local:9999/post/', data)
-        .then(function(res) {
+    function pushPostMyWall(data, postType) {
+      var q = { type: postType || 1 };
+
+      return new baseService()
+        .setPath('peacock', '/post/')
+        .setPostMethod()
+        .setGetParams(q)
+        .setPostParams(data)
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -125,9 +143,15 @@
      * @param  {obj}    data    data to be posted
      * @return {obj}            Post ID and data
      */
-    function pushPostOtherWall(data, userId) {
-      return $http.post('http://dev1.bond.local:9999/post/' + userId, data)
-        .then(function(res) {
+    function pushPostOtherWall(data, userId, postType) {
+      var q = { type: postType || 1 };
+
+      return new baseService()
+        .setPath('peacock', '/post/' + userId)
+        .setPostMethod()
+        .setGetParams(q)
+        .setPostParams(data.post)
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -138,8 +162,10 @@
      * @return {bool}       returns the post status
      */
     function acePost(ID) {
-      return $http.post('http://dev1.bond.local:9999/post/' + ID + '/ace')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + ID + '/ace')
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -150,8 +176,10 @@
      * @return {bool}       returns the post status
      */
     function unAcePost(ID) {
-      return $http.delete('http://dev1.bond.local:9999/post/' + ID + '/ace')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/' + ID + '/ace')
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -162,8 +190,10 @@
      * @return {bool}       returns the Comment status
      */
     function aceComment(ID) {
-      return $http.post('http://dev1.bond.local:9999/post/comment/' + ID + '/ace')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/comment/' + ID + '/ace')
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -174,8 +204,10 @@
      * @return {bool}       returns the Comment status
      */
     function unAceComment(ID) {
-      return $http.delete('http://dev1.bond.local:9999/post/comment/' + ID + '/ace')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock', '/post/comment/' + ID + '/ace')
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }

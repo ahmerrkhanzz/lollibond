@@ -1,4 +1,3 @@
-
 (function() {
   'use strict';
 
@@ -8,16 +7,16 @@
 
   /** @ngInject */
   function AddSection() {
+    var unique = 1;
 
     // Service available function declarations
     return {
       copyFields: copyFields
     };
-    var unique = 1;
 
     /**
      * @param  {array} fields  Create a clone of the fields and adds random ID to each field
-     * @return {array}   clone fields 
+     * @return {array}   clone fields
      */
     function copyFields(fields) {
       fields = angular.copy(fields);

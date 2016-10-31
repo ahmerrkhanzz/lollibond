@@ -1,0 +1,58 @@
+<div class="page-container">
+  <div class="container">
+    <div class="panel panel-flat mt-20">
+      <div class="panel-heading">
+        <h5 class="panel-title">{{vm.evaluatePPTraits ? "Result" : "Personality Profile"}} </h5>
+      </div>
+      <div class="panel-body">  
+        <form name="ppTraitsAssessment" ng-submit="vm.savePPTraitsAssessment()" novalidate ng-if="!vm.evaluatePPTraits">   
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table border-scale">
+                <tbody>
+                  <tr>
+                    <th class="active">#</th>
+                    <th class="active">Question</th>
+                    <th class="active" style="text-align: center;">Strongly Disagree</th>
+                    <th class="active" style="text-align: center;">Disagree</th>
+                    <th class="active" style="text-align: center;">Not Sure</th>
+                    <th class="active" style="text-align: center;">Agree</th>
+                    <th class="active" style="text-align: center;">Strongly Agree</th>
+                  </tr>
+                  <tr ng-repeat="ques in vm.ppTraits.questions track by $index" ng-init="quesIndex = $index">
+                    <td style="width: 2%;">{{quesIndex + 1}}</td>
+                    <td style="width: 20%;">{{ques.questionTitle}}</td>
+                    <td style="width: 10%; text-align: center;" ng-repeat="opt in ques.choices">
+                      <input type="radio" name="{{opt.questionId}}" value="{{opt.id}}" ng-model="ques.selected_id">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="text-right col-md-12 bottom-buffer">
+            <button type="submit" class="btn btn-sm btn-primary">Result</button>
+          </div>
+        </form>
+        
+        <div class="row" ng-if="vm.evaluatePPTraits">
+          <div class="col-sm-12">
+            <table class="table border-scale">
+              <tbody>
+                <tr>
+                  <th class="active">#</th>
+                  <th class="active">Title</th>
+                  <th class="active">Score</th>
+                </tr>
+                <tr ng-repeat="evalute in vm.evaluatePPTraits.traitPairScores track by $index" ng-init="evaluteIndex = $index">
+                  <td style="width: 2%;">{{evaluteIndex + 1}}</td>
+                  <td style="width: 20%;">{{evalute.title}}</td>
+                  <td style="width: 78%;">{{evalute.score}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

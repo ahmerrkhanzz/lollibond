@@ -5,8 +5,9 @@
     .module('lollibond.shared')
     .component('createPost', {
       bindings: {
-        postList: '<',
-        shareMethod: '&'
+        postUpdate: '&',
+        shareMethod: '&',
+        canChangePrivacy: '<'
       },
       controller: CreatePostController,
       controllerAs: 'vm',
@@ -14,54 +15,65 @@
     });
 
   /** @ngInject */
-  function CreatePostController(Upload, $timeout, postService, authService) {
+  function CreatePostController($scope, postService, authService, baseService, imageService, toaster) {
     var vm = this;
+
+    vm.useUrl = false;
+    vm.linkData = {};
+    vm.files = [];
+    vm.tempImages = [];
+    vm.imageCount = 0;
 
     // Post variables
     vm.postTypes = [{
       name: 'Update',
-      icon: 'icon-link',
+      icon: 'glyphicon glyphicon-user',
       placeholder: 'What do you have in mind?'
     }, {
       name: 'Question',
-      icon: 'icon-infinite',
+      icon: 'fa fa-question',
       placeholder: 'What do you want to ask?'
     }, {
       name: 'Discussion',
-      icon: 'icon-bubble2',
+      icon: 'icon-bubbles3',
       placeholder: 'What do you want to discuss?'
     }, {
       name: 'Idea',
-      icon: 'icon-spinner4',
+      icon: 'fa fa-lightbulb-o',
       placeholder: 'What is your idea'
     }, {
       name: 'Announcement',
-      icon: 'icon-feed',
+      icon: 'fa fa-bullhorn',
       placeholder: 'What would you like to announce?'
     }, {
       name: 'News',
-      icon: 'icon-lastfm',
+      icon: 'fa fa-newspaper-o',
       placeholder: 'What\'s up and newsworthy?'
     }, {
       name: 'Article',
-      icon: 'icon-files-empty',
+      icon: 'icon-magazine',
       placeholder: 'What topic do you want to talk about?'
     }];
     vm.selectedPostType = vm.postTypes[0];
     vm.selectedPostTypeIndex = 0;
     vm.postPrivacyOpts = [{
       name: 'Public',
-      icon: 'icon-earth'
+      icon: 'icon-earth',
+      level: 3
     }, {
-      name: 'Friends',
-      icon: 'icon-users'
+      name: 'Bonds',
+      icon: 'icon-users',
+      level: 1
     }, {
-      name: 'Friends of Friends',
-      icon: 'icon-users'
+      name: 'Bonds of Bonds',
+      icon: 'icon-users',
+      level: 2
     }, {
       name: 'Only me',
-      icon: 'icon-lock'
+      icon: 'icon-lock',
+      level: 0
     }];
+
     vm.selectedPostPrivacy = vm.postPrivacyOpts[0];
     vm.postContent = '';
     // Location variables
@@ -81,47 +93,112 @@
     }
 
     // Upload image functionality
-    var imageData = '';
-
     function uploadImage(files) {
-      vm.files = files;
+      if (files.length === 0) return false;
 
-      if (files && files.length) {
-        Upload.upload({
-          // TODO: Replace by actual api (when ready)
-          //       and use Service for this operation
-          url: 'http://localhost:3003/images/',
-          data: {
-            files: files
-          }
-        }).then(function(response) {
-          $timeout(function() {
-            vm.uploadResult = response.data;
-          });
-        }, function(response) {
-          if (response.status > 0) {
-            vm.uploadError = response.status + ': ' + response.data;
-          }
-        }, function(evt) {
-          vm.uploadProgress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
+      // Clear the link
+      clearLink();
 
-        Upload.base64DataUrl(files).then(function(urls) {
-          imageData = urls;
-        });
-      }
+      vm.tempImages = files.map(function(file) {
+        var fileObj = {
+          file: file,
+          isUploaded: false,
+          isValid: true,
+          errMsg: null,
+          key: null
+        };
+
+        // If file format is correct then hit server
+        if (file.type === 'image/jpeg') {
+          imageService
+            .uploadAlbumPic(file)
+            .then(function(res) {
+                // Success
+                fileObj.key = res.data;
+                fileObj.isUploaded = true;
+              }.bind(fileObj),
+              // Error
+              function(err) {
+                fileObj.isUploaded = true;
+                fileObj.isValid = false;
+                fileObj.errMsg = err;
+              }.bind(fileObj))
+            .finally(function() {
+              vm.imageCount++;
+            });
+        } else {
+          vm.imageCount++;
+
+          fileObj.isUploaded = true;
+          fileObj.isValid = false;
+          fileObj.errMsg = 'Invalid image format.';
+        }
+
+        return fileObj;
+      });
+      
+      vm.files = vm.files.concat(vm.tempImages);
+    }
+
+    function removeImage(idx) {
+      vm.files.splice(idx, 1);
+      vm.imageCount--;
     }
 
     function sharePost() {
+      // Post types:
+      // External link/Simple text: 1
+      // Internal link: 2
+      // PhotoShare: 3
+      // -- By default type is set to 1
+      var type = 1;
+
       var postData = {
-        text: vm.postContent
+        permissions: checkPostPermission(vm.selectedPostPrivacy),
+        post: {
+          text: vm.postContent
+        }
       };
 
+      if (vm.linkData.media) {
+        postData.post.link = vm.linkData;
+      }
+
+      // Incase user have uploaded photos
+      if(vm.files.length > 0){
+        var filesToSave = vm.files.filter(function(val){ return val.isValid });
+        if (filesToSave.length > 0) {
+
+          var imageKeys = filesToSave
+            .filter(function(file) {
+              return file.isValid;
+            })
+            .map(function(file) {
+              return file.key;
+            });
+
+          // Change the post type
+          type = 3;
+          postData.post.photoKeys = imageKeys;
+        }
+        else{
+          toaster.error({ title: "Error!", body: "Invalid files added! Please select JPEG" });
+          return false;
+        }
+      }
+      
+
       // Update the DB
-      vm.shareMethod({ data: postData })
+      vm.shareMethod({
+          data: postData,
+          type: type
+        })
         .then(function(data) {
           // Append in the posts list
-          vm.postList.unshift(freshPost(data, authService));
+          // using method from parent controller
+          vm.postUpdate({
+            data: freshPost(data, authService)
+          });
         });
       // Reset the form
       resetForm();
@@ -131,15 +208,18 @@
       return {
         id: data.id,
         text: data.text,
+        attachment: data.attachment,
         author: {
           id: user.UID,
           firstName: user.user.firstName,
-          lastName: user.user.lastName
+          lastName: user.user.lastName,
+          profilePicture: user.user.profilePicture
         },
         permissions: {
           // TODO: Change this logic while
           //       implementing permissions
-          mine: true
+          mine: true,
+          level: vm.selectedPostPrivacy.level
         },
         timestamp: new Date().toISOString(),
         comments: [],
@@ -150,13 +230,63 @@
       };
     }
 
+    function checkPostPermission(perm) {
+      var permArr = [];
+
+      switch (perm.name) {
+        case 'Public':
+          break;
+        case 'Bonds':
+          permArr.push('d' + authService.UID);
+          break;
+        case 'Bonds of Bonds':
+          permArr.push('i' + authService.UID);
+          break;
+        case 'Only me':
+          permArr.push('n' + authService.UID);
+          break;
+      }
+
+      return permArr;
+    }
+
     // Reset the create post form
     function resetForm() {
       vm.selectedPostType = vm.postTypes[0];
-      vm.selectedPostPrivacy = vm.postPrivacyOpts[0];
       vm.postContent = '';
-      vm.files = false;
       vm.locationSection = false;
+      vm.files = [];
+      vm.imageCount = 0;
+      vm.formPost.$setPristine();
+      clearLink();
+    }
+
+    function clearLink() {
+      vm.linkData = {};
+      vm.useUrl = false;
+      // Clear the ignore list in url detect
+      $scope.$broadcast('clearIgnoreList');
+    }
+
+    function analyzeUrl(url) {
+      // Incase user has already uploaded images
+      // Do not enter the link
+      if (vm.files.length > 0) return false;
+
+      var analyze = new baseService()
+        .setPath('peacock', '/analyze/html?url=' + url);
+
+      analyze
+        .execute()
+        .then(function(res) {
+          vm.useUrl = true;
+          vm.linkData = res;
+        });
+    }
+
+    function deleteMedia() {
+      vm.linkData = {};
+      vm.useUrl = false;
     }
 
     //////////////////////////////////////
@@ -165,5 +295,8 @@
     vm.uploadImage = uploadImage;
     vm.sharePost = sharePost;
     vm.addLocation = addLocation;
+    vm.analyzeUrl = analyzeUrl;
+    vm.deleteMedia = deleteMedia;
+    vm.removeImage = removeImage;
   }
 })();

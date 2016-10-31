@@ -1,12 +1,15 @@
-<div uib-dropdown is-open="privacy.isopen">
-  <button type="button" class="btn btn-default btn-xs " uib-dropdown-toggle tooltip-placement="right" uib-tooltip="{{sectionPrivacyOpts[currentSelected].text}}" >
-       <i ng-class="sectionPrivacyOpts[currentSelected].icon"></i>
+<div uib-dropdown is-open="privacy.isopen" class="display-inline-block">
+ <button type="button" class="btn btn-default btn-xs" 
+          uib-dropdown-toggle 
+          tooltip-placement="top" 
+          uib-tooltip="{{vm.selectedExpPrivacy.text}}" >
+       <i ng-class="vm.selectedExpPrivacy.icon"></i>
   </button>
   <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-    <li role="menuitem" ng-repeat="sectionPrivacy in sectionPrivacyOpts" ng-click="changeSectionPrivacy(sectionPrivacy)">
+    <li role="menuitem" ng-repeat="sectionPrivacy in vm.sectionPrivacyOpts" ng-click="vm.changeSectionPrivacy(sectionPrivacy)">
       <a>
         <i class="mr-5" ng-class="sectionPrivacy.icon"></i>
-        {{sectionPrivacy.text }}
+        {{sectionPrivacy.name }}
       </a>
     </li>
   </ul>

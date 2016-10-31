@@ -1,0 +1,74 @@
+<!-- Page container -->
+<div class="page-container">
+	<!-- Page content -->
+	<div class="page-content">
+		<!-- Main content -->
+		<div class="content-wrapper">
+			<!-- Content area -->
+			<div class="content container mt-20">
+				<div class="row">
+					<div class="col-md-3 col-sm-3">
+						<!--<advance-filter filter-data="vm.peopleList.facets"
+                            filters-applied="vm.selectedFilters"
+                            request-search="vm.requestSearch(page, query)"></advance-filter>-->
+					</div>
+
+					<div class="col-md-6 col-sm-6">
+						<div class="mb-10" ng-show="vm.peopleList.totalCount > 0">
+							<span>Total results: {{vm.peopleList.totalCount}}</span>
+						</div>
+
+						<div class="mb-10">
+							<div class="tokenfield display-inline-block" ng-repeat="(facet, values) in vm.selectedFilters" ng-if="values !== undefined && vm.isArray(values)">
+								<div class="token bg-primary" ng-repeat="value in values">
+									<span class="token-label">{{::value}}</span>
+									<a class="close" ng-click="vm.removeFacet(facet, value)">×</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-flat" ng-repeat="people in vm.peopleList.results">
+							<ul class="media-list media-list-linked">
+								<li class="media">
+									<div class="media-link">
+										<div class="media-left">
+											<lb-image src="{{vm.profilePicture}}" width="40" height="40" class="overflow-hidden img-circle display-inline-block"></lb-image>
+										</div>
+										<div class="media-body">
+											<a ui-sref="personal.profile.posts({ uid: people.user.id })" class="media-heading text-semibold">{{people.user.firstName + ' ' + people.user.lastName}}</a>
+											<span class="text-muted">Joined Lollibond on {{::people.user.creationDate | date:"d/MMM/yyyy"}}</span>
+											<div class="pull-right">
+												<a class="btn btn-sm btn-primary" ng-click="vm.assignPosition({id: people.user.id, name: people.user.firstName + ' ' + people.user.lastName})">Assign</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="contact-details">
+										<ul class="list-extended list-unstyled list-icons">
+											<li ng-if="people.user.locationId > -1"><i class="icon-pin position-left"></i> {{::people.user.locationId}}</li>
+											<li ng-if="people.user.colleges.length > 0" class="lb-text-wrap"><i class="icon-graduation2 position-left"></i> {{::people.user.colleges[0]}}</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+						<!-- Show empty list message -->
+						<div class="text-center" ng-show="vm.peopleList.results.length === 0">
+							No records found matching your search criteria
+						</div>
+
+						<!-- Pagination -->
+						<div class="text-center bootpag-default" ng-if="vm.peopleList.totalCount > 10">
+							<ul uib-pagination max-size="5" total-items="vm.peopleList.totalCount" ng-model="vm.currentPage" ng-change="vm.requestSearch()"></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /content area -->
+		</div>
+		<!-- /main content -->
+	</div>
+	<!-- /page content -->
+</div>
+<!-- /page container -->

@@ -1,0 +1,48 @@
+<div class="panel panel-flat">
+  <div class="panel-heading">
+    <h5 class="panel-title">Bond Types</h5>
+    <div class="heading-elements">
+      <ul class="icons-list no-margin">
+        <li>
+          <button type="button" class="btn btn-primary" ng-click="vm.openModal()">Create List</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div ng-show="vm.postsLoading" class="text-center">
+      <i class="icon-spinner2 spinner"></i>
+      Loading ...
+    </div>
+    <table class="table">
+      <tbody>
+        <tr ng-repeat="row in vm.bondTypesData | orderBy:'bondTypeName' track by $index" ng-init="rowIndex = $index">
+          <td style="width: 95%;">{{row.bondTypeName}}</td>
+          <td style="width: 5%;">
+            <ul class="icons-list">
+              <li uib-dropdown>
+                <a href="javascript:;" id="post-setting-btn" uib-dropdown-toggle>
+                  <i class="icon-cog3"></i>
+                </a>
+                <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="post-setting-btn">
+                  <li>
+                    <a href="javascript:;">
+                      <i class="icon-pencil"></i> 
+                      <span>Edit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deletePostType(rowIndex, row.bondTypeId)">
+                      <i class="icon-cross3"></i> 
+                      <span>Delete</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -6,13 +6,22 @@
     .controller('GalleryController', GalleryController);
 
   /** @ngInject */
-  function GalleryController($resource) {
+  function GalleryController() {
     var vm = this;
 
-    var photos = $resource('http://localhost:3004/photosdata/');
+    //Gallery navigation collapse on small device
+    vm.navbarCollapsed = true;
 
-    photos.query(function(data) {
-      vm.galleryPhotos = data;
-    });
+    //Gallery navigation tabs
+    vm.tabs = [{
+      title: 'Albums',
+      route: 'personal.profile.gallery.album'
+    }, {
+      title: 'Profile Pictures',
+      route: 'personal.profile.gallery.profilepic'
+    }, {
+      title: 'Cover Photos',
+      route: 'personal.profile.gallery.coverphoto'
+    }];
   }
 })();

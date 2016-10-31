@@ -1,0 +1,20 @@
+<div class="panel panel-flat">
+    <div class="panel-heading">
+      <div ng-show="vm.postsLoading" class="text-center">
+        <i class="icon-spinner2 spinner"></i>
+        Loading ...
+      </div>
+      <h5 class="panel-title">Cover Photos</h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4" ng-repeat="coverPhoto in vm.coverPhotos">
+                <lb-photo-thumb
+                  photo-data="coverPhoto"
+                  config-dropdown="vm.configDropdown"
+                  index="{{$index}}"
+                  photo-type="c"></lb-photo-thumb>
+            </div>
+        </div>
+    </div>
+</div>

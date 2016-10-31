@@ -1,0 +1,64 @@
+<div class="media-left">
+  <a ui-sref="personal.profile({ uid: vm.cardData.id  || vm.cardData.userId })">
+    <lb-image src="{{::vm.cardData.profilePicture}}" width="40" height="40" class="img-circle overflow-hidden display-inline-block"></lb-image>
+  </a>
+</div>
+<div class="media-body">
+  <div class="media-heading tokenfield text-semibold">
+    <a ui-sref="personal.profile.posts({ uid: vm.cardData.id  || vm.cardData.userId })"> {{::vm.cardData.user || vm.cardData.firstName + ' ' + vm.cardData.lastName}} </a>
+    <!--<div class="token bg-primary" ng-if=" vm.cardType == 'All Contacts'"><span class="token-label">Friends</span><a href="javascript:;" class="close" tabindex="-1">×</a></div>
+    <div class="token bg-green" ng-if=" vm.cardType == 'All Contacts'"><span class="token-label">Co-Workers</span><a href="javascript:;" class="close" tabindex="-2">×</a></div>-->
+  </div>
+  <!-- <span class="text-muted">Microsoft</span> -->
+</div>
+<div class="media-right media-middle">
+  <ul class="icons-list text-nowrap">
+    <li ng-if=" vm.cardType == 'All Contacts'">
+      <div class="btn-group" uib-dropdown is-open="vm.bondTypeDropdown.isopen" auto-close="outsideClick" on-toggle="vm.listBondTypes(vm.cardData.id)">
+        <button id="single-button" type="button" class="btn btn-xs btn-default" uib-dropdown-toggle ng-disabled="disabled">
+          Bond Types <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-xs pre-scrollable" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+          <li>
+            <div class="pl-10 pr-10">
+              <div class="input-group">
+                <input type="text" class="form-control" ng-model="vm.newBondType" placeholder="Add Bond Type">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" ng-disabled="!vm.newBondType" ng-click="vm.addBondType(vm.cardData.id)">
+                    <i class="icon-plus2"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </li>
+          <li class="divider"></li>
+          <li ng-repeat="bondType in vm.bondTypes.slice().reverse() | orderBy:'bondTypeName'">
+            <label class="checkbox-inline">
+              <input type="checkbox"
+                value="{{bondType.bondTypeId}}"
+                ng-model="bondTypes.bondTypeId"
+                ng-checked="bondType.isActive"
+                ng-click="vm.addTypetoUser(bondTypes.bondTypeId, vm.cardData.id, bondType.bondTypeId)">
+              {{bondType.bondTypeName}}
+            </label>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li ng-if="vm.cardType == 'Pending Requests'">
+      <a href="javascript:;" ng-click="vm.approveRequest(vm.cardData.userId, $event)">
+        <i class="icon-checkmark3 text-green"></i>
+      </a>
+    </li>
+    <li ng-if="vm.cardType == 'Pending Requests'">
+      <a href="javascript:;" ng-click="vm.declineRequest(vm.cardData.userId, $event)">
+        <i class="icon-cross2 text-danger"></i>
+      </a>
+    </li>
+    <li ng-if="vm.cardType == 'Sent Requests'">
+      <a href="javascript:;" ng-click="vm.deleteRequest(vm.cardData.userId, $event)">
+        <i class="icon-cross2 "></i>
+      </a>
+    </li>
+  </ul>
+</div>

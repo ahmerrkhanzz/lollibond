@@ -1,0 +1,135 @@
+<div class="navbar navbar-inverse navbar-fixed-top no-border">
+  <div class="container" ng-class="{sticky:boolChangeClass}">
+    <div class="row">
+      <div class="col-md-3 col-sm-3">
+        <div class="navbar-header no-margin">
+          <a class="navbar-brand" ui-sref="corporate.profile" ui-sref-opts="{reload: true}">
+            <img src="assets/images/lb/logo.png" alt="lollibond">
+            <small class="pull-left m-5 ml-10 text-muted">{{(vm.recentBuildNumber) ? 'V ' + vm.recentBuildNumber : ''}}</small>
+          </a>
+           <ul class="nav navbar-nav ">
+                <li>
+                  <a ui-sref-active="active" ui-sref="personal.profile.posts">
+                    <i class="icon-users4"></i>
+                  </a>
+                </li>
+                <li uib-dropdown auto-close="outsideClick">
+                  <a href="javascript:;" id="epsn-switcher" uib-dropdown-toggle>
+                    <i class="icon-office"></i>
+                  </a>
+                  <div class="dropdown-content" uib-dropdown-menu role="menu" aria-labelledby="epsn-switcher">
+                    <div class="dropdown-content-heading">
+                      EPSN Switcher
+                      <ul class="icons-list">
+                        <li><a href="#"><i class="icon-sync"></i></a></li>
+                        <li><a href="#" ng-click="vm.openModal()"><i class="icon-plus3"></i></a></li>
+                      </ul>
+                    </div>
+                    <ul class="media-list dropdown-content-body width-350">
+                      <li class="media">
+                        <a ui-sref="corporate.profile" class="media-left"><img src="assets/images/brands/bond.jpeg" class="img-sm img-circle" alt=""></a>
+                        <div class="media-body">
+                          <a ui-sref="corporate.profile" class="media-heading text-semibold">Bond Internet Consultancy</a>
+                          <span class="text-size-mini text-muted display-block">Dubai, UAE.</span>
+                        </div>
+                        <div class="media-right media-middle">
+                          <span class="badge bg-green">4</span>
+                        </div>
+                      </li>
+                      <li class="media">
+                        <a ui-sref="corporate.profile" class="media-left"><img src="assets/images/brands/systems.jpeg" class="img-sm img-circle" alt=""></a>
+                        <div class="media-body">
+                          <a ui-sref="corporate.profile" class="media-heading text-semibold">Systems Limited</a>
+                          <span class="text-size-mini text-muted display-block">Karachi, Pakistan</span>
+                        </div>
+                        <div class="media-right media-middle">
+                          <span class="badge bg-green">4</span>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="dropdown-content-footer">
+                      <a href="#" data-popup="tooltip" title="All activity"><i class="icon-menu display-block"></i></a>
+                    </div>
+                  </div>
+                </li>
+                <!--<li>
+                  <a href="javascript:;">
+                    <i class="icon-library2"></i>
+                  </a>
+                </li>-->
+          </ul> 
+        </div>
+      </div>
+      <div class="col-md-9 col-sm-9 lb-navbar">
+        <div id="navbar-mobile">
+          <div class="col-sm-8">
+            <form class="navbar-form navbar-left" novalidate ng-submit="vm.searchUser(vm.appDataFlowService.searchQuery)">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="has-feedback has-feedback-left">
+                    <div class="form-control-feedback">
+                      <i class="icon-three-bars text-muted text-size-base"></i>
+                    </div>
+                    <input type="search"
+                          placeholder="Search for user"
+                          ng-model="vm.appDataFlowService.searchQuery"
+                          uib-typeahead="user.name as user.name for user in vm.getUsers($viewValue)"
+                          typeahead-on-select="vm.redirectToUser($item)"
+                          typeahead-wait-ms="500"
+                          typeahead-popup-template-url="app/shared/main-header/advance-search-template.html"
+                          class="form-control text-white no-background">
+                    <div class="form-control-feedback icon-right" ng-click="::vm.searchUser(vm.appDataFlowService.searchQuery)">
+                      <i class="icon-search4 text-muted text-size-base"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-3 pull-right no-padding">
+            <ul class="nav navbar-nav lb-navbar-right">
+              <!-- <language-select></language-select> -->
+              <li uib-dropdown auto-close="outsideClick">
+                <a href="#" id="notification-btn" class="lb-notification" uib-dropdown-toggle>
+                  <i class="icon-user-plus"></i>
+                  <span class="visible-xs-inline-block position-right">Request</span>
+                  <span class="badge bg-warning-400" ng-if="vm.requestList.length > 0">{{vm.requestList.length}}</span>
+                </a>
+                <div class="dropdown-content width-350 dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="notification-btn">
+                  <div class="dropdown-content-heading">
+                    {{vm.requestList.length}} new Bond Request(s)
+                  </div>
+                  <ul class="media-list dropdown-content-body width-300">
+                    <li class="media" ng-repeat="user in vm.requestList | limitTo: 4">
+                      <lb-request-card card-type="'Pending Requests'" card-data="user" splice-user-list="vm.removeItem($index)"></lb-request-card>
+                    </li>
+                  </ul>
+                  <div class="dropdown-content-footer" ng-if="vm.requestList > 4">
+                    <a ui-sref="personal.profile.network({ uid: vm.authService.UID, activeTab: 1 })" data-popup="tooltip" title="All requests"><i class="icon-menu display-block"></i></a>
+                  </div>
+                </div>
+              </li>
+              <li ng-if="vm.authService.user" class="dropdown-user" uib-dropdown>
+                <a uib-dropdown-toggle id="user-profile-btn">
+                  <lb-image src="{{::vm.authService.user.profilePicture}}" width="40" height="40"></lb-image> 
+                  <span class="lb-truncate valign-middle" style="max-width: 100px;">{{vm.authService.user.firstName}}</span>
+                  <i class="caret"></i>
+                </a>
+                <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="user-profile-btn">
+                  <li><a ui-sref="personal.profile.posts({ uid: vm.authService.UID })"><i class="icon-user-plus"></i> My profile</a></li>
+                  <!-- <li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li> -->
+                  <li class="divider"></li>
+                  <li><a ui-sref="personal.setting.accountinformation"><i class="icon-cog5"></i> Account settings</a></li>
+                  <li ng-click="::vm.logout()"><a href="javascript:;"><i class="icon-switch2" ></i> Logout</a></li>
+                </ul>
+              </li>
+              <li ng-if="!vm.authService.user">
+                <a ng-click="vm.login()" class="btn">Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

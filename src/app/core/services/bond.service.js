@@ -6,7 +6,7 @@
     .factory('bondService', bondService);
 
   /** @ngInject */
-  function bondService($http) {
+  function bondService(baseService) {
     var requestType = {
       SEND: '',
       ACCEPT: 'accept',
@@ -19,6 +19,7 @@
       requestType: requestType,
       loadRequests: loadRequests,
       bondRequest: bondRequest,
+      bondRequestsSent: bondRequestsSent,
       deleteRequest: deleteRequest,
       getBondTypes: getBondTypes,
       addBondType: addBondType,
@@ -35,19 +36,50 @@
 
     /**
      * Loads the bond requests for the logged in user
+     * @param  {string} count     Count of all requests to be loaded
+     * @param  {string} lastId    Id of last loaded request
+     * @param  {string} lastTime  Last timestamp for last loaded request
+     * @return {obj}              bond requests list
+     */
+    function loadRequests(count, lastId, lastTime) {
+      // Default values
+      count = count || '100';
+      lastId = lastId || '9223372036854775807';
+      lastTime = lastTime || '9123145067622562815';
+
+      return new baseService()
+        .setPath('peacock','/bond-request')
+        .setGetParams({
+          count: count,
+          lastId: lastId,
+          lastTimestamp: lastTime
+        })
+        .execute(function(res) {
+          return res.data;
+        });
+    }
+
+    /**
+     * Loads the List of bond requests received for the logged in user
      * @param  {string} lastTime  Last timestamp for last loaded request
      * @param  {string} count     Count of all requests to be loaded
      * @param  {string} lastId    Id of last loaded request
-     * @return {obj}              bond requests list
+     * @return {obj}              list of bond requests sent
      */
-    function loadRequests(lastTime, count, lastId) {
+    function bondRequestsSent(lastTime, count, lastId) {
       // Default values
-      lastTime = lastId || '9123145067622562815';
+      lastTime = lastTime || '9123145067622562815';
       count = count || '4';
       lastId = lastId || '9223372036854775807';
 
-      return $http.get('http://dev1.bond.local:9999/bond-request?lastTimestamp=' + lastTime + '&count=' + count + '&lastId=' + lastId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/bond-request/sent')
+        .setGetParams({
+          lastTimestamp: lastTime,
+          count: count,
+          lastId: lastId
+        })
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -61,8 +93,10 @@
     function bondRequest(userId, type) {
       type = type || '';
 
-      return $http.post('http://dev1.bond.local:9999/bond-request/' + userId + '/' + type)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/bond-request/' + userId + '/' + type)
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -73,8 +107,10 @@
      * @return {bool}           status of request
      */
     function deleteRequest(userId) {
-      return $http.delete('http://dev1.bond.local:9999/bond-request/' + userId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/bond-request/' + userId)
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -84,8 +120,9 @@
      * @return {obj} List of all the bond types
      */
     function getBondTypes() {
-      return $http.get('http://dev1.bond.local:9999/user/bond-types')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/bond-types')
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -95,8 +132,10 @@
      * @param {obj} bondTypeName newly added bond type
      */
     function addBondType(bondTypeName) {
-      return $http.post('http://dev1.bond.local:9999/user/bond-types/' + bondTypeName)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/bond-types/' + bondTypeName)
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -107,8 +146,10 @@
      * @return {bool}            status of request
      */
     function deleteBondType(bondTypeId) {
-      return $http.delete('http://dev1.bond.local:9999/user/bond-types/' + bondTypeId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/bond-types/' + bondTypeId)
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -119,8 +160,10 @@
      * @return {bool}           status of request
      */
     function deleteBond(userId) {
-      return $http.delete('http://dev1.bond.local:9999/user/' + userId + '/bond')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/bond')
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -131,8 +174,9 @@
      * @return {obj}            List of associated bond types
      */
     function getBond(userId) {
-      return $http.get('http://dev1.bond.local:9999/user/' + userId + '/bond')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/bond')
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -144,8 +188,10 @@
      * @return {bool}               status of request
      */
     function deleteBondedBondType(userId, bondTypeId) {
-      return $http.delete('http://dev1.bond.local:9999/user/' + userId + '/bond/' + bondTypeId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/bond/' + bondTypeId)
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -157,8 +203,10 @@
      * @return {obj}                  newly created bond type
      */
     function addUserToNewBondType(userId, bondTypeName) {
-      return $http.post('http://dev1.bond.local:9999/user/' + userId + '/bond/' + bondTypeName)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/bond/' + bondTypeName)
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -169,8 +217,10 @@
      * @param {int}     bondTypeId    Id of the bond type
      */
     function addUsertoOldBondType(userId, bondTypeId) {
-      return $http.put('http://dev1.bond.local:9999/user/' + userId + '/bond/' + bondTypeId)
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/bond/' + bondTypeId)
+        .setPutMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -181,8 +231,10 @@
      * @return {bool}           Status of request
      */
     function followUser(userId) {
-      return $http.post('http://dev1.bond.local:9999/user/' + userId + '/follow')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/follow')
+        .setPostMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -193,8 +245,10 @@
      * @return {bool}           Status of request
      */
     function unfollowUser(userId) {
-      return $http.delete('http://dev1.bond.local:9999/user/' + userId + '/follow')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/follow')
+        .setDeleteMethod()
+        .execute(function(res) {
           return res.data;
         });
     }
@@ -205,8 +259,9 @@
      * @return {bool}           Status if user is following or not
      */
     function isFollowing(userId) {
-      return $http.get('http://dev1.bond.local:9999/user/' + userId + '/follow')
-        .then(function(res) {
+      return new baseService()
+        .setPath('peacock','/user/' + userId + '/follow')
+        .execute(function(res) {
           return res.data;
         });
     }

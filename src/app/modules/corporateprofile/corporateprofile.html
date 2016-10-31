@@ -9,7 +9,7 @@
 
 			<!-- Cover area -->
 			<div class="profile-cover">
-				<div class="profile-cover-img" style="background-image: url('assets/images/dummy/covers/cover4.jpg'); background-position: 50% 70%;height: 250px;"></div>
+				<div class="profile-cover-img" style="background-image: url('assets/images/dummy/covers/cover4.jpg'); background-position: 50% 63%;"></div>
 			</div>
 			<!-- /cover area -->
 
@@ -24,7 +24,7 @@
 							<li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
 								<a>
 									<i class="{{::tab.icon}} position-left"></i>
-              						<span>{{tab.title}}</span>
+									<span>{{tab.title}}</span>
 								</a>
 							</li>
 						</ul>
@@ -34,11 +34,11 @@
 								<li uib-dropdown>
 									<a href="javascript:;" id="setting-btn" uib-dropdown-toggle><i class="icon-gear"></i> <span class="visible-xs-inline-block position-right"> Options</span> <span class="caret"></span></a>
 									<ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="setting-btn">
-										<li><a href="#"><i class="icon-image2"></i> Update cover</a></li>
-										<li><a href="#"><i class="icon-make-group"></i> Manage sections</a></li>
+										<li><a href="javascript:;"><i class="icon-image2"></i> Update cover</a></li>
+										<li><a href="javascript:;"><i class="icon-make-group"></i> Manage sections</a></li>
 										<li class="divider"></li>
-										<li><a href="#"><i class="icon-three-bars"></i> Activity log</a></li>
-										<li><a href="#"><i class="icon-cog5"></i> Profile settings</a></li>
+										<li><a href="javascript:;"><i class="icon-three-bars"></i> Activity log</a></li>
+										<li><a href="javascript:;"><i class="icon-cog5"></i> Profile settings</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -48,28 +48,34 @@
 			</div>
 			<!-- /toolbar -->
 
-      <!-- Content area -->
-      <div class="content container">
-        <div class="row">
-          <div class="tabbable">
-            <div ui-view></div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer text-muted">
-          &copy; 2016. <a href="#">Lollibond</a> by <a href="http://bondinco.com" target="_blank">Bond Internet Consultancy</a>
-        </div>
-        <!-- /footer -->
-
-      </div>
-      <!-- /content area -->
-
+			<!-- Content area -->
+			<div class="content container mt-20">
+				<div class="row">
+					<h4>Welcome to <strong>{{vm.companyName}}</strong></h4>
+					<div class="tabbable">
+						<div ui-view></div>
+					</div>
+				</div>
+			</div>
+			<!-- Footer -->
+			<footer>
+				<div class="container text-muted">
+					<div class="col-md-12">
+						&copy; 2016. <a href="javascript:;">Lollibond</a> by <a href="http://bondinco.com" target="_blank">Bond Internet Consultancy</a>
+					</div>
+				</div>
 		</div>
-		<!-- /main content -->
+		</footer>
+		<!-- /footer -->
 
 	</div>
-	<!-- /page content -->
+	<!-- /content area -->
+
+</div>
+<!-- /main content -->
+
+</div>
+<!-- /page content -->
 
 </div>
 <!-- /page container -->

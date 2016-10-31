@@ -5,9 +5,13 @@
       <h4 class="panel-title"><i class="icon-library2 position-left"></i>{{to.btnText}}</h4>
         <div class="heading-elements">
           <button type="button" class="btn btn-default btn-xs" ng-click="to.isEditable()" >
-             <i class="mr-5 icon-eye"></i> View as Public
+             <i class="mr-5 icon-eye"></i> 
+             View as Public
           </button>
-          <button type="button" class="btn btn-primary btn-xs btn-icon"  ng-click="addNew()" ><i class="icon-plus3"></i> Add {{to.btnText}}</button>
+          <button type="button" class="btn btn-primary btn-xs btn-icon" ng-click="addNew()" >
+            <i class="icon-plus3"></i> 
+            Add {{to.btnText}}
+          </button>
         </div>
     </div>
     <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
@@ -22,10 +26,8 @@
               ng-click="to.delData($index)">
               Remove this {{to.btnText}} 
             </a>
-            
             <button ng-click="to.saveData($index)" class="btn btn-primary btn-xs submit-button">Save</button>
           </div>
-
       </div>
       <hr ng-hide="$last">
     </div>

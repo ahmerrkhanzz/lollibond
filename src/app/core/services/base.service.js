@@ -6,7 +6,7 @@
     .service('baseService', baseService);
 
   /** @ngInject */
-  function baseService($http, $q, $cookies){
+  function baseService($http, $q, $log, toaster){
 
     /**
      * Supported HTTP methods
@@ -18,6 +18,18 @@
         POST: 'POST',
         PUT: 'PUT'
     };
+
+    /**
+     *  Base API URLs 
+     */
+
+    var ApiPath = {
+        PEACOCK: 'http://bondinco.dyndns.org:9999',
+        CORAL: 'http://bondinco.dyndns.org:9998',
+        RAY: 'http://bondinco.dyndns.org:9997',
+        PIGEON: 'http://bondinco.dyndns.org:9996'
+    }
+
 
     /* This is for making direct CORS calls to api server. This object will hold the api server url and auth stuff
      * like csrftoken/sessionid/userid. Eventually we will move to a single token auth mechanism like JWT which can be
@@ -134,8 +146,34 @@
      * @param {string} path
      * @return this for chaining
      */
-    baseService.prototype.setPath = function (path) {
-        this.path = path;
+    baseService.prototype.setPath = function (basepath, endpoint) {
+        var REST_API_URL;
+
+        // Set API Base path
+        switch (basepath) {
+            case 'peacock':
+            REST_API_URL = ApiPath.PEACOCK;
+            break;
+            case 'coral':
+            REST_API_URL = ApiPath.CORAL;
+            break;
+            case 'ray':
+            REST_API_URL = ApiPath.RAY;
+            break;
+            case 'pigeon':
+            REST_API_URL = ApiPath.PIGEON;
+            break;
+        }
+
+        // if(basepath == 'peacock'){
+        //     REST_API_URL = PEACOCK_API_PATH;
+        // }else if(basepath == 'coral'){
+        //     REST_API_URL = CORAL_API_PATH;
+        // }else{
+        //     REST_API_URL = PEACOCK_API_PATH;
+        // }
+
+        this.path = REST_API_URL + endpoint;
         return this;
     };
 
@@ -221,15 +259,15 @@
         })
         .success(function (data, status, config) {
             if (baseInstance.isIgnorable && getCallIdForPath(config.url) > config.customContext.callId) {
-                //logger.warn('Ignoring response of callId %s to %s (latest callId %s)', config.customContext.callId, config.url, getCallIdForPath(config.url));
-                console.log('Ignoring response of callId %s to %s (latest callId %s)');
+                $log.warn('Ignoring response of callId %s to %s (latest callId %s)', config.customContext.callId, config.url, getCallIdForPath(config.url));
                 deferred.reject(baseService.rejectReasons.IGNORED);
             } else {
                 deferred.resolve(data);
             }
         })
-        .error(function (data, status, config) {
+        .error(function (data, status) {
             deferred.reject(data);
+
 
             /**
              * Note(joy): consider using response interceptors if that will make a cleaner isolation
@@ -238,10 +276,11 @@
              * 401 - Unauthorized
              * 403 - Forbidden
              * 407 - Proxy Authentication required
+             * 409 - Conflict Duplicate Value
              */
             if (status === 403) {
                 // [donotNavigateToLoginOn4xx] also implies to [doNotShowPermError]
-                // that is because the callee is expecting failure. 
+                // that is because the callee is expecting failure.
                 if (!!baseInstance.options.doNotShowPermError || !!baseInstance.options.donotNavigateToLoginOn4xx) {
                     return;
                 }
@@ -250,11 +289,15 @@
             }
             if(status === 401  || status === 407) {
                 if (!baseInstance.options.donotNavigateToLoginOn4xx) {
-                    console.log("navigationService.navigateToLogin();");
+                    $log.log("navigationService.navigateToLogin();");
                 }
+            } 
+            if(status === 409) {
+                toaster.error({ title: "Duplicate Value!", body: "Your data is already available in the system." });
+                return;
             } else {
                 if (!baseInstance.options.noLoggingOnError) {
-                    console.error('$http error:', data); // no need to send this error to server
+                    $log.error('$http error:', data); // no need to send this error to server
                 }
             }
         });
@@ -265,6 +308,12 @@
     baseService.rejectReasons = {
         IGNORED: 'ignored'
     };
+
+    // return data for Branch
+    baseService.branchData = {
+        name: '',
+        code: ''
+    }
 
     baseService.httpMethods = httpMethods;
 

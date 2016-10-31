@@ -1,0 +1,393 @@
+.croppie-container {
+    padding: 30px;
+}
+
+.croppie-container .cr-image {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    max-width: none;
+}
+
+.croppie-container .cr-boundary {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.croppie-container .cr-viewport {
+    position: absolute;
+    border: 2px solid #fff;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 0 2000px 2000px rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.croppie-container .cr-vp-circle {
+    border-radius: 50%;
+}
+
+.croppie-container .cr-overlay {
+    z-index: 1;
+    position: absolute;
+    cursor: move;
+}
+
+.croppie-container .cr-slider-wrap {
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.croppie-result {
+    position: relative;
+    overflow: hidden;
+}
+
+.croppie-result img {
+    position: absolute;
+}
+
+.croppie-container .cr-image,
+.croppie-container .cr-overlay,
+.croppie-container .cr-viewport {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+
+/*************************************/
+
+
+/***** STYLING RANGE INPUT ***********/
+
+
+/*************************************/
+
+
+/*http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+
+
+/*************************************/
+
+.cr-slider {
+    -webkit-appearance: none;
+    /*removes default webkit styles*/
+    /*border: 1px solid white; */
+    /*fix for FF unable to apply focus style bug */
+    width: 300px;
+    /*required for proper track sizing in FF*/
+    max-width: 100%;
+}
+
+.cr-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 0;
+    border-radius: 3px;
+}
+
+.cr-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #ddd;
+    margin-top: -6px;
+}
+
+.cr-slider:focus {
+    outline: none;
+}
+
+
+/*
+.cr-slider:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+*/
+
+.cr-slider::-moz-range-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 0;
+    border-radius: 3px;
+}
+
+.cr-slider::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #ddd;
+    margin-top: -6px;
+}
+
+
+/*hide the outline behind the border*/
+
+.cr-slider:-moz-focusring {
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+.cr-slider::-ms-track {
+    width: 300px;
+    height: 5px;
+    background: transparent;
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    border-color: transparent;
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-width: 6px 0;
+    color: transparent;
+    /*remove default tick marks*/
+}
+
+.cr-slider::-ms-fill-lower {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.cr-slider::-ms-fill-upper {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.cr-slider::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.cr-slider:focus::-ms-fill-lower {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.cr-slider:focus::-ms-fill-upper {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+/*******************************************/
+
+
+/***********************************/
+
+
+/* Rotation Tools */
+
+
+/***********************************/
+
+.cr-rotate-controls {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    z-index: 1;
+}
+
+.cr-rotate-controls button {
+    border: 0;
+    background: none;
+}
+
+.cr-rotate-controls i:before {
+    display: inline-block;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 22px;
+}
+
+.cr-rotate-l i:before {
+    content: '↺';
+}
+
+.cr-rotate-r i:before {
+    content: '↻';
+}
+
+.pp {
+    border: 1px solid #ccc;
+    padding: 3px;
+    &-50 {
+        width: 50px;
+        min-height: 50px;
+    }
+    &-100 {
+        width: 100px;
+        min-height: 100px;
+    }
+    &-200 {
+        width: 200px;
+        min-height: 200px;
+    }
+    img {
+        width: 100%;
+    }
+}
+.upload-placeholder{
+    background: @color-grey-50;
+    padding: 3px;
+    border: 1px solid #000;
+    height: 310px;
+    text-align: center;
+    a{
+        display: block;
+        height: 100%;
+        padding-top: 95px;
+        cursor: default;
+        i{
+            font-size: 100px;
+            color: @color-grey-300;
+        }
+        h4{
+            color: @color-grey-300;
+        }
+    }   
+}
+.loader-overlay {
+    background-color: fade(#000, 60%);
+    .opacity(1);
+}
+
+
+
+// File preview container
+.file-preview {
+    border-radius: @border-radius-small;
+    border: 1px solid @panel-default-border;
+    width: 100%;
+    margin-bottom: @line-height-computed;
+    position: relative;
+    text-align: center;
+
+    // Close button
+    > .close {
+        font-weight: 400;
+        font-size: @font-size-h5;
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #fff;
+        padding: 8px;
+        line-height: 0.6;
+        border-radius: @border-radius-base;
+        color: @color-grey-700;
+        .opacity(1);
+    }
+}
+
+// Thumbnail frame
+.file-preview-frame {
+    margin: @padding-base-vertical;
+    margin-right: 0;
+    height: 160px;
+    display: table;
+    float: left;
+    vertical-align: middle;
+
+    // Inside drop zone
+    .file-drop-zone & {
+        border: 1px solid @panel-inner-border;
+        border-radius: @border-radius-base;
+    }
+}
+
+// Thumbnail image
+.file-preview-image {
+    height: 160px;
+    vertical-align: middle;
+    border-radius: @border-radius-base;
+
+    // Prevent image overflow
+    @media (max-width: @screen-xs-max) {
+        max-width: 100%;
+    }
+}
+
+// Preview text
+.file-preview-text {
+    text-align: left;
+    width: 160px;
+    margin-bottom: 2px;
+    color: #428bca;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+// Other files preview
+.file-preview-other {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 160px;
+    height: 160px;
+
+    // Override for preview icon, use Icomoon instead
+    &:after {
+        content: "\ea0c";
+        font-family: "icomoon";
+        display: block;
+        font-size: @icon-font-size * 4;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    // Hide glyphicon icon
+    .glyphicon {
+        display: none;
+    }
+}
+
+// Status
+.file-preview-status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: @text-color;
+    background-color: fade(#fafafa, 80%);
+    border-top: 1px solid @panel-default-border;
+    padding: @padding-base-vertical @padding-base-horizontal;
+    font-size: @font-size-small;
+    color: @text-color!important;
+
+    // Collapse if empty
+    &:empty {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+    }
+}
+
+
+.upload-thumb {
+    display: inline-block;
+    width: 100%;
+    min-height: 150px;
+    border: 1px dashed #ccc;
+    text-align: center;
+    padding: 45px 0 0 0;
+    cursor: pointer;
+    i {
+        display: block;
+        font-size: 40px;
+        color: #999;
+    }
+}

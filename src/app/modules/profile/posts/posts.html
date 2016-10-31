@@ -1,9 +1,11 @@
-<div>
-    <div class="col-md-3"></div>
+<div class="row row-min">
 
-    <div class="col-md-6">
+    <div class="col-md-8 mb-20">
         <!-- Share your thoughts -->
-        <create-post ng-if="vm.profileService.isBonded || vm.profileService.ownProfile" post-list="vm.wallPosts" share-method="vm.shareMethod(data)"></create-post>
+        <create-post ng-if="vm.profileService.isBonded || vm.profileService.ownProfile"
+                    post-update="vm.postUpdate(data)"
+                    share-method="vm.shareMethod(data, type)"
+                    can-change-privacy="vm.profileService.ownProfile"></create-post>
         <!-- /share your thoughts -->
 
         <!-- Timeline -->
@@ -13,31 +15,17 @@
         </div>
         <!-- /timeline -->
 
-        <button class="btn btn-link" ng-click="::vm.loadMore()">Show more</button>
+        <div ng-show="vm.postsLoading" class="text-center">
+          <i class="icon-spinner2 spinner"></i>
+          Loading Posts
+        </div>
+        <div ng-show="!vm.postAvailable" class="text-center">No more posts.</div>
+        <lb-infinite-scroll ng-if="vm.postAvailable && !vm.postsLoading" call-on-show="::vm.loadMore()"></lb-infinite-scroll>
     </div>
 
-    <div class="col-lg-3">
-        <!-- Navigation -->
-        <div class="panel panel-flat">
-            <div class="panel-heading">
-                <h6 class="panel-title">Navigation</h6>
-                <div class="heading-elements">
-                    <a href="#" class="heading-text">See all &rarr;</a>
-                </div>
-            </div>
-            <div class="list-group no-border no-padding-top">
-                <a href="#" class="list-group-item"><i class="icon-user"></i> My profile</a>
-                <a href="#" class="list-group-item"><i class="icon-cash3"></i> Balance</a>
-                <a href="#" class="list-group-item"><i class="icon-tree7"></i> Connections <span class="badge bg-danger pull-right">29</span></a>
-                <a href="#" class="list-group-item"><i class="icon-users"></i> Friends</a>
-                <div class="list-group-divider"></div>
-                <a href="#" class="list-group-item"><i class="icon-calendar3"></i> Events <span class="badge bg-teal-400 pull-right">48</span></a>
-                <a href="#" class="list-group-item"><i class="icon-cog3"></i> Account settings</a>
-            </div>
-        </div>
-        <!-- /navigation -->
+    <div class="col-md-3">
         <!-- Connections -->
-        <div class="panel panel-flat">
+        <!-- <div class="panel panel-flat">
             <div class="panel-heading">
                 <h6 class="panel-title">Latest connections</h6>
                 <div class="heading-elements">
@@ -46,10 +34,10 @@
             </div>
             <ul class="media-list media-list-linked pb-5">
                 <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9120256925487856638' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+                    <a ui-sref="personal.profile.posts({ uid: '-9072944677396675581' })" class="media-link">
+                        <div class="media-left"><img src="assets/images/dummy/users/face1.jpg" class="img-circle" alt=""></div>
                         <div class="media-body">
-                            <span class="media-heading text-semibold">John Doe</span>
+                            <span class="media-heading text-semibold">Omar Tarabichi</span>
                             <span class="media-annotation">UI/UX expert</span>
                         </div>
                         <div class="media-right media-middle">
@@ -58,34 +46,10 @@
                     </a>
                 </li>
                 <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9117861354940660555' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+                    <a ui-sref="personal.profile.posts({ uid: '-9072942475949112313' })" class="media-link">
+                        <div class="media-left"><img src="assets/images/dummy/users/face4.jpg" class="img-circle" alt=""></div>
                         <div class="media-body">
-                            <span class="media-heading text-semibold">Jena Doe</span>
-                            <span class="media-annotation">Senior designer</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <span class="status-mark bg-danger"></span>
-                        </div>
-                    </a>
-                </li>
-                <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9123046701639138304' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
-                        <div class="media-body">
-                            <div class="media-heading"><span class="text-semibold">Raza</span></div>
-                            <span class="text-muted">Sales consultant</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <span class="status-mark bg-grey-300"></span>
-                        </div>
-                    </a>
-                </li>
-                <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9117256671662439232' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
-                        <div class="media-body">
-                            <div class="media-heading"><span class="text-semibold">William Miles</span></div>
+                            <div class="media-heading"><span class="text-semibold">Raza Zaidi</span></div>
                             <span class="text-muted">SEO expert</span>
                         </div>
                         <div class="media-right media-middle">
@@ -94,10 +58,10 @@
                     </a>
                 </li>
                 <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9117257474846489409' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+                    <a ui-sref="personal.profile.posts({ uid: '-9072485241448299519' })" class="media-link">
+                        <div class="media-left"><img src="assets/images/dummy/users/face5.jpg" class="img-circle" alt=""></div>
                         <div class="media-body">
-                            <span class="media-heading text-semibold">Stephen Judis</span>
+                            <span class="media-heading text-semibold">Ahmerr Khan</span>
                             <span class="media-annotation">Google</span>
                         </div>
                         <div class="media-right media-middle">
@@ -106,8 +70,8 @@
                     </a>
                 </li>
                 <li class="media">
-                    <a ui-sref="personal.profile.posts({ uid: '-9123145067622562815' })" class="media-link">
-                        <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle" alt=""></div>
+                    <a ui-sref="personal.profile.posts({ uid: '-9072946631598406656' })" class="media-link">
+                        <div class="media-left"><img src="assets/images/dummy/users/face6.jpg" class="img-circle" alt=""></div>
                         <div class="media-body">
                             <div class="media-heading"><span class="text-semibold">Waqar</span></div>
                             <span class="text-muted">Sales consultant</span>
@@ -118,7 +82,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <!-- /connections -->
     </div>
 </div>

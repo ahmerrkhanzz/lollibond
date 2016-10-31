@@ -1,0 +1,60 @@
+<div class="modal-header bg-primary">
+    <h2 class="panel-title">Upload your Cover Photo</h2>
+</div>
+<form>
+    <div class="modal-body ">
+        <div class="row" ng-if="!vm.src">
+            <div class="col-md-12">
+                <div class="file-uploader">
+                    <div class="plupload_wrapper plupload_scroll">
+                        <div class="plupload_container">
+                            <div class="plupload">
+                                <div class="plupload_content">
+                                    <ul class="plupload_filelist">
+                                        <li class="plupload_droptext upload-cover" ng-model="vm.src" ngf-select="vm.uploadImage($files)" accept="image/jpeg">Upload Cover Photo</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <lh-croppie
+                    src="vm.src"
+                    ng-show="vm.src"
+                    ng-model="vm.croppedImage"
+                    config="vm.config"
+                    set-croppie-url="vm.setCroppieUrl"
+                    photo-type="'coverPhoto'">
+                </lh-croppie>
+            </div>
+        </div>
+        <div class="page-title" ng-if="vm.coverPhotos.length > 0 && !vm.src">
+            <h4><span class="text-semibold">Cover Photo</span> - Suggested</h4>
+        </div>
+        <div class="row" ng-if="!vm.src">
+            <div class="col-md-2" ng-repeat="coverPhoto in vm.coverPhotos | limitTo:6">
+                <div class="thumbnail lb-thumbnail" ng-class="{'lb-thumbnail--checked': vm.prevPhoto === coverPhoto.id}">
+                    <div class="thumb lb-minh-30">
+                      <label for="photo-{{$index}}" class="no-margin">
+                        <input id="photo-{{$index}}" class="hidden" type="radio" name="photo" ng-value="coverPhoto.id" ng-model="vm.prevPhoto">
+                        <lb-image src="{{coverPhoto.key}}" img-type="c" width="500" height="125"></lb-image>
+                      </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.coverPhotos.length > 6 && !vm.src">
+            <div class="col-md-6">
+                <a class="btn btn-primary" ui-sref="personal.profile.gallery.coverphoto" ng-click="vm.cancel()">View All</a>   
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-click="vm.prevPhoto ? vm.setAsCover(vm.prevPhoto) : vm.saveImage()" ng-disabled="!vm.isPhotoUploaded && !vm.prevPhoto">Save</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>

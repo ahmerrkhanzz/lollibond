@@ -14,6 +14,7 @@
       isBonded: false,
       isRequested: false,
       isFollowed: false,
+      isReceived: false,
       profileId: '',
       checkProfile: checkProfile
     };

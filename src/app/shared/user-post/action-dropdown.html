@@ -1,10 +1,12 @@
 <ul class="icons-list">
-  <li uib-dropdown>
-    <a href="#" id="post-setting-btn" uib-dropdown-toggle>
-      <i class="icon-arrow-down12"></i>
+  <li uib-dropdown is-open="vm.isMenuOpen">
+    <a href="javascript:;" id="post-setting-btn" uib-dropdown-toggle ng-click="vm.openMenu()">
+      <i class="icon-cog3"></i>
     </a>
     <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="post-setting-btn">
-      <li ng-repeat="postAction in ::vm.postActions" ng-click="::postAction.action()"><a><i ng-class="::postAction.icon"></i> <span>{{::postAction.title}}</span></a></li>
+      <li ng-repeat="action in vm.actionsList"
+          ng-if="vm.actionsObj[action].allowed && vm.actionsObj[action].visible"
+          ng-click="vm.actionsObj[action].action()"><a><i ng-class="vm.actionsObj[action].icon"></i> <span>{{vm.actionsObj[action].title}}</span></a></li>
     </ul>
   </li>
 </ul>

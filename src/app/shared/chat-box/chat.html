@@ -1,0 +1,79 @@
+<div class="panel panel-white no-margin">
+  <div class="panel-heading bg-primary">
+    <h6 class="panel-title">
+      <a  href="javascript:;" 
+          class="pull-left" 
+          ng-repeat="user in vm.threadData.participants" 
+          ng-if="user.id !== vm.authService.UID"> 
+            {{user.firstName}} {{user.lastName}}<span ng-if="!$last">&nbsp;</span>
+      </a>
+    </h6>
+    <div class="heading-elements">
+      <ul class="icons-list">
+        <li uib-dropdown>
+          <a href="javascript:;" uib-dropdown-toggle><i class="icon-more2"></i></a>
+          <ul class="dropdown-menu dropdown-menu-xs dropdown-menu-right" uib-dropdown-menu>
+            <li><a href="javascript:;" ng-really-message="Are you sure you want to delete entire conversation?" lb-util-confirm-modal confirm-action="vm.deleteChat(vm.threadData.threadId)">Delete Conversation</a></li>
+            <li>
+              <a href="javascript:;" ng-click="vm.showDeleteIcon = !vm.showDeleteIcon">
+                {{(vm.showDeleteIcon === false) ? 'Delete' : 'Back to'}} messages
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="javascript:;" ng-click="chatCollapsed = !chatCollapsed"><i class="icon-minus2"></i></a></li>
+        <li><a href="javascript:;" ng-click="vm.closeChatBox(vm.threadData.uId, vm.threadData.threadId)"><i class="icon-cross3"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="chat-individual-body no-padding" uib-collapse="chatCollapsed" >
+    <ul class="media-list chat-list pl-10">
+      <li  class="media date-step content-divider">
+        <span class="text-center" ng-if="!vm.isChatDataAvailable">Conversation started!</span>
+        <span class="text-center" ng-if="vm.loadingChat"><i class="icon-spinner2 spinner"></i> Loading messages!</span>
+      </li>
+      <li>        
+        <lb-infinite-scroll call-on-show="vm.loadMore()"></lb-infinite-scroll>
+      </li>
+      <!-- <li><pre class="text-left">{{vm.chatData | json}}</pre></li> -->
+      <li class="media"  
+          ng-repeat="chat in vm.chatData track by $index" 
+          ng-class="{'reversed': chat.from.id === vm.authService.UID}"
+          ng-if="chat.message" >
+          <div class="media-left" ng-if="chat.from.id !== vm.authService.UID">
+            <a href="javascript:;" tooltip-placement="top" uib-tooltip="{{chat.from.firstName}}">
+              <lb-image 
+                  src="{{chat.from.profilePicture}}" 
+                  width="40" 
+                  height="40"  
+                  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+            </a>
+          </div>
+          <div class="media-body" ng-class="{'text-left': chat.from.id !== vm.authService.UID}">
+            <div class="media-content">{{chat.message}}</div>
+            <span class="media-annotation display-block mt-10"> 
+               {{vm.getTimestamp(chat.timestamp)}}
+            </span>
+          </div>
+          <div class="media-right" ng-if="vm.showDeleteIcon && (chat.from.id === vm.authService.UID)">
+            <a href="javascript:;" ng-click="vm.deleteMessage(chat.timestamp, $index)" ng-if="!vm.isMessageDeleting">
+              <i class="icon-trash-alt position-right "></i>
+            </a>
+            <i class="icon-spinner2 spinner"  ng-if="vm.isMessageDeleting"></i>
+          </div>
+      </li>
+
+      <li ng-if="vm.isChatDeleting" class="media date-step content-divider">
+        <span><i class="icon-spinner2 spinner"></i> Deleting Chat History...</span>
+      </li>
+    </ul>
+    <form name="chatMessageFrom" ng-submit="vm.submit()">
+      <div class="input-group">
+          <input type="text" class="form-control no-border-radius no-border-left" ng-model="vm.sendData" placeholder="Write your message here...">
+          <div class="input-group-btn">
+            <button type="button" ng-click="vm.submit()" ng-disabled="!vm.sendData" class="btn no-border-radius no-border-right btn-default btn-icon"><i class="icon-paperplane"></i></button>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>

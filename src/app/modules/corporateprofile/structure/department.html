@@ -1,0 +1,38 @@
+<div class="col-md-3">
+    <div class="border-top-info">
+        <div class="text-center">
+            <h6 class="text-semibold no-margin">Department(s)</h6>
+            <p class="content-group-sm text-muted">{{vm.selectedFunction.name || 'Create or Edit Departments'}}</p>
+        </div>
+        <div class="input-group full-width form-group">
+            <div ng-form="myForm">
+                <div class="input-group">
+                    <input type="text" ng-model="vm.departmentName" class="form-control" required placeholder="Enter Department to add">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-icon" ng-click="vm.addDepartment();" ng-disabled="myForm.$invalid">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+            <li ng-repeat="dep in vm.departmentsList" ui-sref-active="active">
+                <a href="javascript:;" ui-sref="corporate.structure.function.department.jobfamily({ did: dep.id })">
+                    {{dep.name}}
+                    <div class="navbar-right lb-action-drop">
+                        <ul class="nav navbar-nav">
+                            <li uib-dropdown>
+                                <a href="javascript:;" id="setting-btn" uib-dropdown-toggle><i class="icon-more"></i></a>
+                                <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="setting-btn">
+                                    <li><a href="javascript:;" ng-click="vm.editDepartment($index)"><i class="icon-pencil"></i> Edit</a></li>
+                                    <li><a href="javascript:;" ng-click="vm.viewDepartmentUsers($index)"><i class="icon-user"></i> Users</a></li>
+                                    <li><a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.removeDept($index)"><i class="icon-trash"></i> Remove</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-view></div>

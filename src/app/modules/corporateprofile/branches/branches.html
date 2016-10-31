@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="col-md-10">
+		<div class="form-group has-feedback has-feedback-left">
+			<input type="text" class="form-control" placeholder="Search branches . . .">
+			<div class="form-control-feedback">
+				<i class="icon-search4 text-size-base"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2 text-right">
+		<a class="btn btn-sm btn-primary" ng-click="vm.openBranchModal('sm')">Add Branch</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<h3>Branch(es)</h3>
+		<div class="row mb-20">
+			<div class="col-sm-12">
+				<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+					<li ng-repeat="item in vm.branchesList track by $index" class="p-10">
+						{{item.name}}
+						<div class="navbar-right lb-action-drop">
+							<ul class="nav navbar-nav">
+								<li uib-dropdown>
+									<a href="javascript:;" id="setting-btn" uib-dropdown-toggle><i class="icon-more"></i></a>
+									<ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="setting-btn">
+										<li><a href="javascript:;" ng-click="vm.editBranchModal($index)"><i class="icon-pencil"></i> Edit</a></li>
+										<li><a href="javascript:;" ng-click="vm.addUsers($index)"><i class="icon-user"></i> Users</a></li>
+										<li>
+											<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.removeBranch($index)"><i class="icon-trash"></i> Remove</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<ui-view></ui-view>
+</div>

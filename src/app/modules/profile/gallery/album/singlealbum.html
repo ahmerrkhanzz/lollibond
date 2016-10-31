@@ -1,0 +1,22 @@
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">
+		    <ul class="breadcrumb no-padding">
+  				<li><a ui-sref="personal.profile.gallery.album">Albums</a></li>
+  				<li class="active">Office Pictures</li>
+  			</ul>
+        <div class="heading-elements">
+          <button type="button" ng-if="vm.profileService.ownProfile" class="btn btn-primary heading-btn" ng-click="vm.openAddPhotoModal()">
+            Add More Photos
+          </button>
+        </div>
+		</h5>
+    </div>
+    <div class="panel-body">
+		<div class="row">
+			<div class="col-md-4" ng-repeat="albumPhoto in vm.albumPhotos">
+          <lb-photo-thumb photo-data="albumPhoto" config-dropdown="vm.configDropdown" index="{{$index}}" photo-type="a"></lb-photo-thumb>
+      </div>
+		</div>
+    </div>
+</div>

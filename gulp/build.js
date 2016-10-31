@@ -101,7 +101,7 @@ gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other'], function () {
+gulp.task('build', ['clean', 'html', 'fonts', 'other'], function () {
   // When everything is done covert the minified css to rtl
   return gulp.src(path.join(conf.paths.dist, '/styles/*.css'))
     .pipe(rtlcss())

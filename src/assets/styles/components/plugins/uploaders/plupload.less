@@ -208,6 +208,21 @@ a.plupload_disabled {
 			color: #bbb;
 			text-indent: 0;
 		}
+		&.upload-photo{
+			&:after{
+				content: 'Upload Photo';
+			}
+		}
+		&.take-photo{
+			&:after{
+				content: 'Take Photo';
+			}
+		}
+		&.upload-cover{
+			&:after{
+				content: 'Upload Cover Photo';
+			}
+		}
 
 		@media (max-width: @screen-xs-max) {
 			height: 200px;

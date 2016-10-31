@@ -2,62 +2,45 @@
   <!-- view -->
   <div class="mb-10" id="personal-profile">
     <div class="row row-min" ng-if="!vm.isEditable">
-      <div class="col-md-9">
-        <div class="profile-cover customized">
-          <div class="profile-cover-img" style="background-image: url(assets/images/dummy/covers/david-cover.jpg)"></div>
-          <div class="media">
-            <div class="media-body pull-left">
-              <h1>David Beckham <small class="display-block">UX/UI designer</small></h1>
-            </div>
-            <div class="media-right pull-right mt-20" ng-if="vm.profileService.isLogged">
-              <ul class="list-inline list-inline-condensed no-margin-bottom text-nowrap">
-                <li ng-if="!vm.profileService.ownProfile">
-                  <button ng-click="::vm.bondUser()" ng-if="!vm.profileService.isBonded && !vm.profileService.isRequested" class="btn btn-primary">Bond</button>
-                  <button ng-click="::vm.unbondUser()" ng-if="vm.profileService.isBonded" class="btn btn-primary">Unbond</button>
-                  <button ng-click="::vm.cancelRequest()" ng-if="vm.profileService.isRequested" class="btn btn-primary">Requested</button>
-                </li>
-                <li ng-if="!vm.profileService.ownProfile">
-                  <button ng-click="::vm.followUser()" ng-if="!vm.profileService.isFollowed" class="btn btn-primary">Follow</button>
-                  <button ng-click="::vm.unfollowUser()" ng-if="vm.profileService.isFollowed" class="btn btn-primary">Unfollow</button>
-                </li>
-                <li ng-if="!vm.profileService.ownProfile">
-                  <ace-button data="vm.aceUser"></ace-button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
+      <div class="col-md-12">
         <div class="panel panel-white personal-info">
           <h4>
-				Personal Information 
-				<a ng-if="vm.profileService.ownProfile" class="pull-right" ng-click="vm.editForm()">
-		    		<i class=" mr-5 icon-pencil"></i>
-		    	</a>
-			</h4>
+            Personal Information
+            <a ng-if="vm.profileService.ownProfile"  class="pull-right" ng-click="vm.editForm()">
+              <i class=" mr-10 icon-pencil"></i>
+            </a>
+          </h4>
           <ul class="list-condensed list-unstyled">
-            <li>
-              <span class="text-semibold icon-sphere"></span> {{vm.content.website}}
+            <li ng-if="vm.content.website">
+              <span class="mr-10 icon-sphere"></span>
+              <a lb-href="{{vm.content.website}}" lb-util-anchor target="blank">
+                {{vm.content.website}}
+              </a>
             </li>
-            <li>
-              <span class="text-semibold icon-home2"></span>
+            <li ng-if="vm.content.address">
+              <span class="mr-10 icon-location4"></span>
               <div class="address-field">{{vm.content.address}}</div>
             </li>
-            <li>
-              <span class="text-semibold icon-clipboard2"></span> {{vm.content.postalCode}}
+            <li ng-if="vm.content.postalCode">
+              <span class="mr-10 icon-clipboard2"></span> {{vm.content.postalCode}}
             </li>
-            <li>
-              <span class="text-semibold icon-IE"></span> {{vm.content.email}}
+            <li ng-if="vm.content.email">
+              <span class="mr-10 icon-mail5"></span> <a href="mailto:{{vm.content.email}}">{{vm.content.email}}</a>
             </li>
-            <li>
-              <span class="text-semibold icon-man-woman"></span> {{vm.content.gender}}
+            <li ng-if="vm.content.gender != null">
+              <span class="mr-10 icon-man-woman"></span> {{(vm.content.gender == 0) ? 'Male': 'Female'}}
             </li>
-            <li>
-              <span class="text-semibold icon-gift"></span> {{vm.content.birthdate | date:"d - MMM - yyyy"}}
+            <li ng-if="vm.content.birthdate">
+              <span class="mr-10 icon-gift"></span> {{vm.content.birthdate | date:"d/MMM/yyyy"}}
             </li>
-            <li>
-              <span class="text-semibold icon-quill2"></span> {{vm.content.nationality}}
+            <li ng-if="vm.content.nationality">
+              <span class="mr-10 icon-flag3"></span>{{vm.nationalitiesObj[vm.content.nationality]}} 
+            </li>
+            <li ng-if="vm.content.residency">
+              <span class="mr-10  icon-earth"></span> {{vm.content.residency}}
+            </li>
+            <li ng-if="vm.content.homeTown">
+              <span class="mr-10  icon-home2"></span> {{vm.content.homeTown}}
             </li>
           </ul>
         </div>
@@ -65,69 +48,21 @@
     </div>
     <div class="panel panel-white" ng-if="vm.isEditable">
       <div class="panel-body">
-        <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
-        </formly-form>
-        <div class="col-md-12 text-right mt-10">
-          <button ng-click="vm.updateProfileInfo()" class="btn btn-primary btn-xs submit-button" ng-disabled="vm.form.$invalid">Save</button>
-        </div>
+        <form name="vm.form" novalidate>
+          <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options" >
+          </formly-form>
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <button ng-click="vm.updateProfileInfo()" type="submit" class="btn btn-primary btn-xs submit-button">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button ng-click="vm.reset()" class="btn btn-primary btn-xs submit-button">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <!--<div class="panel panel-white">
-		<div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/me.jpg') no-repeat top center / cover;">
-			<h4 class="panel-title"><i class="icon-user-tie position-left"></i> Personal Information</h4>
-			<div class="heading-elements">
-				<ul class="icons-list no-margin">
-				    <li>
-				    	<a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm()">
-				    		<i class=" mr-5 icon-pencil"></i>
-				    	</a>
-				    </li>
-				</ul>
-			</div>
-		</div>
-		<div class="panel-body border-top-danger"  ng-if="!vm.isEditable">
-			<div class="lb-panel--view" ng-class="$index > 0 ? 'mt-15': '';">
-				<div class="list-padding">
-					<ul class="list-condensed list-unstyled">
-						<li >
-							<span class="text-semibold">First Name: </span> {{vm.content.firstName}}
-						</li>
-						<li>
-							<span class="text-semibold">Last Name: </span> {{vm.content.lastName}}
-						</li>
-						<li>
-							<span class="text-semibold">Website: </span> {{vm.content.website}}
-						</li>
-						<li>
-							<span class="text-semibold">Address: </span> {{vm.content.address}}
-						</li>
-						<li>
-							<span class="text-semibold">Postal Code: </span> {{vm.content.postalCode}}
-						</li>
-						<li>
-							<span class="text-semibold">Email: </span> {{vm.content.email}}
-						</li>
-						<li>
-							<span class="text-semibold">Gender: </span> {{(vm.content.gender === 0) ? 'Male' : ' Female'}}
-						</li>
-						<li>
-							<span class="text-semibold">Birthday: </span> {{vm.content.birthdate | date:"d - MMM - yyyy"}}
-						</li>
-						<li>
-							<span class="text-semibold">Nationality: </span> {{vm.content.nationality}}
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="panel-body"  ng-if="vm.isEditable">
-			<formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
-			</formly-form>
-			<div class="col-md-12 text-right mt-10">
-	            <button ng-click="vm.updateProfileInfo()" class="btn btn-primary btn-xs submit-button" ng-disabled="vm.form.$invalid">Save</button>
-	        </div>
-		</div>
-	</div>-->
-  <!-- view -->
 </div>

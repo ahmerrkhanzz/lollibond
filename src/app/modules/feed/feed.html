@@ -1,22 +1,75 @@
 <div class="container">
-  <div class="row mt-20">
-    <div class="col-md-3"></div>
-
-    <div class="col-md-6">
-        <!-- Share your thoughts -->
-        <create-post post-list="vm.wallPosts" share-method="vm.shareMethod(data)"></create-post>
-        <!-- /share your thoughts -->
-
-        <!-- Timeline -->
-        <!-- filter by last entered shown first -->
-        <div ng-repeat="wallPost in vm.wallPosts">
-          <user-post post-data="wallPost"></user-post>
+    <div class="row mt-20">
+        <div class="col-md-3 col-sm-3">
+            <lb-user-profile-card></lb-user-profile-card>
         </div>
-        <!-- /timeline -->
-
-        <button class="btn btn-link" ng-click="::vm.loadMore()">Show more</button>
+        <div class="col-md-6  col-sm-9" style="padding-bottom: 40px;">
+            <!-- Share your thoughts -->
+            <create-post post-update="vm.postUpdate(data)" share-method="vm.shareMethod(data, type)" can-change-privacy="true"></create-post>
+            <!-- /share your thoughts -->
+            <!-- Timeline -->
+            <!-- filter by last entered shown first -->
+            <div ng-repeat="activity in vm.wallPosts">
+                <!-- For a post on users own wall or other person wall -->
+                <div ng-if="vm.isPosted(activity)">
+                    <div ng-if="activity.actors[0].id != activity.target.id" class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> made a post on </span>
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.target.id })" author-id="{{activity.target.id}}" lb-user-summary> {{::vm.getUserName(activity.target, 'Your')}}</a> wall
+                    </div>
+                    <div ng-if="activity.actors[0].id && activity.actors[0].id === activity.target.id" class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> made a post on {{::vm.getUserName(activity.actors[0], 'your', 'his')}} own wall</span>
+                    </div>
+                    <user-post post-data="activity.object"></user-post>
+                </div>
+                <!-- For a post on users own wall or other person wall -->
+                <div ng-if="vm.isCommented(activity)">
+                    <div class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> made a comment on </span>
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.target.author.id })" author-id="{{activity.target.author.id}}" lb-user-summary> {{::vm.getUserName(activity.target.author, 'Your')}}</a>'s post
+                    </div>
+                    <user-post post-data="activity.target"></user-post>
+                </div>
+                <!-- For a post on users own wall or other person wall -->
+                <div ng-if="vm.isAcedPost(activity)">
+                    <div class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> aced a post by </span>
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.object.author.id })" author-id="{{activity.object.author.id}}" lb-user-summary> {{::vm.getUserName(activity.object.author, 'You')}}</a>
+                    </div>
+                    <user-post post-data="activity.object"></user-post>
+                </div>
+                <!-- For a post on users own wall or other person wall -->
+                <div ng-if="vm.isAcedComment(activity)">
+                    <div class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> aced a comment by </span>
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.object.author.id })" author-id="{{activity.object.author.id}}" lb-user-summary> {{::vm.getUserName(activity.object.author, 'You')}}</a>
+                    </div>
+                    <user-post post-data="activity.object"></user-post>
+                </div>
+                <!-- For an activity of user bonding -->
+                <div ng-if="vm.isBonded(activity)">
+                    <div class="p-10">
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.actors[0].id })" author-id="{{activity.actors[0].id}}" lb-user-summary>{{::vm.getUserName(activity.actors[0], 'You')}}</a>
+                        <span> Bonded with </span>
+                        <a class="text-capitalize" ui-sref="personal.profile.posts({ uid: activity.object.id })" author-id="{{activity.object.id}}" lb-user-summary> {{::vm.getUserName(activity.object, 'You')}}</a>
+                    </div>
+                    <div class="panel p-15">
+                        <lb-request-card card-data="activity.object" card-type="false"></lb-request-card>
+                    </div>
+                </div>
+            </div>
+            <!-- /timeline -->
+            <div ng-show="vm.postsLoading" class="text-center">
+                <i class="icon-spinner2 spinner"></i> Loading Feeds
+            </div>
+            <div ng-show="!vm.postAvailable" class="text-center">No more feeds.</div>
+            <!-- <button class="btn btn-link" ng-click="::vm.loadMore()" ng-show="vm.postAvailable">Show more</button> -->
+            <lb-infinite-scroll ng-if="vm.postAvailable" call-on-show="::vm.loadMore()"></lb-infinite-scroll>
+        </div>
+        <div class="col-md-3"></div>
     </div>
-
-    <div class="col-md-3"></div>
-  </div>
 </div>

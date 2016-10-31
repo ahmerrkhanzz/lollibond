@@ -1,0 +1,16 @@
+<div>
+  <div class="col-md-3">
+    <div class="nav-tabs-vertical ">
+      <ul class="nav  nav-tabs nav-pills panel no-border" uib-collapse="vm.navbarCollapsed">
+        <li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
+          <a>{{::tab.title }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="tabbable">
+      <div ui-view></div>
+    </div>
+  </div>
+</div>

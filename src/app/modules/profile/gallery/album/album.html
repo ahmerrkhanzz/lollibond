@@ -1,0 +1,47 @@
+<div class="panel panel-flat">
+    <div class="panel-heading">
+      <div ng-show="vm.postsLoading" class="text-center">
+        <i class="icon-spinner2 spinner"></i>
+        Loading ...
+      </div>
+      <h5 class="panel-title">Your Albums
+
+		  <button type="button" ng-if="vm.profileService.ownProfile" class="btn btn-primary heading-btn pull-right" ng-click="vm.openCreateModal()">
+  				Create Album
+  			</button>
+	  </h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4" ng-repeat="album in vm.albums">
+                <div class="thumbnail">
+                    <div class="thumb">
+                        <img ng-src="{{::album.thumbnail}}" alt="">
+                    </div>
+                    <div class="caption">
+                        <h6 class="no-margin">
+          					        <a  href="javascript:;" ui-sref="personal.profile.gallery.singlealbum({aid:album.id})"
+          					        	class="text-default lb-w85p display-inline-block lb-truncate">
+          					        	{{::album.name || "No album title"}}
+                              <span class="badge badge-primary">{{album.photoCount}}</span>
+          					        </a>
+          					        <div class="pull-right" uib-dropdown ng-if="vm.profileService.ownProfile">
+          					          <a href="javascript:;" id="single-button" class="text-muted " uib-dropdown-toggle >
+          					            <i class="icon-gear pull-right"></i>
+          					          </a>
+          					          <ul class="dropdown-menu dropdown-menu-xs" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+          					              <li><a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteAlbum(album.id, $index)">Delete </a></li>
+          					              <li class="dropdown-header highlight">Set Privacy</li>
+          					              <li><a href="javascript:;">Bonds</a></li>
+          					              <li><a href="javascript:;">Bonds of Bonds  <i class="icon-check pull-right"></i> </a></li>
+          					              <li><a href="javascript:;">Only Me</a></li>
+          					              <li><a href="javascript:;">Custom</a></li>
+          					          </ul>
+          					        </div>
+          					    </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

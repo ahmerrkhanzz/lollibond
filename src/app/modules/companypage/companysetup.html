@@ -1,0 +1,36 @@
+<!-- Page container -->
+<div class="page-container">
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="container">
+                <div class="panel mt-20">
+                  <div class="panel-heading">
+                      <h6 class="panel-title">Company Basic Information</h6>
+                  </div>
+                  <div class="panel-body">
+                      <form name="vm.form" novalidate>
+                          <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
+                          </formly-form>
+                          <div class="row">
+                              <div class="col-md-12 text-center">
+                                  <button ng-click="vm.updateCompanyProfileInfo()" 
+                                          type="submit" 
+                                          class="btn btn-primary btn-xs submit-button">
+                                      Save
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->

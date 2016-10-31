@@ -1,0 +1,66 @@
+<!-- Page container -->
+<div class="page-container">
+  <!-- Page content -->
+  <div class="page-content">
+    <!-- Main content -->
+    <div class="content-wrapper">
+      <!-- Cover area -->
+      <div class="profile-cover lb-profile" style="background-image: url('assets/images/dummy/covers/cover-dummy.jpg'); background-position: 50% 70%;">
+        <div class="media">
+          <div class="container position-relative">
+            <div class="col-md-3 col-sm-5 no-padding-left">
+              <div class="thumbnail no-border-radius p-10 no-margin-bottom bg-tranparent no-border">
+                <div class="thumb thumb-slide">
+                  <img src="assets/images/dummy/covers/company-logo.png" alt="" />
+                  <span class="zoom-image">
+                    <a type="button" ng-click="vm.openProfilePictureModal()">
+                      <i class="icon-plus2"></i>
+                    </a>
+                  </span>
+                </div>
+                <div class="caption p-10">
+                  <h5 class="text-semibold lb-truncate no-margin text-white">Company Here</h5>
+                  <span class="no-shadow display-block lb-truncate text-white">
+                    Information Technology
+                  </span>
+                  <a href="javascript:;" class="no-shadow display-block lb-truncate">
+                    106 Employee
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /cover area -->
+      <!-- Toolbar -->
+      <div class="navbar navbar-default navbar-xs content-group" >
+        <ul class="nav navbar-nav visible-xs-block">
+          <li class="full-width text-center"><a ng-click="vm.navbarCollapsed = !vm.navbarCollapsed"><i class="icon-menu7"></i></a></li>
+        </ul>
+        <div class="container">
+          <div class="navbar-collapse" uib-collapse="vm.navbarCollapsed">
+            <ul class="nav navbar-nav no-margin-left">
+              <li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
+                <a>
+                  <span>{{::tab.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /toolbar -->
+      <!-- Content area -->
+      <div class="container">
+        <div class="tabbable">
+          <div ui-view></div>
+        </div>
+      </div>
+      <!-- /content area -->
+    </div>
+    <!-- /main content -->
+  </div>
+  <!-- /page content -->
+</div>
+<!-- /page container -->

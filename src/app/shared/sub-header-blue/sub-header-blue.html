@@ -1,18 +1,21 @@
-<div class="navbar-top">
-	<div class="navbar navbar-inverse bg-primary no-border navbar-default navbar-xs" id="navbar-second">
-		<ul class="nav navbar-nav no-margin no-border visible-xs-block">
-			<li><a class="text-center collapsed" ng-click="vm.subHeaderCollapsed = !vm.subHeaderCollapsed"><i class="icon-circle-down2"></i></a></li>
-		</ul>
-
-		<div class="navbar-collapse collapse" id="navbar-second-toggle" uib-collapse="vm.subHeaderCollapsed">
-			<div class="container">
-				<ul class="nav navbar-nav">
-					<li><a href="javascript:;">People</a></li>
-					<li><a href="javascript:;"> Companies </a></li>
-					<li><a href="javascript:;"> Academia</a></li>
-					<li><a href="javascript:;"> Jobs</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div class="navbar-top lb-navbar navbar-fixed-top sub-navbar sub-navbar-fixed-top">
+  <div class="navbar navbar-inverse bg-primary no-border navbar-default navbar-xs" id="navbar-second">
+    <ul class="nav navbar-nav no-margin no-border visible-xs-block">
+      <li><a class="text-center blue-collapsed collapsed" ng-click="vm.subHeaderCollapsed = !vm.subHeaderCollapsed"><i class="icon-circle-down2"></i></a></li>
+    </ul>
+    <div class="navbar-collapse collapse" id="navbar-second-toggle" uib-collapse="vm.subHeaderCollapsed">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="nav navbar-nav">
+              <li><a href="javascript:;">People</a></li>
+              <li><a ui-sref="personal.companypage.posts({ cid: '789456123' })"> Companies </a></li>
+              <li><a href="javascript:;"> Academia</a></li>
+              <li><a href="javascript:;"> Jobs</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,2 +1,39 @@
-# advance_angular
-lollibond angular advance code
+## Command line instructions
+
+- Git global setup
+
+```sh
+git config --global user.name "User Name"
+git config --global user.email "user.email"
+```
+
+- Git ssh key setup. Follow this [link](https://help.github.com/articles/generating-an-ssh-key/)
+
+- Checkout repo.
+
+```sh
+git clone git@172.16.16.40:lollibond-frontend/lollibond-portal.git
+cd lollibond
+```
+
+- Install global npm dependencies.
+
+```sh
+sudo npm install -g gulp bower
+```
+
+- Install project npm dependencies.
+
+```sh
+npm install
+bower install
+```
+
+### Gulp tasks
+- `gulp` or `gulp build` to build an optimized version of your application in `/dist`
+- `gulp serve` to launch a browser sync server on your source files.
+- `gulp serve:dist` to launch a server on your optimized application.
+- `gulp test` to launch your unit tests with Karma.
+- `gulp test:auto` to launch your unit tests with Karma in watch mode.
+- `gulp protractor` to launch your e2e tests with Protractor.
+- `gulp protractor:dist` to launch your e2e tests with Protractor on the dist files.

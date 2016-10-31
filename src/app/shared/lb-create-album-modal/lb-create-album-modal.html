@@ -1,0 +1,55 @@
+<div class="lb-full-loader" ng-if="vm.loader">
+  <div class="lb-full-loader__content">
+    <h3>
+      <i class="icon-spinner10 spinner position-left"></i>
+      {{ vm.album ? 'Updating Album' : 'Creating New Album' }}
+    </h3>
+  </div>
+</div>
+<div class="modal-header">
+    <h5 class="panel-title">{{ vm.album ? 'Add Photos' : 'Create Album' }}</h5>
+</div>
+<form name="albumForm" novalidate autocomplete="off" ng-submit="vm.album ? vm.updateAlbum() : vm.saveAlbum()">
+    <div class="modal-body no-padding-top">
+        <div class="row" ng-if="!vm.album">
+            <div class="col-sm-12 mb-10">
+                <input type="text" ng-model="vm.albumName" autofocus placeholder="Enter Your Album Name" class="form-control" maxlength="100" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="upload-thumb" ngf-select="vm.uploadImage($files)" multiple accept="image/jpeg">
+                    <i class="icon-plus2"></i> Upload Image
+                </div>
+            </div>
+
+            <div ng-repeat="f in vm.files" class="col-sm-3">
+                <div class="thumbnail lb-album-thumb mr-5 pull-left">
+                    <a href="javascript:;" ng-if="f.isUploaded" ng-click="vm.removeImage($index)">x</a>
+                    <div class="thumb">
+                        <div class="lb-full-loader" ng-if="!f.isUploaded || !f.isValid">
+                            <div class="lb-full-loader__content">
+                              <i class="icon-spinner10 spinner" ng-if="!f.isUploaded"></i>
+                              <i class="icon-notification2" title="{{::f.errMsg}}" ng-if="f.isUploaded && !f.isValid"></i>
+                            </div>
+                        </div>
+                        <img class="media-preview" ngf-thumbnail="f.file">
+                    </div>
+                    <div class="pt-5">
+                      <input type="text" ng-model="f.fileName" class="form-control input-xs" maxlength="100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-if="!vm.album" 
+                ng-disabled="(!vm.albumName && vm.count < 1) || (vm.files.length !== vm.count)">
+            Save
+        </button>
+        <button class="btn btn-primary" type="submit" ng-if="vm.album" ng-disabled="vm.files.length !== vm.count || vm.count < 1">
+            Update Album
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancelModal()">Cancel</button>
+    </div>
+</form>

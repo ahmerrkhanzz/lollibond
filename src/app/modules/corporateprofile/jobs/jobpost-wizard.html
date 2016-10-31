@@ -1,0 +1,931 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-white">
+			<div class="panel-heading">
+				<h6 class="panel-title">Create Job Post Wizard<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+			</div>
+
+			<form class="steps-basic wizard clearfix" action="#" role="application" id="steps-uid-0">
+				<div class="steps clearfix">
+					<ul>
+						<li class="first current"><a ng-click="vm.setTab(1)"><span class="current-info audible">current step: </span><span class="number">1</span> Company Details</a></li>
+						<li><a href="javascript:;" ng-click="vm.setTab(2)"><span class="number">2</span> Job Description</a></li>
+						<li class="disabled"><a href="javascript:;" ng-click="vm.setTab(3)"><span class="number">3</span> Setting</a></li>
+						<li class="disabled last"><a href="javascript:;"><span class="number">4</span> Communication</a></li>
+						<li class="disabled last"><a href="javascript:;"><span class="number">4</span> Questionnaire</a></li>
+					</ul>
+				</div>
+				<div class="content clearfix">
+					<fieldset>
+						<div class="panel-body">
+							<form name="vm.form">
+								<div class="step1" ng-show="vm.isSet(1)">
+									<div class="row">
+										<div class="form-group col-md-12">
+											<label for=""><strong>Please choose an option</strong></label>
+											<div class="radio">
+												<label>
+                                            <div class="choice"><span class="checked"><input type="radio" name="JobPostType" class="styled"></span></div>
+                                            Create job post for my company
+                                        </label>
+											</div>
+											<div class="radio">
+												<label>
+                                            <div class="choice"><span class="checked"><input type="radio" name="JobPostType" ng-.model="vm.postForClient" class="styled"></span></div>
+                                            Create job post for client company
+                                        </label>
+											</div>
+										</div>
+									</div>
+									<label for=""><strong>Company Details</strong></label>
+									<div class="row">
+										<div class="form-group col-md-3">
+											<label for="">Company Name</label>
+											<input type="text" class="form-control" ng-model="vm.companyName" required>
+										</div>
+										<div class="form-group col-md-3">
+											<label for="">Company Website</label>
+											<input type="text" class="form-control" ng-model="vm.companyWebsite">
+										</div>
+										<div class="form-group col-md-3">
+											<label for="">Company Size</label>
+											<select name="" id="" class="form-control" ng-model="vm.companySize" ng-change="vm.selected(vm.companySize)">
+												<option value="">Please Select</option>
+												<option ng-repeat="item in vm.companySizes" value="{{item}}">{{item}}</option>
+											</select>
+										</div>
+										<div class="form-group col-md-3">
+											<label class="checkbox-inline">
+												<input type="checkbox" checked="checked" ng-model="vm.companyConfidential">
+												Keep the company details confidential
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-3">
+											<label for="">Tagline (optional)</label>
+											<input type="text" class="form-control" ng-model="vm.companyTagline">
+										</div>
+										<div class="form-group col-md-3">
+											<label for="">Company Type</label>
+											<select name="" id="" class="form-control" ng-model="vm.companyType" ng-change="vm.selected(vm.companyType)">
+                                            <option value="">Please Select</option>
+                                            <option ng-repeat="item in vm.companyTypes" value="{{item}}">{{item}}</option>
+                                        </select>
+										</div>
+										<div class="form-group col-md-3">
+											<label for="">Company Industry</label>
+											<select name="" id="" class="form-control" ng-model="vm.companyIndustry" ng-change="vm.selected(vm.companyIndustry)">
+                                            <option value="">Please Select</option>
+                                            <option ng-repeat="item in vm.companyIndustries" value="{{item}}">{{item}}</option>
+                                        </select>
+										</div>
+										<div class="form-group col-md-3">
+											<label for="">Company Logo (optional)</label>
+											<input type="file" class="form-control" ng-model="vm.companyLogoKey" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 form-group">
+											<label for="">Company Description</label>
+											<textarea name="" id="" cols="30" rows="10" class="form-control" ng-model="vm.companyDescription" resize="false"></textarea>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="text-right">
+												<button type="button" class="btn btn-info text-white btn-xs" ng-click="vm.saveDraft()">
+                                                    Save
+                                                </button>
+												<button type="button" ng-click="vm.setTab(2)" class="btn btn-primary btn-xs">
+                                                    Next
+                                                </button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="step2" ng-show="vm.isSet(2)">
+									<div class="row">
+										<div class="steps-basic wizard clearfix">
+											<div class="steps clearfix">
+												<ul role="tablist">
+													<li class="first current"><a ng-click="vm.jdtab = 6"><span class="current-info audible">current step: </span><span class="number">1</span> Job Details</a></li>
+													<li><a href="javascript:;" ng-click="vm.jdtab = 7"><span class="number">2</span> Duties</a></li>
+													<li class="disabled"><a href="javascript:;" ng-click="vm.jdtab = 8"><span class="number">3</span> Requirements</a></li>
+													<li class="disabled last"><a href="javascript:;" ng-click="vm.jdtab = 9"><span class="number">4</span> Skills</a></li>
+													<li class="disabled last"><a href="javascript:;" ng-click="vm.jdtab = 10"><span class="number">4</span> Competencies</a></li>
+													<li class="disabled last"><a href="javascript:;" ng-click="vm.jdtab = 11"><span class="number">4</span> Compensation & Benefits</a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="step6" ng-show="vm.jdtab == 6">
+											<div class="row">
+												<div class="col-md-4 form-group">
+													<label for="">Post Description: </label>
+													<textarea name="" id="" cols="30" rows="4" class="form-control" ng-model="vm.jobPostDescription"></textarea>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Job Purpose (optional): </label>
+													<textarea name="" id="" cols="30" rows="4" class="form-control" ng-model="vm.jobPurpose"></textarea>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Scope of work (optional): </label>
+													<textarea name="" id="" cols="30" rows="4" class="form-control" ng-model="vm.scopeOfWork"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-3 form-group">
+													<label for="">City</label>
+													<input type="text" ng-model="vm.city" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Function</label>
+													<input type="text" ng-model="vm.functionName" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Department</label>
+													<input type="text" ng-model="vm.departmentName" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Position</label>
+													<input type="text" ng-model="vm.positionTitle" class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-3 form-group">
+													<label for="">Level</label>
+													<input type="text" ng-model="vm.level" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Grade (optional)</label>
+													<input type="text" ng-model="vm.grade" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Job Type</label>
+													<input type="text" ng-model="vm.jobType" class="form-control">
+												</div>
+												<div class="col-md-3 form-group">
+													<label for="">Contract Type</label>
+													<input type="text" ng-model="vm.contractType" class="form-control">
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="text-right">
+														<button type="button" class="btn btn-info text-white btn-xs" ng-click="vm.saveDraft()">
+                                                    Save
+                                                </button>
+														<button type="button" ng-click="vm.setTab(7)" class="btn btn-primary btn-xs">
+                                                    Next
+                                                </button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="step7" ng-show="vm.jdtab == 7">
+											<div class="row">
+												<div class="col-md-2"></div>
+												<div class="col-md-8 form-group">
+													<label for="">Duties & Responsibilities: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.duty" class="form-control" placeholder="Add duties">
+														<span class="input-group-btn">
+														<button class="btn btn-default" ng-click="vm.addEntity(vm.duty, vm.duties)" type="button">Add</button>
+													</span>
+													</div>
+												</div>
+												<div class="col-md-2"></div>
+											</div>
+											<div class="row">
+												<div class="col-md-2"></div>
+												<div class="col-md-8">
+													<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+														<li ng-repeat="item in vm.duties track by $index" class="p-10 ng-binding ng-scope">
+															{{item}}
+															<div class="navbar-right lb-action-drop">
+																<ul class="nav navbar-nav">
+																	<li></li>
+																	<li uib-dropdown="" class="dropdown">
+																		<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																		<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																			<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																			<li>
+																				<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																					class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="step8" ng-show="vm.jdtab == 8">
+											<div class="row">
+												<div class="col-md-4 form-group">
+													<label for="">Education: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.degree" class="form-control" placeholder="Add Degrees">
+														<span class="input-group-btn">
+															<button class="btn btn-default" ng-click="vm.addEntity(vm.degree, vm.degrees)" type="button">Add</button>
+														</span>
+													</div>
+													<div class="mt-10">
+														<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+															<li ng-repeat="item in vm.degrees track by $index" class="p-10 ng-binding ng-scope">
+																{{item}}
+																<div class="navbar-right lb-action-drop">
+																	<ul class="nav navbar-nav">
+																		<li></li>
+																		<li uib-dropdown="" class="dropdown">
+																			<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																			<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																				<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																				<li>
+																					<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																						class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Certifications: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.certification" class="form-control" placeholder="Add Certification">
+														<span class="input-group-btn">
+															<button class="btn btn-default" ng-click="vm.addEntity(vm.certification, vm.certifications)" type="button">Add</button>
+														</span>
+													</div>
+													<div class="mt-10">
+														<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+															<li ng-repeat="item in vm.certifications track by $index" class="p-10 ng-binding ng-scope">
+																{{item}}
+																<div class="navbar-right lb-action-drop">
+																	<ul class="nav navbar-nav">
+																		<li></li>
+																		<li uib-dropdown="" class="dropdown">
+																			<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																			<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																				<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																				<li>
+																					<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																						class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Trainings: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.trainging" class="form-control" placeholder="Add Training">
+														<span class="input-group-btn">
+															<button class="btn btn-default" ng-click="vm.addEntity(vm.trainging, vm.trainings)" type="button">Add</button>
+														</span>
+													</div>
+													<div class="mt-10">
+														<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+															<li ng-repeat="item in vm.trainings track by $index" class="p-10 ng-binding ng-scope">
+																{{item}}
+																<div class="navbar-right lb-action-drop">
+																	<ul class="nav navbar-nav">
+																		<li></li>
+																		<li uib-dropdown="" class="dropdown">
+																			<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																			<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																				<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																				<li>
+																					<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																						class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 form-group">
+													<label for="">Language(s): </label>
+													<div class="lb-language-selection">
+														<ui-select ng-model="vm.langObj.selected" theme="bootstrap" ng-disabled="ctrl.disabled" style="width: 200px; float: left; margin-right: 5px;"
+															title="Choose a country">
+															<ui-select-match placeholder="Select or search">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="country in vm.langObj | filter: $select.search">
+																<span ng-bind-html="country.name | highlight: $select.search"></span>
+																<!--<small ng-bind-html="country.code | highlight: $select.search"></small>-->
+															</ui-select-choices>
+														</ui-select>
+														<select name="" id="" class="form-control" ng-model="vm.prof" ng-change="vm.selected(vm.prof)">
+															<option value="Native">Native</option>
+															<option value="Influent">Influent</option>
+														</select>
+														<button class="btn btn-default" type="button" ng-click="vm.addLanguage({name:vm.langObj.selected, proficiency: vm.prof})">Add</button>
+													</div>
+													<div class="mt-10">
+														<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+															<li ng-repeat="item in vm.language" class="p-10">
+																{{item}}
+																<div class="navbar-right lb-action-drop">
+																	<ul class="nav navbar-nav">
+																		<li uib-dropdown="" class="dropdown">
+																			<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																			<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																				<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																				<li>
+																					<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"><i class="icon-trash"></i> Remove</a>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Industry Experience: </label>
+													<div class="input-group">
+														<label class="checkbox-inline">
+															<input type="checkbox" checked="checked" ng-model="vm.experienceRequired">
+															Relevant industry experience required
+														</label>
+														<input type="text" class="form-control" ng-model="vm.requiredExperienceInYears">
+													</div>
+												</div>
+												<div class="col-md-4 form-group">
+													<label for="">Physical Ability: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.ability" class="form-control" placeholder="Add physical abilities">
+														<span class="input-group-btn">
+															<button class="btn btn-default" ng-click="vm.addEntity(vm.ability, vm.physicalAbilities)" type="button">Add</button>
+														</span>
+													</div>
+													<div class="mt-10">
+														<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+															<li ng-repeat="item in vm.physicalAbilities track by $index" class="p-10 ng-binding ng-scope">
+																{{item}}
+																<div class="navbar-right lb-action-drop">
+																	<ul class="nav navbar-nav">
+																		<li></li>
+																		<li uib-dropdown="" class="dropdown">
+																			<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																			<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																				<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																				<li>
+																					<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																						class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="step9" ng-show="vm.jdtab == 9">
+											<div class="row">
+												<div class="col-md-2"></div>
+												<div class="col-md-8 form-group">
+													<label for="">Skills: </label>
+													<div class="input-group">
+														<input type="text" ng-model="vm.skill" class="form-control" placeholder="Add skills">
+														<span class="input-group-btn">
+														<button class="btn btn-default" ng-click="vm.addEntity(vm.skill, vm.skills)" type="button">Add</button>
+													</span>
+													</div>
+												</div>
+												<div class="col-md-2"></div>
+											</div>
+											<div class="row">
+												<div class="col-md-2"></div>
+												<div class="col-md-8">
+													<ul class="dropdown-menu" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+														<li ng-repeat="item in vm.skills track by $index" class="p-10 ng-binding ng-scope">
+															{{item}}
+															<div class="navbar-right lb-action-drop">
+																<ul class="nav navbar-nav">
+																	<li></li>
+																	<li uib-dropdown="" class="dropdown">
+																		<a href="javascript:;" uib-dropdown-toggle="" class="dropdown-toggle"><i class="icon-more"></i></a>
+																		<ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="setting-btn">
+																			<li><a href="javascript:;"><i class="icon-pencil"></i> Edit</a></li>
+																			<li>
+																				<a href="javascript:;" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal="" confirm-action="vm.removeBranch($index)"
+																					class="ng-isolate-scope"><i class="icon-trash"></i> Remove</a>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="step10" ng-show="vm.jdtab == 10">
+
+										</div>
+										<div class="step11" ng-show="vm.jdtab == 11">
+											<div class="row">
+												<div class="col-md-6">
+													<label for="">Salary Details</label>
+												</div>
+												<div class="col-md-6">
+													<label for="">Benefit Details</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="text-right">
+												<button type="button" class="btn btn-info text-white btn-xs" ng-click="vm.saveDraft()">
+                                                    Save
+                                                </button>
+												<button type="button" ng-click="vm.setTab(3)" class="btn btn-primary btn-xs">
+                                                    Next
+                                                </button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="step3" ng-show="vm.isSet(3)">
+									<div class="row">
+										<div class="form-group col-md-6">
+											<label for=""> <strong>General Settings</strong> </label>
+											<ul class="list-unstyled">
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Keep the poster details confidential
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.notifyOnApplication">
+														Notify me by email when applicant apply
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Remind me 2 days before job postclosing/expiry date
+													</label>
+												</li>
+											</ul>
+
+											<label for=""> <strong>Notification Settings</strong> </label>
+											<p>Select the notification to be sent to the applicant</p>
+											<ul class="list-unstyled">
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="notification" ng-model="vm.posterConfidential">
+														Confirmation
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="notification" ng-model="vm.posterConfidential">
+														Viewed
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="notification" ng-model="vm.posterConfidential">
+														Shortlisted
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="notification" ng-model="vm.posterConfidential">
+														Rejected
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" ng-model="vm.posterConfidential">
+														Hired
+													</label>
+												</li>
+											</ul>
+
+											<label for=""> <strong>Status Settings</strong> </label>
+											<ul class="list-unstyled">
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Viewed
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.notifyOnApplication">
+														Shortlisted
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Rejected
+													</label>
+												</li>
+											</ul>
+										</div>
+										<div class="col-md-6">
+											<label for=""> <strong>Reference Check Settings</strong> </label>
+											<ul class="list-unstyled">
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Capture reference detailsas part of job application
+													</label>
+												</li>
+												<!--<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.notifyOnApplication">
+														Notify me by email when applicant apply
+													</label>
+												</li>
+												<li>
+													<label class="checkbox-inline">
+														<input type="checkbox" name="general" ng-model="vm.posterConfidential">
+														Remind me 2 days before job postclosing/expiry date
+													</label>
+												</li>-->
+											</ul>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--<div class="row">
+							<div class="col-md-12">
+								<h6 class="no-margin text-thin">Please choose an option</h6>
+								<hr>
+								<div class="form-group">
+									<label class="radio-inline">
+                                <div class="choice"><span><input type="radio" class="styled" name="company"></span></div>
+                                Create job post for my company
+                            </label>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="radio-inline">
+                                <div class="choice"><span><input type="radio" class="styled" name="company"></span></div>
+                                Create job post for client company
+                            </label>
+								</div>
+							</div>
+						</div>-->
+						<!--<div class="row">
+							<h6 class="no-margin text-thin">Please choose an option</h6>
+							<hr>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Applicant name:</label>
+									<input type="text" name="name" class="form-control" placeholder="John Doe">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Email address:</label>
+									<input type="email" name="email" class="form-control" placeholder="your@email.com">
+								</div>
+							</div>
+						</div>-->
+
+					</fieldset>
+
+					<!--<h6 id="steps-uid-0-h-1" tabindex="-1" class="title">Your education</h6>
+			<fieldset id="steps-uid-0-p-1" role="tabpanel" aria-labelledby="steps-uid-0-h-1" class="body" aria-hidden="true" style="display: none;">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>University:</label>
+							<input type="text" name="university" placeholder="University name" class="form-control">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Country:</label>
+							<select name="university-country" data-placeholder="Choose a Country..." class="select select2-hidden-accessible" tabindex="-1"
+								aria-hidden="true">
+		                                        <option></option> 
+		                                        <option value="1">United States</option> 
+		                                        <option value="2">France</option> 
+		                                        <option value="3">Germany</option> 
+		                                        <option value="4">Spain</option> 
+		                                    </select><span class="select2 select2-container select2-container--default"
+								dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-university-country-61-container"><span class="select2-selection__rendered" id="select2-university-country-61-container"><span class="select2-selection__placeholder">Choose a Country...</span></span>
+							<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+							</span>
+							</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Degree level:</label>
+							<input type="text" name="degree-level" placeholder="Bachelor, Master etc." class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label>Specialization:</label>
+							<input type="text" name="specialization" placeholder="Design, Development etc." class="form-control">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-6">
+								<label>From:</label>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-from-month" data-placeholder="Month" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-from-month-1v-container"><span class="select2-selection__rendered" id="select2-education-from-month-1v-container"><span class="select2-selection__placeholder">Month</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-from-year" data-placeholder="Year" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-from-year-gp-container"><span class="select2-selection__rendered" id="select2-education-from-year-gp-container"><span class="select2-selection__placeholder">Year</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<label>To:</label>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-to-month" data-placeholder="Month" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-to-month-3a-container"><span class="select2-selection__rendered" id="select2-education-to-month-3a-container"><span class="select2-selection__placeholder">Month</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-to-year" data-placeholder="Year" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-to-year-sj-container"><span class="select2-selection__rendered" id="select2-education-to-year-sj-container"><span class="select2-selection__placeholder">Year</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Language of education:</label>
+							<input type="text" name="education-language" placeholder="English, German etc." class="form-control">
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+			<h6 id="steps-uid-0-h-2" tabindex="-1" class="title">Your experience</h6>
+			<fieldset id="steps-uid-0-p-2" role="tabpanel" aria-labelledby="steps-uid-0-h-2" class="body" aria-hidden="true" style="display: none;">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Company:</label>
+							<input type="text" name="experience-company" placeholder="Company name" class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label>Position:</label>
+							<input type="text" name="experience-position" placeholder="Company name" class="form-control">
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<label>From:</label>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-from-month" data-placeholder="Month" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-from-month-q0-container"><span class="select2-selection__rendered" id="select2-education-from-month-q0-container"><span class="select2-selection__placeholder">Month</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-from-year" data-placeholder="Year" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-from-year-6t-container"><span class="select2-selection__rendered" id="select2-education-from-year-6t-container"><span class="select2-selection__placeholder">Year</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<label>To:</label>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-to-month" data-placeholder="Month" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-to-month-83-container"><span class="select2-selection__rendered" id="select2-education-to-month-83-container"><span class="select2-selection__placeholder">Month</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="education-to-year" data-placeholder="Year" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select><span class="select2 select2-container select2-container--default"
+												dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-education-to-year-n4-container"><span class="select2-selection__rendered" id="select2-education-to-year-n4-container"><span class="select2-selection__placeholder">Year</span></span>
+											<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+											</span>
+											</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Brief description:</label>
+							<textarea name="experience-description" rows="4" cols="4" placeholder="Tasks and responsibilities" class="form-control"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label class="display-block">Recommendations:</label>
+							<div class="uploader"><input name="recommendations" type="file" class="file-styled"><span class="filename" style="-webkit-user-select: none;">No file selected</span>
+								<span class="action btn bg-blue" style="-webkit-user-select: none;">Choose File</span>
+							</div>
+							<span class="help-block">Accepted formats: pdf, doc. Max file size 2Mb</span>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+			<h6 id="steps-uid-0-h-3" tabindex="-1" class="title">Additional info</h6>
+			<fieldset id="steps-uid-0-p-3" role="tabpanel" aria-labelledby="steps-uid-0-h-3" class="body" aria-hidden="true" style="display: none;">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="display-block">Applicant resume:</label>
+							<div class="uploader"><input type="file" name="resume" class="file-styled"><span class="filename" style="-webkit-user-select: none;">No file selected</span>
+								<span class="action btn bg-blue" style="-webkit-user-select: none;">Choose File</span>
+							</div>
+							<span class="help-block">Accepted formats: pdf, doc. Max file size 2Mb</span>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Where did you find us?</label>
+							<select name="source" data-placeholder="Choose an option..." class="select-simple select2-hidden-accessible" tabindex="-1"
+								aria-hidden="true">
+		                                        <option></option> 
+		                                        <option value="monster">Monster.com</option> 
+		                                        <option value="linkedin">LinkedIn</option> 
+		                                        <option value="google">Google</option> 
+		                                        <option value="adwords">Google AdWords</option> 
+		                                        <option value="other">Other source</option>
+		                                    </select><span class="select2 select2-container select2-container--default"
+								dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-source-bo-container"><span class="select2-selection__rendered" id="select2-source-bo-container"><span class="select2-selection__placeholder">Choose an option...</span></span>
+							<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+							</span>
+							</span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Availability:</label>
+							<div class="radio">
+								<label>
+													<div class="choice"><span><input type="radio" name="availability" class="styled"></span></div>
+													Immediately
+												</label>
+							</div>
+
+							<div class="radio">
+								<label>
+													<div class="choice"><span><input type="radio" name="availability" class="styled"></span></div>
+													1 - 2 weeks
+												</label>
+							</div>
+
+							<div class="radio">
+								<label>
+													<div class="choice"><span><input type="radio" name="availability" class="styled"></span></div>
+													3 - 4 weeks
+												</label>
+							</div>
+
+							<div class="radio">
+								<label>
+													<div class="choice"><span><input type="radio" name="availability" class="styled"></span></div>
+													More than 1 month
+												</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Additional information:</label>
+							<textarea name="additional-info" rows="5" cols="5" placeholder="If you want to add any info, do it here." class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+			</fieldset>-->
+				</div>
+				<!--<div class="actions clearfix">
+					<ul role="menu" aria-label="Pagination">
+						<li class="disabled" aria-disabled="true"><a href="javascript:;" role="menuitem">Previous</a></li>
+						<li aria-hidden="false" aria-disabled="false"><a href="javascript:;" role="menuitem">Next</a></li>
+						<li aria-hidden="true" style="display: none;"><a href="javascript:;" role="menuitem">Submit</a></li>
+					</ul>
+				</div>-->
+			</form>
+		</div>
+	</div>
+</div>

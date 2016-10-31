@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h5 class="panel-title">Add Users to <strong>{{vm.branchName}}</strong></h5>
+    <p>Assign users to the branch</p>
+</div>
+<form novalidate>
+    <div class="modal-body no-padding-top" ng-form="myForm">
+        <div class="form-horizontal pl-10 pr-10 no-margin">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>User Name</label>
+                        <!--<input type="text" required ng-model="vm.userName" class="form-control">-->
+                        <tags-input ng-model="vm.selectedUser"
+                                    display-property="name"
+                                    on-tag-adding="vm.addUserToBranch($tag)"
+                                    on-tag-removed="vm.errorRemoved($tag)"
+                                    placeholder="+ Type here to add more users"
+                                    add-from-autocomplete-only="true"
+                                    replace-spaces-with-dashes="false">
+                        <auto-complete source="vm.companyEmployeesList($query)"
+                                    min-length="0"
+                                    max-results-to-show="10"
+                                    debounce-delay="250"></auto-complete>
+                      </tags-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <h4>Assigned Users</h4>
+            <table class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="users in vm.branchUsers">
+                        <td><a href="javascript:;" ng-click="vm.userInfo($index, 'lg')">{{users.name}}</a></td>
+                        <td class="text-right"><a href="javascript:;" ng-click="vm.moveUser($index, 'sm')"><i class="icon-redo2"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--<div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-click="vm.modalSubmit()" ng-disabled="myForm.$invalid"> Save
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>-->
+</form>

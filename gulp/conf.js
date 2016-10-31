@@ -24,7 +24,7 @@ exports.paths = {
  *  to inject css preprocessor deps and js files in karma
  */
 exports.wiredep = {
-  exclude: [/\/bootstrap\.js$/, /\/bootstrap\.css/,  /\/ng-tags-input.min\.css/],
+  exclude: [/\/bootstrap\.js$/, /\/bootstrap\.css/,  /\/ng-tags-input\.css/],
   directory: 'bower_components'
 };
 

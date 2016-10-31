@@ -1,0 +1,39 @@
+<div class="panel panel-flat">
+  <div class="panel-heading">
+    <h5 class="panel-title">Advance Search</h5>
+  </div>
+
+  <div class="panel-body">
+    <form novalidate ng-submit="vm.searchUser(vm.userFrom)">
+      <fieldset class="content-group">
+        <div class="form-group">
+          <label>Keywords:</label>
+          <input type="text" class="form-control" ng-model="vm.userFrom.keywords" placeholder="Keywords">
+        </div>
+        <div class="form-group">
+          <label>First Name:</label>
+          <input type="text" class="form-control" ng-model="vm.userFrom.firstName" placeholder="First Name">
+        </div>
+        <div class="form-group">
+          <label>Last Name:</label>
+          <input type="text" class="form-control" ng-model="vm.userFrom.lastName" placeholder="Last Name  ">
+        </div>
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </fieldset>
+    </form>
+    <fieldset class="content-group"
+              ng-repeat="facet in vm.filterData"
+              ng-show="facet.valueCounts.length > 0 && facet.valueCounts[0].value !== '-1'">
+      <legend class="text-bold">{{::vm.decoratedFieldName[facet.fieldName]}}</legend>
+      <div ng-repeat="opt in facet.valueCounts" class="checkbox" ng-if="opt.count > 0">
+        <label>
+          <input type="checkbox" ng-checked="vm.isSelectedFilter(facet.fieldName, opt.value)" ng-click="vm.toggleFilter($event, facet.fieldName, opt.value)">
+          <span ng-if="facet.fieldName === 'memberSince'">{{ opt.value | date:"d/MMM/yyyy" }} ({{ opt.count }})</span>
+          <span ng-if="facet.fieldName !== 'memberSince'">{{ opt.value }} ({{ opt.count }})</span>
+        </label>
+      </div>
+    </fieldset>
+  </div>
+</div>

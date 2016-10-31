@@ -1,0 +1,88 @@
+<div class="sidebar sidebar-fixed no-border-right no-border-top sidebar-default">
+  <div class="sidebar-content chat">
+    <!-- Main navigation -->
+    <div>
+      <uib-tabset>
+        <uib-tab index="0">
+          <uib-tab-heading>
+            <i class="icon-user-check"></i> Bonds
+          </uib-tab-heading>
+          <div class="sidebar-category">
+            <div class="category-content p-10">
+              <ul class="media-list media-list-linked">
+                  <!-- List of online users -->
+                  <li class="media" ng-repeat="item in vm.userOnlineUsers">
+                    <a href="javascript:;" class="media-link" ng-click="vm.openChatBox(item.id)">
+                      <div class="media-left">
+                        <lb-image src="{{::item.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+                        <span class="badge badge-success media-badge">3</span>
+                      </div>
+                      <div class="media-body media-middle">
+                        <span class="media-heading text-semibold">
+                          {{item.firstName}} {{item.lastName}}
+                        </span>
+                      </div>
+                      <div class="media-right media-middle">
+                        <span class="status-mark border-success"></span>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="media">
+                    <div class="category-title no-border no-padding text-center">
+                      <span>All bonds</span>
+                    </div>
+                  </li>
+                  <!-- List of online users -->
+                  <li class="media" ng-repeat="item in vm.userList">
+                    <a href="javascript:;" class="media-link" ng-click="vm.openChatBox(item.id)">
+                      <div class="media-left">
+                        <lb-image src="{{::item.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+                        <span class="badge badge-success media-badge">3</span>
+                      </div>
+                      <div class="media-body media-middle">
+                        <span class="media-heading text-semibold">
+                          {{item.firstName}} {{item.lastName}}
+                        </span>
+                      </div>
+                      <!-- <div class="media-right media-middle">
+                        <span class="status-mark border-success"></span>
+                      </div> -->
+                    </a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="1" select="vm.getThreads()">
+          <uib-tab-heading >
+            <i class=" icon-history"></i> Recent Chats
+          </uib-tab-heading>
+          <div class="sidebar-category">
+            <div class="category-content  p-10">
+              <ul class="media-list">
+                <li class="media"  ng-repeat="item in vm.recentChats track by item.threadId">
+                  <a href="javascript:;" class="media-link" ng-click="vm.openThread(item.threadId)">
+                    <div class="media-left" ng-if="item.participants.length < 2">
+                      <lb-image src="{{::item.participants[0].profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+                    </div>
+                    <div class="media-left" ng-if="item.participants.length >= 2">
+                      <div class="btn border-primary text-primary btn-flat btn-icon btn-sm btn-rounded"><i class="icon-users"></i></div>
+                    </div>
+                    <div class="media-body" >
+                      <span class="media-heading text-semibold" ng-repeat="participant in item.participants">
+                        {{participant.firstName}} {{participant.lastName}} <span ng-if="!$last">, &nbsp;</span>
+                      </span>
+                      <span class="text-muted" ng-if="item.lastMessage">{{item.lastMessage}} </span>
+                      <div class="media-annotation mt-5">{{item.timestamp}}</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <!-- /main navigation -->
+  </div>
+</div>

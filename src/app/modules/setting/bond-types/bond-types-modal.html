@@ -1,0 +1,40 @@
+<div class="modal-header">
+   <h5 class="panel-title">Create List</h5>
+   <p class="mt-5">Create a list of people so you can easily share with them.</p>
+</div>
+<form novalidate>
+    <div class="modal-body no-padding-top" ng-form="bondtypeForm">
+        <div class="form-horizontal pl-10 pr-10 no-margin">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>List Name</label>
+                        <input type="text" ng-model="vm.bondTypeName" placeholder="University" class="form-control" autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Members</label>
+                        <tags-input ng-model="vm.selectedUser"
+                                    display-property="name"
+                                    placeholder="+ Add more bonds"
+                                    add-from-autocomplete-only="true"
+                                    replace-spaces-with-dashes="false">
+                        <auto-complete source="vm.bondsList($query)"
+                                       min-length="0"
+                                       max-results-to-show="10"
+                                       debounce-delay="250"></auto-complete>
+                      </tags-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-click="vm.submit()" ng-disabled="bondtypeForm.$pristine || bondtypeForm.$invalid">     Submit
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>

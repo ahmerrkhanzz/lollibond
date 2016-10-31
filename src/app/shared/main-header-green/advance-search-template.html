@@ -1,0 +1,29 @@
+<div class="lb-advance-search" ng-style="{top: position().top+'px', left: position().left+'px'}" ng-show="isOpen() && !moveInProgress" aria-hidden="{{!isOpen()}}" ng-class="{'open': isOpen()}">
+
+  <ul class="dropdown-menu media-list media-list-linked" role="listbox">
+    <li class="media uib-typeahead-match lb-advance-search__item" ng-repeat="match in matches | limitTo : 6 track by $index" ng-class="{'lb-advance-search__item--active': isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+      <!-- First list item that would be different from others -->
+      <div class="media-link" ng-if="$index === 0">
+        <div class="media-body text-center">
+          <div>
+            Search for the user: "<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>"
+          </div>
+        </div>
+      </div>
+
+      <!-- Other list items that would be actual users -->
+      <div class="media-link" ng-if="$index > 0">
+        <div class="media-left">
+          <lb-image src="{{match.model.profilePicture}}" width="40" height="40" class="img-circle overflow-hidden display-inline-block">
+        </div>
+        <div class="media-body">
+          <div uib-typeahead-match index="$index" match="match" query="query">
+            <a>
+              <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

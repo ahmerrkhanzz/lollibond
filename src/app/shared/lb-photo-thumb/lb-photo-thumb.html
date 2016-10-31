@@ -1,0 +1,26 @@
+<div class="thumbnail lb-photo-thumb">
+    <div class="thumb">
+        <lb-image src="{{::vm.photoData.key}}"
+          img-type="{{::vm.photoType}}"
+          width="{{::vm.photoWidth}}"
+          height="{{::vm.photoHeight}}"
+          ng-click="vm.showModal()"></lb-image>
+    </div>
+    <div class="caption">
+        <h6 class="no-margin">
+        <a href="javascript:;" class="text-default lb-w85p display-inline-block lb-truncate">{{::vm.photoData.name || "No title"}}</a>
+        <div class="pull-right" uib-dropdown ng-if="vm.configDropdown || vm.configDropdown.length > 0">
+          <a href="javascript:;" id="single-button" class="text-muted " uib-dropdown-toggle >
+            <i class="icon-gear pull-right"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-xs" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li ng-repeat="option in vm.configDropdown">
+                <a href="javascript:;" ng-really-message="{{::option.title}}" lb-util-confirm-modal confirm-action="::option.action(vm.photoData.id, vm.index)">
+                  {{::option.title}}
+                </a>
+              </li>
+          </ul>
+        </div>
+      </h6>
+    </div>
+</div>

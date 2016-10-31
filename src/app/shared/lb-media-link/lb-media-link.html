@@ -1,0 +1,30 @@
+<ul class="media-list search-results-list content-group mt-10">
+  <li class="media stack-media-on-mobile">
+    <div class="media-left">
+      <div class="thumb">
+        <a ng-href="{{vm.mediaData.url}}" ng-if="vm.mediaData.mediaType === 'image'" target="blank">
+          <img ng-src="{{vm.mediaData.media}}" class="img-responsive img-rounded" alt="">
+        </a>
+        <div ng-if="vm.mediaData.mediaType === 'youtube'">
+          <iframe width="360" height="215" ng-src="{{vm.trustUrl(vm.mediaData.url)}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- <div ng-if="vm.urlCheck(vm.mediaData.url) === 'vimeo'">
+          <iframe width="360" height="215" ng-src="{{vm.trustUrl(vm.mediaData.url)}}" frameborder="0" allowfullscreen></iframe>
+        </div> -->
+      </div>
+    </div>
+    <div class="media-body">
+      <h6 class="media-heading">
+        <a ng-href="{{vm.mediaData.url}}" target="blank">{{vm.mediaData.title}}</a>
+
+        <div class="media-annotation pull-right" ng-if="vm.deleteMedia" ng-click="vm.deleteMedia()">
+          <i class="icon-cross3"></i>
+        </div>
+      </h6>
+      <ul class="list-inline list-inline-separate text-muted">
+        {{vm.mediaData.mediaType}}
+      </ul>
+      {{vm.mediaData.description}}
+    </div>
+  </li>
+</ul>

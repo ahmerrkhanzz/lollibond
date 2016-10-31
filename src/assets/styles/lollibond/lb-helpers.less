@@ -1,0 +1,206 @@
+/* ------------------------------------------------------------------------------
+ *
+ *  # Lollibond helper classes
+ *
+ *  Helper classes that are not provided in limitless theme and used in peacoak
+ *
+ * ---------------------------------------------------------------------------- */
+
+.no-animate {
+  transition: none !important;
+}
+
+.lb-text-wrap {
+  white-space: pre-line;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.lb-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+.lb-fonts{
+  .fa{
+    font-size: @icon-fontawesome-size;
+    top: -2px;
+  }
+  .glyphicon, [class^="icon-"], [class*=" icon-"]{
+    font-size: @icon-font-size;
+    padding-bottom: 3px;
+  }
+}
+
+/* Global Classes */
+
+// On scroll classes
+.hideNavBar{
+  .sub-navbar{
+    display: none;
+  }
+}
+
+
+#toaster, #toast-container{
+  z-index: @zindex-toaster;
+}
+.bg-tranparent{
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.lb-resize--v{
+  resize:vertical;
+  max-height: 150px;
+}
+.lb-w85p{
+  width:85%;
+}
+
+.lb-full-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.6);
+
+  &__content {
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+  }
+}
+
+.lb-thumbnail {
+  label {
+    cursor: pointer;
+  }
+
+  &--checked {
+    background-color: @color-blue-500;
+    border-color: @color-blue-500;
+  }
+}
+
+/*Form Components*/
+/* Webkit */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  border-radius: 8px;
+  height: 5px;
+  border: 1px solid @color-grey-50;
+  background: @color-blue-500;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #ecf0f1;
+    border: 1px solid @color-grey-500;
+    width: 23px;
+    height: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  &::-webkit-slider-runnable-track{
+    background: @color-blue-500;
+    height: 5px;
+  }
+  &::-moz-range-track {
+     width: 100%;
+      height: 5px;
+      cursor: pointer;
+      background: @color-blue-500;
+      border: 1px solid @color-grey-50;
+  }
+  &::-moz-range-thumb {
+    background: #ecf0f1;
+    border: 1px solid @color-grey-500;
+    width: 20px;
+    height: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  &::-ms-fill-upper, &::-ms-fill-lower{
+    background: @color-blue-500;
+    border: 0.2px solid @color-grey-500;
+    border-radius: 2.6px;
+    // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  &::-ms-track {
+    width: 100%;
+    height: 15px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    // color: transparent;
+  }
+  &::-ms-thumb {
+    background-color: #ecf0f1;
+    border: 1px solid @color-grey-500;
+    width: 23px;
+    height: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
+
+
+
+/* gallery class */
+.lb-photo-thumb .thumb{
+  height: 250px;
+}
+.lb-minh-30{
+  min-height: 30px;
+}
+.lb-gallery-thumb{
+  height: 350px;
+}
+.lb-album-thumb{
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  .thumb{
+    height: 95px; 
+    overflow: hidden;
+  }
+}
+label lb-image{
+  pointer-events: none;
+}
+.thumbnail{
+  .thumb{
+    overflow: hidden;
+  }
+}
+.lb-custom-thumbnail{
+  height: 99px;
+  overflow: hidden;
+  .thumb{
+    height: 91px;
+  }
+}
+ ie11 hack
+_:-ms-fullscreen, :root .media-preview {
+  width: 100%;
+}
+
+
+// corporate section sass temporary written here
+.lb-action-drop{
+  position: absolute;
+  right: 5px;
+  top: 7px;
+  .navbar-nav > li > a{
+    padding: 0px;
+  }
+}

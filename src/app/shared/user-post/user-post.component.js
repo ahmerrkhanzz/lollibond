@@ -13,63 +13,76 @@
     });
 
   /** @ngInject */
-  function UserPostController(moment, $uibModal, postService, authService, profileService) {
+  function UserPostController(moment, postService, authService, lbUtilService) {
     var vm = this;
+    // No of comments that are loaded one time
+    var PAGER_COUNT = 5;
 
-    vm.profileService = profileService;
-    vm.postAced = vm.postData.aced;
-
-    // Post actions dropdown functionality
-    vm.postActions = [{
-      title: 'Hide user post',
-      icon: 'icon-user-lock',
-      action: hideUserPost
+    var permissionLevel = vm.postData.permissions.level;
+    var postPrivacyOpts = [{
+      name: 'Only me',
+      icon: 'icon-lock'
     }, {
-      title: 'Block user',
-      icon: 'icon-user-block',
-      action: blockUser
+      name: 'Bonds',
+      icon: 'icon-users'
     }, {
-      title: 'Unfollow user',
-      icon: 'icon-cross2',
-      action: unfollowUser
+      name: 'Bonds of Bonds',
+      icon: 'icon-users'
     }, {
-      title: 'Embed post',
-      icon: 'icon-embed',
-      action: embedPost
-    }, {
-      title: 'Report this post',
-      icon: 'icon-blocked',
-      action: reportPost
+      name: 'Public',
+      icon: 'icon-earth'
     }];
+    vm.postPermission = postPrivacyOpts[permissionLevel];
 
-    function hideUserPost() {}
+    vm.authService = authService;
 
-    function blockUser() {}
+    vm.userComment = '';
+    vm.postComments = [];
+    vm.postAced = vm.postData.aced;
+    vm.dataLoaded = false;
+    vm.commentsLoading = false;
+    vm.commentAvailable = vm.postData.commentCount > 0;
+    vm.textLimit = 330;
 
-    function unfollowUser() {}
-
-    function embedPost() {}
-
-    function reportPost() {}
+    // If Profile Picture Empty, Set Placeholder according to Gender
+    vm.postData.author.profilePicture = lbUtilService.setProfilePicture(vm.postData.author.profilePicture, vm.postData.author.gender);
 
     // Get timestamp helper function
     function getTimestamp(datetime) {
       return moment(datetime).fromNow()
     }
 
-    function showComments(ID) {
+    function showComments(state, ID) {
+      // State is used to keep check that
+      // Data has been loaded by clicking
+      // on show comments
+      if (state) return;
+
+      // Show the loader while loading comments
+      vm.commentsLoading = true;
+
       postService.getComments(vm.postData.id, ID)
         .then(function(data) {
           vm.postComments.push(data);
+
           // Flatten the array
           vm.postComments = [].concat.apply([], vm.postComments);
+          // Check for comments availability
+          vm.commentAvailable = data.length >= PAGER_COUNT;
+          // On first time load when show comments is clicked
+          // dataLoaded is changed to true
+          vm.dataLoaded = true;
+        })
+        .finally(function() {
+          // Hide the loader
+          vm.commentsLoading = false;
         });
     }
 
     function loadMore() {
       var totalComments = vm.postComments.length - 1;
       var lastCommentId = vm.postComments[totalComments].id;
-      showComments(lastCommentId);
+      showComments(false, lastCommentId);
     }
 
     // Give ACE to post functionality
@@ -90,10 +103,9 @@
     }
 
     // Add comment functionality
-    vm.userComment = '';
-    vm.postComments = [];
-
     function addComment() {
+      if(!vm.userComment) return false;
+      
       var commentContent = {
         text: vm.userComment
       };
@@ -106,6 +118,7 @@
           ++vm.postData.commentCount;
         });
 
+      vm.dataLoaded = true;
       // Reset the form
       vm.userComment = '';
     }
@@ -118,14 +131,23 @@
         author: {
           id: user.UID,
           firstName: user.user.firstName,
-          lastName: user.user.lastName
+          lastName: user.user.lastName,
+          profilePicture: user.user.profilePicture
         },
         comments: [],
         aceCount: 0,
         shareCount: 0,
-        commentCount: 0,
+        replyCount: 0,
         aced: false
       };
+    }
+
+    function showMore() {
+      if(vm.textLimit > 330){
+        vm.textLimit = 330;
+      }else{
+        vm.textLimit = vm.postData.text.length;
+      }
     }
 
     //////////////////////////////////
@@ -134,5 +156,6 @@
     vm.acePost = acePost;
     vm.addComment = addComment;
     vm.loadMore = loadMore;
+    vm.showMore = showMore;
   }
 })();

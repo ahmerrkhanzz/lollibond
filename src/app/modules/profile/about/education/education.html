@@ -1,48 +1,48 @@
 <div class="customized">
   <div class="panel panel-white" id="education">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/college.jpg') no-repeat top center / cover;">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/college.jpg')">
       <h4 class="panel-title"><i class="icon-graduation position-left"></i> College</h4>
-
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="edu in vm.content track by $index">
           <div ng-if="!edu.isEditable">
             <div class="panel-heading no-padding">
               <div class="lb-panel--description">
                 <h5 class="panel-title">
-									<span class="main-title text-semibold">{{edu.data.degree}}</span>
-									<span class="issued" ng-if="edu.data.schoolName">By: {{edu.data.schoolName}}</span>
-									<!-- <div class="pull-right">
-										<privacy-dropdown current-selected="awr.currentSelectedPrivacy"></privacy-dropdown>
-									</div> -->
+									<span class="text-semibold">
+                    {{edu.data.degree}} {{ (edu.data.fieldOfStudy)? ', ' + edu.data.fieldOfStudy : ''}}
+                  </span>
+									<span class="issued" ng-if="edu.data.schoolName">
+                    From : {{edu.data.schoolName}}  <b>{{ (edu.data.grade)? ' - ' + edu.data.grade : ''}}</b>
+                  </span>
+                  <span class="issued">
+                      {{edu.data.fromDate | date:"MMM/yyyy"}}
+                      –
+                      {{ (edu.data.toDate) ? edu.data.toDate : 'present' | date:"MMM/yyyy"}}
+                  </span>
 								</h5>
               </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(edu)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode"  class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteEducation($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode"  ng-click="vm.editForm(edu)">
                   <i class=" mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a href="javascript:;" ng-show="edu.data.activities || edu.data.description" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
             </div>
             <div class="list-padding" uib-collapse="!isCollapsed">
               <ul class="list-condensed list-unstyled">
-                <li ng-if="edu.data.fromDate">
-                  <span class="text-semibold">Duration: </span> {{edu.data.fromDate | date:"MMM/yyyy"}} – {{ (edu.data.toDate) ? 'present' : edu.data.toDate | date:"MMM - yyyy"}}
-                </li>
                 <li ng-if="edu.data.country">
                   <span class="text-semibold">Location: </span> {{edu.data.country}}
-                </li>
-                <li ng-if="edu.data.fieldOfStudy ">
-                  <span class="text-semibold">Field of Study: </span> {{edu.data.fieldOfStudy}}
                 </li>
                 <li ng-if="edu.data.activities ">
                   <span class="text-semibold">Activities: </span> {{edu.data.activities}}
                 </li>
                 <li ng-if="edu.data.description ">
-                  <span class="text-semibold">Description: </span> {{edu.data.description}}
+                  <span class="text-semibold">Description: </span> <div class="lb-text-wrap">{{edu.data.description}}</div>
                 </li>
                 <li ng-if="edu.data.edu.dataSkills ">
                   <span class="text-semibold">Skills: </span>
@@ -54,22 +54,31 @@
             </div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="edu.isEditable">
-            <form ng-submit="vm.onSubmit(edu)" name="form" novalidate>
-              <formly-form model="edu.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(edu)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="edu.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
               <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteEducation($index)">
-                  Remove this Education
+                <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteEducation($index)" ng-if="!edu.addInProcess" >
+                <!--ng-click="vm.deleteEducation($index)"-->
+                  <span class="glyphicon glyphicon-trash"></span>
                 </button>
-                <button ng-click="vm.updateEducation($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+                <button ng-click="vm.updateEducation($index)" type="submit" class="btn btn-primary btn-xs submit-button">
+                  <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs submit-button">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-    	<button type="button" ng-click="vm.addEducationModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-graduation"></i> <span>Add College</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+    	<button type="button" ng-click="vm.addEducationModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
 		</div>
   </div>
 </div>

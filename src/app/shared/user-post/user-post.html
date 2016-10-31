@@ -1,27 +1,39 @@
-<div class="panel panel-white timeline-content">
-  <div class="panel-heading">
+<div class="panel panel-blue timeline-content lb-post">
+  <div class="panel-heading content-padding-small">
     <div class="media">
-      <div class="media-left">
-        <a href="#"><img ng-src="{{::vm.postData.author.profilePicture || 'assets/images/placeholder.jpg'}}" class="img-circle" alt=""></a>
+      <div class="media-left pr-10">
+        <a href="javascript:;">
+          <lb-image src="{{::vm.postData.author.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+        </a>
       </div>
-
       <div class="media-body">
-        <h6 class="media-heading text-semibold">
-          <a ui-sref="personal.profile.posts({ uid: vm.postData.author.id })" class="text-warning">{{::vm.postData.author.firstName}} {{::vm.postData.author.lastName}}</a>
-          <!-- <span class="media-annotation dotted">{{vm.postData.postType | translate}}</span> -->
+        <h6 class="media-heading no-margin-bottom text-semibold">
+          <a ui-sref="personal.profile.posts({ uid: vm.postData.author.id })" author-id="{{vm.postData.author.id}}" lb-user-summary>
+            {{::vm.postData.author.firstName}} {{::vm.postData.author.lastName}}
+          </a>
           <div class="pull-right">
             <action-dropdown post-data="::vm.postData"></action-dropdown>
           </div>
         </h6>
-        <div class="media-annotation" title="{{::vm.postData.timestamp | date:'medium'}}">{{::vm.getTimestamp(vm.postData.timestamp)}}</div>
-        <span class="label label-primary"></span>
+        <span class="media-annotation" title="{{::vm.postData.timestamp | date:'medium'}}">{{::vm.getTimestamp(vm.postData.timestamp)}}</span>
+        <span class="label label-striped border-left-green label-icon ml-5">
+          <i class="{{::vm.postPermission.icon}}"></i>
+          {{::vm.postPermission.name}}
+        </span>
       </div>
     </div>
   </div>
 
   <div class="panel panel-white no-border no-margin-bottom">
     <div class="panel-body">
-      <div>{{::vm.postData.text}}</div>
+      <div class="lb-text-wrap">{{vm.postData.text | limitTo: vm.textLimit }}</div>
+      <div ng-if="!vm.isEditable && vm.postData.text">
+        <p class="text-center" ng-show="vm.postData.text.length > 330">
+          <a href="javascript:;" ng-click="vm.showMore($event)">
+            {{(vm.textLimit > 330)? "Show Less": "Show More"}}
+          </a>
+        </p>
+      </div>
       <!-- For images inside posts -->
       <div ng-if="vm.postData.postImage">
         <div ng-repeat="postImage in ::vm.postData.postImage" class="thumbnail pull-left no-margin">
@@ -30,35 +42,71 @@
           </div>
         </div>
       </div>
+      <!-- For media links -->
+      <lb-media-link ng-if="vm.postData.attachment[0].media" media-data="vm.postData.attachment[0]"></lb-media-link>
+
+      <!-- Photo attachment -->
+      <div class="row" ng-if="vm.postData.attachment[0].key">
+        <div class="col-md-3" ng-repeat="image in vm.postData.attachment">
+          <div class="thumbnail lb-custom-thumbnail">
+              <div class="thumb">
+                  <lb-image src="{{::image.key}}" img-type="a" width="300" height="300"></lb-image>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="panel-footer panel-footer-transparent">
+    <div class="panel-footer no-padding-bottom panel-footer-transparent">
       <div class="heading-elements">
-        <ul class="list-inline list-inline-separate heading-text">
-          <li><a ng-click="::vm.acePost()"><i class="icon-thumbs-up2 "></i> {{vm.postAced ? 'Aced' : 'Ace'}} ({{vm.postData.aceCount || 0}})</li>
-          <li><a ng-click="::vm.showComments()"><i class="icon-comment-discussion position-left"></i> Comment ({{vm.postData.commentCount || 0}})</a></li>
+        <ul class="list-inline heading-text">
+          <li><a ng-click="::vm.acePost()"><img src="assets/images/ace.png" alt="" class="ace-icon"> {{vm.postAced ? 'Aced' : 'Ace'}} <strong class="ml-5">{{vm.postData.aceCount || 0}}</strong></li>
+          <li><a ng-click="::vm.showComments(vm.dataLoaded)"><i class="fa fa-comment-o"></i> Comment <strong class="ml-5">{{vm.postData.commentCount || 0}}</strong></a></li>
         </ul>
       </div>
     </div>
   </div>
 
-  <div class="panel-body post-comments-area" ng-if="vm.postComments.length > 0">
+  <div class="panel-body no-padding-top post-comments-area" ng-if="vm.postComments.length > 0">
     <!-- Comments -->
     <ul class="media-list stack-media-on-mobile">
-      <button class="btn btn-link no-padding" ng-click="vm.loadMore()">Load previous comments</button>
+      <div ng-show="vm.commentsLoading" class="text-center">
+        <i class="icon-spinner2 spinner"></i>
+        Loading Comments
+      </div>
+      <button class="btn btn-link no-padding" ng-click="vm.loadMore()" ng-show="vm.commentAvailable">Load previous comments</button>
       <user-comment class="media show" ng-repeat="comment in vm.postComments.slice().reverse()" comment-data="comment" post-id="{{vm.postData.post.id}}"></user-comment>
     </ul>
     <!-- /comments -->
   </div>
 
   <!-- Add comment form -->
-  <div class="panel-body" ng-if="vm.profileService.isBonded || vm.profileService.ownProfile">
-    <form ng-submit="::vm.addComment()" name="formPostComment">
+  <div class="panel-body lb-post--comments">
+    <form  novalidate name="formPostComment" autocomplete="off">
+      <div class="media-left">
+        <!-- Use one-time bind on ng-src after user summary proper mechanisam in authService -->
+        <a href="javascript:;">
+          <lb-image src="{{::vm.authService.user.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+        </a>
+      </div>
       <div class="input-group">
-          <input type="text" class="form-control" ng-model="vm.userComment" placeholder="Your Comment" required>
-          <span class="input-group-btn">
-            <button type="submit" class="btn btn-default" ng-disabled="formPostComment.$invalid"><i class="icon-paperplane"></i></button>
-          </span>
+          <textarea type="text" 
+                    name="comment" 
+                    class="form-control lb-resize--v userComment" 
+                    ng-model="vm.userComment" 
+                    placeholder="Your Comment" 
+                    lb-util-on-enter="::vm.addComment()" 
+                    required >
+          </textarea>
+          {{vm.isCommentActive}}
+          <!-- <span class="input-group-btn">
+            <button type="button"
+                    ng-click="::vm.addComment()" 
+                    class="btn btn-default" 
+                    ng-disabled="formPostComment.$invalid">
+                      <i class="icon-paperplane"></i>
+            </button>
+          </span> -->
       </div>
     </form>
   </div>

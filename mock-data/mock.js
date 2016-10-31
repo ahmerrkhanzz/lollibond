@@ -135,7 +135,8 @@ module.exports = function() {
   var requestSent = _.times('10', function(n) {
     return {
       id: n,
-      user: faker.name.findName(),
+      firstName: faker.name.findName(),
+      lastName: faker.name.findName(),
       userImg: faker.internet.avatar(),
       designation: faker.name.jobTitle(),
       company: faker.company.companyName(),
@@ -147,7 +148,8 @@ module.exports = function() {
   var peopleIFollow = _.times('30', function(n) {
     return {
       id: n,
-      user: faker.name.findName(),
+      firstName: faker.name.findName(),
+      lastName: faker.name.findName(),
       userImg: faker.internet.avatar(),
       designation: faker.name.jobTitle(),
       company: faker.company.companyName(),
@@ -159,7 +161,8 @@ module.exports = function() {
   var peopleFollowMe = _.times('20', function(n) {
     return {
       id: n,
-      user: faker.name.findName(),
+      firstName: faker.name.findName(),
+      lastName: faker.name.findName(),
       userImg: faker.internet.avatar(),
       designation: faker.name.jobTitle(),
       company: faker.company.companyName(),

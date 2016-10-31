@@ -1,0 +1,14 @@
+<tags-input ng-model="model[options.key]" 
+			class="bootstrap-tagsinput "
+                display-property="name" 
+                placeholder="{{to.placeholder}}" 
+                replace-spaces-with-dashes="false"
+                template="tag-template">
+    <auto-complete  source="to.loadList($query)"
+                    min-length="0"
+                    select-first-match="false"
+                    debounce-delay="250"
+                    max-results-to-show="32"
+                    template="autocomplete-template">
+    </auto-complete>
+</tags-input>

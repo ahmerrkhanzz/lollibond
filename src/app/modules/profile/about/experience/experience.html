@@ -1,41 +1,36 @@
 <div class="customized">
   <div class="panel panel-white" id="WorkExperience">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/experience.jpg') no-repeat top center / cover;">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/experience.jpg')">
       <h4 class="panel-title"><i class="icon-briefcase position-left"></i> Experience</h4>
-
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="exp in vm.content track by $index">
           <div ng-if="!exp.isEditable">
             <div class="panel-heading no-padding">
               <div class="lb-panel--description">
                 <h5 class="panel-title">
-                  <span class="main-title text-semibold">{{exp.data.title}}</span>
-                  <span class="issued" ng-if="exp.data.companyName">at: {{exp.data.companyName}}</span>
+                  <span class="main-title text-semibold" ng-if="exp.data.title">{{exp.data.title}}</span>
+                  <span class="issued" ng-if="exp.data.companyName">at: {{exp.data.companyName}} | {{exp.data.location}}</span>
+                  <span class="issued" ng-if="exp.data.location"></span>
+                  <span class="issued" ng-if="exp.data.fromDate">{{exp.data.fromDate | date:"MMM/yyyy"}} – {{ (exp.data.toDate) ? exp.data.toDate : 'present' | date:"MMM/yyyy"}}</span>
                   <!-- <div class="pull-right">
                     <privacy-dropdown current-selected="awr.currentSelectedPrivacy"></privacy-dropdown>
                   </div> -->
                 </h5>
               </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(exp)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteWorkExperience($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode"  ng-click="vm.editForm(exp)">
                   <i class="mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a href="javascript:;" ng-show="exp.data.duties || exp.data.achievements || exp.data.description" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
             </div>
             <div class="list-padding" uib-collapse="!isCollapsed">
               <ul class="list-condensed list-unstyled">
-                <li ng-if="exp.data.fromDate">
-                  <span class="text-semibold">Duration: </span> {{exp.data.fromDate | date:"MMM/yyyy"}} –
-                {{ (exp.data.toDate) ? exp.data.toDate : 'present' | date:"MMM - yyyy"}}
-                </li>
-                <li ng-if="exp.data.location">
-                  <span class="text-semibold">Location: </span> {{exp.data.location}}
-                </li>
                 <li ng-if="exp.data.duties ">
                   <span class="text-semibold">Duties: </span> {{exp.data.duties}}
                 </li>
@@ -43,28 +38,40 @@
                   <span class="text-semibold">Achievements: </span> {{exp.data.achievements}}
                 </li>
                 <li ng-if="exp.data.description ">
-                  <span class="text-semibold">Description: </span> {{exp.data.description}}
+                  <span class="text-semibold">Description: </span> <div class="lb-text-wrap">{{exp.data.description}}</div>
                 </li>
               </ul>
             </div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="exp.isEditable">
-            <form ng-submit="vm.onSubmit(exp)" name="form" novalidate>
-              <formly-form model="exp.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(exp)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="exp.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteWorkExperience($index)">
-                  Remove this WorkExperience
-                </button>
-                <button ng-click="vm.updateWorkExperience($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <privacy-dropdown current-selected="vm.selectedExpPrivacy"></privacy-dropdown>
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteWorkExperience($index)" ng-if="!exp.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updateWorkExperience($index)" type="submit" class="btn btn-primary btn-xs submit-button">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs ">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-    	<button type="button" ng-click="vm.addWorkExperienceModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
-		</div>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-briefcase"></i> <span>Add Experience</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addWorkExperienceModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
+      {{$viewValue}}
+    </div>
   </div>
 </div>

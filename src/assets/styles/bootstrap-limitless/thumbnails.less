@@ -59,7 +59,6 @@
 
     // Remove borders if inside modal
     .modal-dialog & {
-        border-width: 0;
         .box-shadow(none);
     }
 
@@ -219,11 +218,12 @@
     // Icon setup
     i {
         font-size: (@icon-font-size * 2);
-        position: absolute;
         top: 50%;
-        left: 50%;
-        margin-top: -(@icon-font-size);
-        margin-left: -(@icon-font-size);
+        color:#fff;
+        .opacity(0.6);
+        &:hover{
+            .opacity(1)
+        }
     }
 }
 

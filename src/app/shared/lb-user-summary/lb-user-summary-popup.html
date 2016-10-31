@@ -1,0 +1,50 @@
+<div class="summary-box summary-box__content" ng-mouseleave="vm.userSummaryService.hidePopup()" ng-style="vm.userSummaryService.popupStyles">
+    <img ng-src="{{vm.userSummaryService.cover}}" class="full-width" alt="">
+    <div class="media no-margin-top p-10 bg-white cover-photo">
+        <div class="media-left media-middle">
+            <a>
+                <lb-image src="{{vm.userSummaryService.isData.profilePicture}}" width="40" height="40" class="overflow-hidden img-circle display-inline-block"></lb-image>
+            </a>
+        </div>
+        <div class="media-body">
+            <div class="media-heading text-semibold">
+              <a ng-click="vm.userSummaryService.hidePopup()" ui-sref="personal.profile.posts({ uid: vm.userSummaryService.isData.id })">
+                {{vm.userSummaryService.isData.firstName}} {{vm.userSummaryService.isData.lastName}}
+              </a>
+            </div>
+            <span ng-show="vm.userSummaryService.isData.latestWorkExperience.title">
+              {{vm.userSummaryService.isData.latestWorkExperience.title | limitTo : 15}}
+              {{vm.userSummaryService.isData.latestWorkExperience.title.length > 15 ? ' .. ' : ''}}
+            </span>
+        </div>
+        <div class="media-right media-middle">
+            <ul class="icons-list icons-list-extended text-nowrap" ng-if="vm.userSummaryService.loggedInUserId != vm.userSummaryService.isData.id">
+                <li>
+                    <button ng-click="vm.bondUser(vm.userSummaryService.isData.id)" ng-if="!vm.userSummaryService.isBonded && !vm.userSummaryService.isRequested && !vm.userSummaryService.isReceived" class="btn btn-primary btn-sm">Bond</button>
+                    <button ng-click="vm.unbondUser(vm.userSummaryService.isData.id)" ng-if="vm.userSummaryService.isBonded" class="btn btn-primary btn-sm">Unbond</button>
+                    <button ng-click="vm.cancelRequest(vm.userSummaryService.isData.id)" 
+                            ng-if="vm.userSummaryService.isRequested" 
+                            class="btn btn-danger btn-sm">
+                      Cancel Request
+                    </button>
+                    <button ng-click="vm.approveRequest(vm.userSummaryService.isData.id)" 
+                            ng-if="vm.userSummaryService.isReceived" 
+                            class="btn btn-success btn-sm"
+                            tooltip-placement="top" uib-tooltip="Accept Request">
+                      <i class="icon-checkmark3"></i>
+                    </button>
+                    <button ng-click="vm.rejectRequest(vm.userSummaryService.isData.id)" 
+                            ng-if="vm.userSummaryService.isReceived" 
+                            class="btn btn-danger btn-sm"
+                            tooltip-placement="top" uib-tooltip="Reject Request">
+                      <i class="icon-cross"></i>
+                    </button>
+                </li>
+                <li>
+                    <button ng-click="vm.followUser(vm.userSummaryService.isData.id)" ng-if="!vm.userSummaryService.isFollowed" class="btn btn-primary btn-sm">Follow</button>
+                    <button ng-click="vm.unfollowUser(vm.userSummaryService.isData.id)" ng-if="vm.userSummaryService.isFollowed" class="btn btn-primary btn-sm">Unfollow</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

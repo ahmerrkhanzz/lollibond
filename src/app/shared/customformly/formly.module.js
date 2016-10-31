@@ -7,7 +7,6 @@
 
   /** @ngInject */
   function config(formlyConfigProvider) {
-    var unique = 1;
     var ngModelAttrs = {};
 
     var attributes = [
@@ -40,6 +39,7 @@
       'min-date',
       'max-date'
     ];
+
     angular.forEach(attributes, function(attr) {
       ngModelAttrs[camelize(attr)] = { attribute: attr };
     });
@@ -48,10 +48,11 @@
       ngModelAttrs[camelize(binding)] = { bound: binding };
     });
 
+    formlyConfigProvider.extras.removeChromeAutoComplete = true;
 
     formlyConfigProvider.setWrapper({
       name: 'validation',
-      types: ['input'],
+      types: ['input', 'select'],
       templateUrl: 'app/shared/customformly/error-message.html'
     });
 
@@ -61,13 +62,13 @@
       controller: repeatingSection
     }, {
       name: 'tag',
-      template: '<tags-input ng-model="model[options.key]" key-property="id" display-property="{{to.displayProperty}}" class="bootstrap-tagsinput"  placeholder="Add"  replace-spaces-with-dashes="false" template="tag-template"  add-from-autocomplete-only="{{!to.allowCustomInput || true}}">' + '<auto-complete source="to.loadList($query)" ng-if="to.loadList" min-length="0" load-on-empty="true" max-results-to-show="32" template="autocomplete-template"></auto-complete>' + '</tags-input>',
+      templateUrl: 'app/shared/customformly/ngtaginput.html',
       wrapper: ['bootstrapLabel', 'bootstrapHasError']
     }, {
       name: 'typeahead',
-      template: '<input type="text" ng-model="model[options.key]" uib-typeahead="item for item in to.options | filter:$viewValue | limitTo:8" class="form-control">',
+      template: '<input type="text" ng-model="model[options.key]" uib-typeahead="item for item in to.options | filter:$viewValue | limitTo:8" class="form-control"><div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages"><div ng-message="{{ ::name }}" ng-repeat="(name, message) in ::options.validation.messages" class="message">{{ message(fc.$viewValue, fc.$modelValue, this)}}</div></div>',
       wrapper: ['bootstrapLabel', 'bootstrapHasError']
-    }, {
+    },{
       name: 'datepickerformly',
       templateUrl: 'app/shared/customformly/datepicker.html',
       wrapper: ['bootstrapLabel', 'bootstrapHasError'],
@@ -75,8 +76,7 @@
         ngModelAttrs: ngModelAttrs,
         templateOptions: {
           datepickerOptions: {
-            format: 'MM.dd.yyyy',
-            initDate: new Date()
+            format: 'MM.dd.yyyy'
           }
         }
       },
@@ -99,7 +99,63 @@
       name: 'multiInput',
       templateUrl: 'app/shared/customformly/multiInput.html',
       controller: repeatingSection
-    }]);
+    },{
+      name: 'ui-select',
+      templateUrl: 'app/shared/customformly/ui-select.html'
+    }, {
+      name: 'upload',
+      extends: 'input',
+      wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      link: function(scope, el) {
+        el.on("change", function(changeEvent) {
+          var file = changeEvent.target.files[0];
+          if (file) {
+            var fd = new FormData();
+            // use key on backEnd
+            fd.append('uploadFile', file);
+            scope.$emit('fileToUpload', fd);
+            var fileProp = {};
+            for (var properties in file) {
+              if (!angular.isFunction(file[properties])) {
+                fileProp[properties] = file[properties];
+              }
+            }
+            scope.fc.$setViewValue(fileProp);
+          } else {
+            scope.fc.$setViewValue(undefined);
+          }
+        });
+        el.on("focusout", function() {
+          // dont run validation , user still opening pop up file dialog
+          // if ($window.document.element.id === scope.id) {
+          //   // so we set it untouched
+          //   scope.$apply(function(scope) {
+          //     scope.fc.$setUntouched();  
+          //   });
+          // } else {
+          //   // element losing focus so we trigger validation
+          //   scope.fc.$validate();
+          // }
+          scope.fc.$validate();
+        });
+        
+      },
+      defaultOptions: {
+        templateOptions: {
+          type: 'file',
+          required: true
+        }
+      }
+    }, {
+        name: 'checked',
+        defaultOptions: {
+          ngModelAttrs: {
+            'sweet': {
+              value: 'data-sweet'
+            }
+          }
+        }
+      }]);
 
     function camelize(string) {
       string = string.replace(/[\-_\s]+(.)?/g, function(match, chr) {
@@ -111,49 +167,22 @@
       });
     }
 
-
-    function repeatingSection($scope) {
+    function repeatingSection($scope, AddSection) {
       $scope.formOptions = { formState: $scope.formState };
       $scope.addNew = addNew;
 
-      $scope.copyFields = copyFields;
-
-      function copyFields(fields) {
-        fields = angular.copy(fields);
-        addRandomIds(fields);
-        return fields;
-      }
+      $scope.copyFields = AddSection.copyFields;
 
       function addNew() {
         $scope.model[$scope.options.key] = $scope.model[$scope.options.key] || [];
         var repeatsection = $scope.model[$scope.options.key];
         var lastSection = repeatsection[repeatsection.length - 1];
-        lastSection = angular.copy($scope.default); // Empty the Object properties' value 
+        lastSection = angular.copy($scope.default); // Empty the Object properties' value
         var newsection = {};
         if (lastSection) {
           newsection = angular.copy(lastSection);
         }
         repeatsection.push(newsection);
-      }
-
-      function addRandomIds(fields) {
-        unique++;
-        angular.forEach(fields, function(field, index) {
-          if (field.fieldGroup) {
-            addRandomIds(field.fieldGroup);
-            return; // fieldGroups don't need an ID
-          }
-
-          if (field.templateOptions && field.templateOptions.fields) {
-            addRandomIds(field.templateOptions.fields);
-          }
-
-          field.id = field.id || (field.key + '_' + index + '_' + unique + getRandomInt(0, 9999));
-        });
-      }
-
-      function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
       }
     }
   }

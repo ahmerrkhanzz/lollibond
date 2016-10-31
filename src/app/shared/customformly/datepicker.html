@@ -2,6 +2,7 @@
     <input  type="text"
             id="{{::id}}"
             name="{{::id}}"
+            readonly='true'
             ng-model="model[options.key]"
             class="form-control"
             ng-click="datepicker.open($event)"
@@ -10,4 +11,9 @@
     <span class="input-group-btn">
         <button type="button" class="btn btn-default" ng-click="datepicker.open($event)" ng-disabled="to.disabled"><i class=" icon-calendar2"></i></button>
     </span>
+</div>
+<div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
+  <div ng-message="{{ ::name }}" ng-repeat="(name, message) in ::options.validation.messages" class="message">
+    {{ message(fc.$viewValue, fc.$modelValue, this)}}
+  </div>
 </div>

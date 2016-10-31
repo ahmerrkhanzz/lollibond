@@ -3,16 +3,25 @@
   <div class="post-tabs">
     <ul class="nav nav-pills">
       <li ng-repeat="tab in ::vm.postTypes" ng-class="{'active': vm.selectedPostTypeIndex === $index}" ng-click="::vm.changePostType(tab, $index)">
-        <a><i class="{{tab.icon}}"></i> {{tab.name | translate}}</a>
+        <a class="lb-fonts" tooltip-placement="top" uib-tooltip="{{tab.name}}"><i class="{{tab.icon}}"></i> <span class="tab-names">{{tab.name | translate}}</span></a>
       </li>
     </ul>
   </div>
 
   <div class="panel-body post-content">
-    <form name="formPost">
+    <form name="vm.formPost" autocomplete="off" novalidate>
       <!-- Post content -->
       <div class="form-group">
-        <textarea name="post-content" class="form-control mb-15" ng-model="vm.postContent" rows="3" cols="1" placeholder="{{vm.selectedPostType.placeholder | translate}}" required></textarea>
+        <textarea name="post-content"
+                  rows="3"
+                  cols="1"
+                  class="form-control mb-15 lb-resize--v"
+                  ng-model="vm.postContent"
+                  placeholder="{{vm.selectedPostType.placeholder | translate}}"
+                  lb-util-detect-link
+                  call-on-detect="vm.analyzeUrl(url)"
+                  is-using="vm.useUrl"
+                  required></textarea>
         <div class="post-icons">
           <ul class="icons-list icons-list-extended mt-10">
             <li>
@@ -20,7 +29,7 @@
                       class="cursor-pointer"
                       ngf-select="vm.uploadImage($files)"
                       multiple
-                      accept="image/*">
+                      accept="image/jpeg">
                 <i class="icon-images2"></i>
               </label>
             </li>
@@ -38,40 +47,55 @@
         </div>
       </div>
 
+      <lb-media-link ng-if="vm.useUrl" delete-media="vm.deleteMedia()" media-data="vm.linkData"></lb-media-link>
+
       <!-- Select Location Section -->
       <div ng-if="vm.locationSection">
         <lb-autocomplete-location></lb-autocomplete-location>
       </div>
 
       <!-- Image upload section -->
-      <div ng-if="vm.files" class="pb-15">
-        <div class="clearfix">
-          <div ng-repeat="f in vm.files" class="thumbnail pull-left">
+      <div ng-if="vm.files.length > 0" class="pb-15">
+        <div ng-repeat="file in vm.files" class="col-sm-3">
+          <div class="thumbnail lb-custom-thumbnail mr-5">
+              <a href="javascript:;" ng-if="file.isUploaded" ng-click="vm.removeImage($index)">x</a>
             <div class="thumb">
-              <img class="media-preview" ngf-thumbnail="f">
+              <div class="lb-full-loader" ng-if="!file.isUploaded || !file.isValid">
+                <div class="lb-full-loader__content">
+                  <i class="icon-spinner10 spinner" ng-if="!file.isUploaded"></i>
+                  <i class="icon-notification2" title="{{::file.errMsg}}" ng-if="file.isUploaded && !file.isValid"></i>
+                </div>
+              </div>
+
+              <img class="media-preview" ngf-thumbnail="file.file">
             </div>
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="progress">
-            <div class="progress-bar bg-teal" style="width:{{vm.uploadProgress}}%"></div>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-offset-5 col-sm-7 text-right">
-          <div class="btn-group" uib-dropdown is-open="privacy.isopen">
-            <button type="button" class="btn bg-slate-700" uib-dropdown-toggle>
-              <span class="{{vm.selectedPostPrivacy.icon}}"></span> {{vm.selectedPostPrivacy.name | translate}} <span class="caret"></span>
+          <div class="btn-group" uib-dropdown is-open="privacy.isopen" ng-if="vm.canChangePrivacy">
+            <button type="button" class="btn default" uib-dropdown-toggle>
+              <!--<span class="{{vm.selectedPostPrivacy.icon}}"></span>  -->
+              {{vm.selectedPostPrivacy.name }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu">
               <li role="menuitem" ng-repeat="postPrivacy in vm.postPrivacyOpts" ng-click="vm.changePostPrivacy(postPrivacy)">
-                <a><span class="{{postPrivacy.icon}}"></span> {{::postPrivacy.name | translate}}</a>
+                <a>
+                  <!-- <span class="{{postPrivacy.icon}}"></span>  -->
+                  {{::postPrivacy.name}}
+                </a>
               </li>
             </ul>
           </div>
-          <button type="button" ng-click="vm.sharePost()" ng-disabled="formPost.$invalid" class="btn btn-primary btn-labeled btn-labeled-right">{{'Share' | translate}} <b><i class="icon-circle-right2"></i></b></button>
+
+          <button type="submit"
+                  ng-click="vm.sharePost()"
+                  class="btn btn-primary"
+                  ng-disabled="(vm.formPost.$invalid && vm.imageCount < 1 && !vm.useUrl) || (vm.formPost.$invalid && vm.imageCount < 1 && !vm.useUrl || vm.files.length !== vm.imageCount)">
+            Share
+          </button>
         </div>
       </div>
     </form>

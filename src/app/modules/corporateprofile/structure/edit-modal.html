@@ -1,0 +1,22 @@
+<div class="modal-header">
+	<h5 class="panel-title">Edit Name</h5>
+</div>
+<form novalidate>
+	<div class="modal-body no-padding-top" ng-form="myForm">
+		<div class="form-horizontal pl-10 pr-10 no-margin">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-12">
+						<label>{{vm.heading}} Name</label>
+						<input type="text" required ng-model="vm.valName" class="form-control">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" ng-click="vm.modalSubmit()" ng-disabled="myForm.$invalid"> Submit
+        </button>
+		<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+	</div>
+</form>

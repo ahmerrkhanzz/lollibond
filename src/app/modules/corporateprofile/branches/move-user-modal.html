@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h5 class="panel-title">Move <strong>{{vm.userName}}</strong></h5>
+</div>
+<form novalidate>
+    <div class="modal-body no-padding-top" ng-form="myForm">
+        <div class="form-horizontal pl-10 pr-10 no-margin">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Select Branch</label>
+                        <select class="form-control" ng-model="vm.selectedBranch" ng-change="vm.changeBranch(vm.selectedBranch)">
+                            <option value="">- Please Select Branch -</option>
+                            <option ng-repeat="br in vm.branches" value="{{br.id}}">{{br.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-click="vm.modalSubmit()" ng-disabled="myForm.$invalid"> Move
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,34 @@
+<div class="thumbnail">
+    <div class="thumb thumb-sm thumb-rounded thumb-slide">
+        <lb-image src="{{vm.profilePicture}}" width="300" height="300"></lb-image>
+    </div>
+    <div class="caption text-center">
+        <h6 class="text-semibold no-margin lb-truncate" tooltip-placement="bottom" uib-tooltip="{{vm.userData.firstName + ' ' + vm.userData.lastName || 'No Name'}}">
+          {{vm.userData.firstName + ' ' + vm.userData.lastName}}
+        </h6>
+        <span class="text-muted lb-truncate display-block" ng-if="vm.userData.workExperiences.length > 0">
+            {{vm.userData.workExperiences[0].title}} at {{vm.userData.workExperiences[0].companyName}}
+        </span>
+        <span class="text-muted" ng-if="vm.userData.workExperiences.length == 0">
+          <a ui-sref="personal.profile.about({ uid: vm.userData.id})">Add Work Experiences</a>
+        </span>
+
+        <span class="text-muted lb-truncate display-block" ng-if="vm.userData.colleges.length > 0">
+            {{vm.userData.colleges[0].degree}} at {{vm.userData.colleges[0].schoolName}}
+        </span>
+        <span class="text-muted lb-truncate" ng-if="vm.userData.colleges.length == 0">
+          <a ui-sref="personal.profile.about({ uid: vm.userData.id})">Add College Education</a>
+        </span>
+        <div class="progress progress-rounded mt-10">
+            <div class="progress-bar progress-bar-primary" style="width: 85%">
+                <span>85% Complete</span>
+            </div>
+        </div>
+        <div class="text-right mt-10">
+            <a ui-sref="personal.profile.about({ uid: vm.userData.id})" class="text-size-small">
+            Improve your profile
+            <i class="icon-stats-growth position-right text-size-small"></i>
+          </a>
+        </div>
+    </div>
+</div>

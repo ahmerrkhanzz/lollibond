@@ -18,9 +18,20 @@ gulp.task('scripts', function() {
   return buildScripts();
 });
 
+gulp.task('scripts-lint', function() {
+  return buildScriptsLint();
+});
+
 function buildScripts() {
   return gulp.src(path.join(conf.paths.src, '/app/**/*.js'))
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.size())
+};
+
+function buildScriptsLint() {
+  return gulp.src(path.join(conf.paths.src, '/app/**/*.js'))
+    .pipe($.eslint())
+    .pipe($.eslint.format())
+    .pipe($.eslint.failAfterError());
 };

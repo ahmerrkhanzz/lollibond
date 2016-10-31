@@ -1,0 +1,25 @@
+<div class="panel panel-flat">
+	<ul class="media-list media-list-linked">
+		<li class="media">
+			<div class="media-link">
+				<div class="media-left">
+					<lb-image src="{{vm.profilePicture}}" width="40" height="40" class="overflow-hidden img-circle display-inline-block"></lb-image>
+				</div>
+				<div class="media-body">
+					<a ui-sref="personal.profile.posts({ uid: vm.cardData.user.id })" class="media-heading text-semibold">{{vm.cardData.user.firstName + ' ' + vm.cardData.user.lastName}}</a>
+					<span class="text-muted">Joined Lollibond on {{::vm.cardData.user.creationDate | date:"d/MMM/yyyy"}}</span>
+					<div class="pull-right" ng-if="vm.cardData.user.corporate">{{vm.assignBtn}}
+						<a class="btn btn-sm btn-primary" ng-click="vm.epsnData.assignPosition({id: vm.cardData.user.id, name: vm.cardData.user.firstName + ' ' + vm.cardData.user.lastName})">{{vm.assignBtn ? 'Assign' : 'Unassign'}}</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="contact-details">
+				<ul class="list-extended list-unstyled list-icons">
+					<li ng-if="vm.cardData.user.locationId > -1"><i class="icon-pin position-left"></i> {{::vm.cardData.user.locationId}}</li>
+					<li ng-if="vm.cardData.user.colleges.length > 0" class="lb-text-wrap"><i class="icon-graduation2 position-left"></i> {{::vm.cardData.user.colleges[0]}}</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>

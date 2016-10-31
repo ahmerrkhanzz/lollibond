@@ -1,0 +1,113 @@
+.lollichat{
+    z-index: @zindex-sidebar;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+.lb-chat-windows {
+    font-size: 0;
+    white-space: nowrap;
+    position: absolute;
+    right: calc(100% + 20px);
+    bottom: 0;
+    .chat-individual {
+        white-space: normal;
+        display: inline-block;
+        vertical-align: bottom;
+        width: 300px;
+        font-size: 14px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+        position: relative;
+        &-body {
+            .chat-list{
+                max-height: 300px;
+                min-height: 300px;
+            }
+            background: #fff;
+            color: #333;
+            padding: 25px 10px 10px;
+            overflow-y: auto;
+        }
+    }
+    .panel{
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+    }
+    .panel-heading{
+        padding: 7px 10px;
+        margin: -1px 0px 1px -1px;
+        border-radius: 0px;
+        h6 a{
+            color: #fff;
+            font-size: 14px;
+        }
+        .heading-elements {
+            right: 10px;
+            ul li {
+                a{
+                    color: rgba(255, 255, 255, 0.56);
+                    &:hover{
+                        color: #fff;
+                    }
+                    i{
+                        font-size: 14px;
+                    }
+                }
+                .dropdown-menu{
+                    li a, li a:hover, li a:focus{
+                        color: #333333;
+                    }
+                }
+            }
+        }
+    }
+    .chat-list .media-content{
+            padding: 5px 10px;
+            font-size: 12px;
+    }
+}
+.sidebar-content{
+    background: #fafafa;
+    .nav-tabs{
+        margin-bottom: 0px;
+        .active a, .active a:focus, .active a:hover{
+            border-bottom: 2px solid @color-blue-500;
+        }
+    }
+    .category-content{
+        .media-list li {
+            .dropdown-list{
+                padding: 10px 0 10px 10px;
+            }
+            margin: 0;
+            a{
+                padding: 7px 10px;
+                display: block;
+                
+            }
+        }
+    }
+    &.chat{
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.38);
+    }
+}
+chat-sidebar{
+    width: 300px;
+}
+.chat-overlay {
+    position: fixed;
+    width: 260px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: @zindex-sidebar + 1;
+    background: rgba(255,255,255,0.5);
+    .text{
+        position: absolute;
+        top: 55px;
+        width: 100%;
+        text-align: center;
+    }
+    i{
+        font-size: 30px;
+    }
+}

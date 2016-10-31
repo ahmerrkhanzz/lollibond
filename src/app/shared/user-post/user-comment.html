@@ -1,39 +1,61 @@
-<div class="media-left">
-  <a><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-</div>
-<div class="media-body">
-  <div class="media-heading">
-    <a ui-sref="personal.profile.posts({ uid: vm.commentData.author.id })" class="text-semibold">{{::vm.commentData.author.firstName}} {{::vm.commentData.author.lastName}}</a>
-    <span class="media-annotation dotted" title="{{::vm.commentData.time | date:'medium'}}">{{::vm.getTimestamp(vm.commentData.time)}}</span>
+<div class="lb-comment">
+  <div class="media-left">
+    <a><lb-image src="{{::vm.commentData.author.profilePicture}}" width="40" height="40" class="overflow-hidden img-circle display-inline-block"></lb-image></a>
   </div>
-  <p>{{::vm.commentData.text}}</p>
-
-  <ul class="list-inline list-inline-separate text-size-small">
-    <li>
-      <a ng-click="vm.aceComment()">
-        <i class="icon-thumbs-up2"></i> {{vm.commentData.aced ? 'Aced' : 'Ace'}} ({{vm.commentData.aceCount || 0}})
+  <div class="media-body">
+    <div class="media-heading">
+      <a ui-sref="personal.profile.posts({ uid: vm.commentData.author.id })" author-id="{{vm.commentData.author.id}}" lb-user-summary class="text-semibold">{{::vm.commentData.author.firstName}} {{::vm.commentData.author.lastName}}</a>
+      <span class="media-annotation" title="{{::vm.commentData.time | date:'medium'}}">{{::vm.getTimestamp(vm.commentData.timestamp)}}</span>
+    </div>
+    <div class="lb-text-wrap">{{vm.commentData.text | limitTo: vm.textLimit }}{{vm.commentData.text.length > vm.textLimit ? ' ...' : ''}}</div>
+    <div ng-if="!vm.isEditable && vm.commentData.text">
+      <p class="text-center" ng-show="vm.commentData.text.length > 250">
+        <a href="javascript:;" ng-click="vm.showMore($event)">
+        {{(vm.textLimit > 250)? "Show Less": "Show More"}}
       </a>
-    </li>
-    <li><a ng-click="::vm.showReplyForm()">Reply</a></li>
-    <li><a ng-click="::vm.showReply()">Replies ({{vm.commentData.replyCount || 0}})</a></li>
-  </ul>
-
-  <!-- Replies section start -->
-  <div ng-if="vm.commentReplies.length > 0" class="mt-15">
-    <button class="btn btn-link no-padding" ng-click="vm.loadMore()">Load previous replies</button>
-    <user-reply class="media show" ng-repeat="reply in vm.commentReplies.slice().reverse()" reply-data="reply"></user-reply>
-  </div>
-  <!-- Replies section end -->
-
-  <!-- Add reply form -->
-  <div class="pt-10 pb-20" ng-show="vm.addReplyForm" ng-if="vm.profileService.isBonded || vm.profileService.ownProfile">
-    <form ng-submit="::vm.addReply()" name="formCommentReply">
-      <div class="input-group">
-        <input type="text" class="form-control" ng-model="vm.userReply" placeholder="Your reply" required>
-        <span class="input-group-btn">
-          <button type="submit" class="btn btn-default" ng-disabled="formCommentReply.$invalid"><i class="icon-paperplane"></i></button>
-        </span>
+      </p>
+    </div>
+    <ul class="list-inline text-size-small">
+      <li>
+        <a ng-click="vm.aceComment()">
+          <img src="assets/images/ace.png" alt="" class="ace-icon"> {{vm.commentAced ? 'Aced' : 'Ace'}} <strong class="ml-5">{{vm.commentData.aceCount || 0}}</strong>
+        </a>
+      </li>
+      <li><a ng-click="::vm.showReplyForm()"><i class="icon-bubble-dots4"></i> Reply</a></li>
+      <li ng-if="vm.commentData.replyCount > 0"><a ng-click="::vm.showReply()"><i class="icon-bubble-dots4"></i> Replies <strong class="ml-5">{{vm.commentData.replyCount || 0}}</strong></a></li>
+    </ul>
+    <!-- Replies section start -->
+    <div ng-if="vm.commentReplies.length > 0" class="mt-15">
+      <div ng-show="vm.repliesLoading" class="text-center">
+        <i class="icon-spinner2 spinner"></i> Loading Replies
       </div>
-    </form>
+      <button class="btn btn-link no-padding" ng-click="vm.loadMore()" ng-show="vm.repliesAvailable">Load previous replies</button>
+      <user-reply class="media show" ng-repeat="reply in vm.commentReplies.slice().reverse()" reply-data="reply"></user-reply>
+    </div>
+    <!-- Replies section end -->
+    <!-- Add reply form -->
+    <div class="pt-10 pb-20 lb-post--comments" ng-show="vm.addReplyForm">
+      <form novalidate name="formCommentReply" autocomplete="off">
+        <div class="media-left">
+          <a href="javascript:;">
+            <lb-image src="{{::vm.authService.user.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+          </a>
+        </div>
+        <div class="input-group">
+          <textarea type="text" 
+                    ng-attr-id="{{'comRep' + vm.commentData.id}}"
+                    name="comment" 
+                    class="form-control lb-resize--v" 
+                    ng-model="vm.userReply" 
+                    placeholder="Your reply" 
+                    lb-util-on-enter="::vm.addReply()" 
+                    required autofocus>
+          </textarea>
+          <!-- <span class="input-group-btn">
+            <button type="submit" class="btn btn-default" ng-disabled="formCommentReply.$invalid"><i class="icon-paperplane"></i></button>
+          </span> -->
+        </div>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,0 +1,66 @@
+<div class="modal-header">
+	<h5 class="panel-title mb-5">Edit Employee</h5>
+	<!--<p>Add branches to your company</p>-->
+</div>
+<form novalidate>
+	<div class="modal-body no-padding-top" ng-form="branchForm">
+		<div class="pl-10 pr-10 no-margin">
+			<div class="form-group">
+				<div class="row">
+                    <div class="input-group">
+                        <select name="" class="form-control" id="" ng-model="vm.selectedPermission" ng-change="vm.isChangePermission(vm.selectedPermission)">
+                            <option value="">Select Permission</option>
+                            <option ng-repeat="item in vm.permissions" value="{{item}}">{{item}}</option>
+                        </select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="vm.addPermission()"><i class="icon-plus3"></i></button>
+                        </span>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+                                    <th>Permission(s)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+                                    <td class="tokenfield">
+                                        <div class="token" ng-repeat="item in vm.userPermissions track by $index"><span class="token-label" style="max-width: 737px;">{{item}}</span><a href="javascript:;" class="close" tabindex="-1" ng-click="vm.removePermission($index)">×</a></div>
+                                    </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="">First Name</label>
+					<input type="text" class="form-control" ng-model="vm.firstName">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="">Last Name</label>
+					<input type="text" class="form-control" ng-model="vm.lastName">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="">Email</label>
+					<input type="text" class="form-control" ng-model="vm.email">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="">Phone</label>
+					<input type="text" class="form-control" ng-model="vm.phone">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" ng-click="vm.updateName()" ng-disabled="branchForm.$invalid"> Update
+        </button>
+		<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+	</div>
+</form>

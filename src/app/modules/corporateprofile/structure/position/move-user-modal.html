@@ -1,0 +1,49 @@
+<div class="modal-header">
+	<h5 class="panel-title">Move <strong>{{vm.userName}}</strong></h5>
+</div>
+<form novalidate>
+	<div class="modal-body no-padding-top" ng-form="myForm">
+		<div class="form-horizontal pl-10 pr-10 no-margin">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-3">
+						<label>Select Function</label>
+						<select class="form-control" ng-model="vm.selectedFunction" ng-change="vm.changeFunction(vm.selectedFunction)">
+                            <option value="">- Please Select Function -</option>
+                            <option ng-repeat="fn in vm.functions" value="{{fn.id}}">{{fn.name}}</option>
+                        </select>
+					</div>
+
+					<div class="col-sm-3">
+						<label>Select Department</label>
+						<select class="form-control" ng-model="vm.selectedDepartment" ng-change="vm.changeDepartment(vm.selectedDepartment)">
+                            <option value="">- Please Select Department -</option>
+                            <option ng-repeat="dep in vm.departments" value="{{dep.id}}">{{dep.name}}</option>
+                        </select>
+					</div>
+
+					<div class="col-sm-3">
+						<label>Select Job Family</label>
+						<select class="form-control" ng-model="vm.selectedJobFamily" ng-change="vm.changeJobFamily(vm.selectedJobFamily)">
+                            <option value="">- Please Select Job Family -</option>
+                            <option ng-repeat="job in vm.jobFamilies" value="{{job.id}}">{{job.name}}</option>
+                        </select>
+					</div>
+
+					<div class="col-sm-3">
+						<label>Select Position</label>
+						<select class="form-control" ng-model="vm.selectedPosition" ng-change="vm.changePosition(vm.selectedPosition)">
+                            <option value="">- Please Select Position -</option>
+                            <option ng-repeat="pos in vm.positions" value="{{pos.id}}">{{pos.title}}</option>
+                        </select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="submit" ng-click="vm.modalSubmit()" ng-disabled="myForm.$invalid"> Save
+        </button>
+		<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+	</div>
+</form>

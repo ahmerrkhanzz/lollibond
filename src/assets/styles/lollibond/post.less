@@ -1,135 +1,245 @@
 .post {
   &-tabs {
-  	.nav-pills{
-  		display: flex;
-	    li {
-	    	width: 130px;
-	      a {
-	        text-align: center;
-	        border-radius: 0px;
-	        padding: 15.2px;
-	        background: #fff;
-	        font-weight: bold;
-	        i {
-	          display: block;
-	        }
-	        &:hover,
-	        &:focus {
-	          background: transparent;
-	        }
-	      }
-	      &.active a {
-	          background: transparent;
-	          color: #2196F3;
-	          &:hover,
-	          &:focus {
-	            background: transparent;
-	            color: #2196F3;
-	          }
-	      }
-	      &:focus{
-	      	outline: none;
-	      }
-	      &:nth-child(1) {
-	        border-top: 3px solid #2196F3;
-	      }
-	      &:nth-child(2) {
-	        border-top: 3px solid #edb220;
-	        a:hover {
-	           color: #edb220;
-	        }
-	        &.active a {
-	            color: #edb220;
-	            &:hover,
-	            &:focus {
-	              color: #edb220;
-	            }
-	        }
-	      }
-	      &:nth-child(3) {
-	        border-top: 3px solid #7cbb2f;
-	        a:hover {
-	            color: #7cbb2f;
-	        }
-	        &.active a {
-		        color: #7cbb2f;
-		        &:hover,
-		        &:focus {
-		          color: #7cbb2f;
-		        }
-	        }
-	      }
-	      &:nth-child(4) {
-	        border-top: 3px solid #dc4b89;
-	        a:hover {
-	            color: #dc4b89;
-	        }
-	        &.active a {
-	            color: #dc4b89;
-	            &:hover,
-	            &:focus {
-	              color: #dc4b89;
-	            }
-	        }
-	      }
-	      &:nth-child(5) {
-	        border-top: 3px solid #8d6cab;
-	        a:hover {
-	            color: #8d6cab;
-	        }
-	        &.active a {
-	            color: #8d6cab;
-	            &:hover,
-	            &:focus {
-	              color: #8d6cab;
-	            }
-	        }
-	      }
-	      &:nth-child(6) {
-	        border-top: 3px solid #00aeb3;
-	        a:hover {
-	            color: #00aeb3;
-	        }
-	        &.active a {
-	            color: #00aeb3;
-	            &:hover,
-	            &:focus {
-	              color: #00aeb3;
-	            }
-	        }
-	      }
-	      &:nth-child(7) {
-	        border-top: 3px solid #ffa600;
-	        a:hover {
-	            color: #ffa600;
-	        }
-	        &.active a {
-	            color: #ffa600;
-	            &:hover,
-	            &:focus {
-	              color: #ffa600;
-	            }
-	        }
-	      }
-	    }
+    display: table;
+    width: 100%;
+    .nav-pills {
+      display: table-row;
+      li {
+        display: table-cell;
+        border-right: 1px solid #f5eeee;
+        &:last-child {
+          border-right: none;
+        }
+        a {
+          text-align: center;
+          border-radius: 0px;
+          padding: 15px 10px;
+          margin: 0px;
+          font-weight: 400;
+          background: #fff;
+          word-break: normal;
+          word-wrap: normal;
+          i {
+            display: block;
+          }
+        }
+        &.active a {
+          color: @post-blue;
+        }
+        &:focus {
+          outline: none;
+        }
+        &:nth-child(1) {
+          border-top: 3px solid @post-blue;
+          a{
+            background: fade(@post-blue, 10%); 
+          }
+        }
+        &:nth-child(2) {
+          border-top: 3px solid @post-yellow;
+          a{
+            background-color: fade(@post-yellow, 5%);
+            &:hover{
+            color: @post-yellow;
+            }  
+          }
+          &.active a {
+            color: @post-yellow;
+          }
+        }
+        &:nth-child(3) {
+          border-top: 3px solid @post-green;
+          a{
+            background-color: fade(@post-green, 5%);
+            &:hover{
+            color: @post-green;
+            }  
+          }
+          &.active a {
+            color: @post-green;
+          }
+        }
+        &:nth-child(4) {
+          border-top: 3px solid @post-pink;
+         a{
+            background-color: fade(@post-pink, 5%);
+            &:hover{
+            color: @post-pink;
+            }  
+          }
+          &.active a {
+            color: @post-pink;
+          }
+        }
+        &:nth-child(5) {
+          border-top: 3px solid @post-purple;
+          a{
+            background-color: fade(@post-purple, 5%);
+            &:hover{
+            color: @post-purple;
+            }  
+          }
+          &.active a {
+            color: post-purple;
+          }
+        }
+        &:nth-child(6) {
+          border-top: 3px solid @post-cyan;
+          a{
+            background-color: fade(@post-cyan, 5%);
+            &:hover{
+            color: @post-cyan;
+            }  
+          }
+          &.active a {
+            color: @post-cyan;
+          }
+        }
+        &:nth-child(7) {
+          border-top: 3px solid @post-orange;
+          a{
+            background-color: fade(@post-orange, 5%);
+            &:hover{
+            color: @post-orange;
+            }  
+          }
+          &.active a {
+            color: @post-orange;
+          }
+        }
+      }
     }
   }
   &-content {
-    padding-top: 0px;
     textarea {
-      background: #f0f0f0;
+      background: @post-text-bg;
       min-height: 36px;
-      height: 36px;
-      resize: none;
-      transition: all 0.5s ease;
-      &:focus {
-        height: 84px !important;
-      }
+      resize: vertical;
     }
+    .share {
+  	  padding: 5px 7px;
+  	  font-size: 12px;
+  	  min-width: 80px;
+  	}
   }
   &-icons {
     position: absolute;
     right: 10px;
     bottom: 3px;
+  }
+}
+.lb-chat-windows {
+  // position: fixed;
+  // right: @sidebar-base-width + 10;
+  // bottom: 0;
+  // z-index: 99;
+}
+
+.media-list-linked .media-link {
+  padding: 5px 15px;
+}
+.panel{
+  &-blue {
+    border-top: 2px solid @post-blue;
+  }
+  &-green {
+    border-top: 2px solid @post-green;
+  }
+  &-yellow {
+    border-top: 2px solid @post-yellow;
+  }
+  &-pink {
+    border-top: 2px solid @post-pink;
+  }
+  &-purple {
+    border-top: 2px solid @post-purple;
+  }
+  &-orange {
+    border-top: 2px solid @post-orange;
+  }
+  &-cyan {
+    border-top: 2px solid @post-cyan;
+  }
+}
+.label-icon {
+  padding: 5px 10px;
+  i {
+    font-size: 10px;
+  }
+}
+
+/*custom post styles*/
+.lb-post {
+  .panel {
+    box-shadow: none;
+    border-radius: 0px;
+  }
+  .panel-heading {
+    padding: @content-padding-small;
+    .list-inline a{
+      color: #000;
+    }
+  }
+  .media-heading a{
+    font-weight: 600;
+    color: #000;
+    .dropdown-menu-right {
+      padding: 0px;
+      a {
+        padding: 5px 10px;
+        font-weight: 300;
+      }
+    }
+  }
+  .panel-body {
+    padding: 10px 20px;
+    .lb-text-wrap {
+      line-height: 18px;
+      margin-bottom: 10px;
+    }
+  }
+  .list-inline a {
+    color: #000;
+    font-size: 11px;
+    .ace-icon {
+      width: 14px;
+      margin-right: 0px;
+      vertical-align: text-bottom;
+    }
+    i{
+      font-size: 14px;
+    }
+  }
+  &--comments {
+    .input-group {
+      display: table-cell;
+      width: 100%;
+      .form-control {
+        background: #f0f0f0;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+    }
+    .post-icons {
+      z-index: 9;
+      bottom: 5px;
+      i {
+        font-size: 12px;
+      }
+    }
+  }
+}
+.lb-comment {
+  .lb-post;
+  .lb-text-wrap {
+    margin-bottom: 10px;
+  }
+}
+input[type="text"]::-ms-clear {
+  display: none;
+}
+@media(max-width: 580px){
+  .tab-names{
+    display: none;
   }
 }

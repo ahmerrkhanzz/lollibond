@@ -1,0 +1,20 @@
+<div class="page-container">
+	<div class="container mt-20">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<button type="button" class="btn bg-primary btn-float btn-float-lg" ng-click="vm.changeStateToFunction()" ng-show="vm.isFunctions"><i class="icon-file-plus"></i> <span>Create/Edit/View Function(s)</span></button>
+			</div>
+			<!--<div class="col-md-6">
+				<button type="button" class="btn bg-info btn-block btn-float btn-float-lg"><i class="icon-stats-bars"></i> <span>Assign User to Positions</span></button>
+			</div>-->
+			<!--<div class="col-md-4">
+				<button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg"><i class="icon-archive"></i> <span>Archive</span></button>
+			</div>-->
+		</div>
+		<!--<a class="btn btn-large btn-primary" ng-click="vm.changeState()">Go</a>-->
+		<hr>
+		<div class="panel panel-body">
+			 <div ui-view></div>
+		</div>
+	</div>
+</div>

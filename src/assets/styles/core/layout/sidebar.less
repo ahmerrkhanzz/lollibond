@@ -705,9 +705,10 @@
 			width: @sidebar-base-width;
 			max-height: 100%;
 			overflow: auto;
-			top: @navbar-height + 2;
+			top: @navbar-height;
 			bottom: @navbar-height + 2;
 			margin-bottom: -(@navbar-height + 2);
+			z-index: @zindex-sidebar;
 		}
 
 		// In mini sidebar

@@ -14,7 +14,7 @@
 
   > li {
     position: relative;
-    display: block;
+    display: inline-block;
 
     > a {
       position: relative;
@@ -239,4 +239,11 @@
   margin-top: -1px;
   // Remove the top rounded corners here since there is a hard edge above the menu
   .border-top-radius(0);
+}
+
+.navbar .input-group{
+  display: block;
+}
+.navbar-inverse .dropdown-menu .media-body a{
+  color: #0086d6;
 }

@@ -1,10 +1,9 @@
 <div class="customized">
   <div class="panel panel-white" id="training-experience">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/affiliation.jpg') no-repeat top center / cover;">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/affiliation.jpg')">
       <h4 class="panel-title"><i class="icon-copy position-left"></i> Training Experiences</h4>
-
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="training in vm.content track by $index">
           <div ng-if="!training.isEditable">
@@ -13,36 +12,47 @@
                 <h5 class="panel-title">
                   <span class="main-title text-semibold">{{training.data.title}}</span>
                   <span class="issued" ng-if="training.data.institute">By: {{training.data.institute}}</span>
-                  <span class="issued">{{training.data.fromDate | date:"MMM/yyyy"}} <strong> to </strong> {{training.data.toDate | date:"MMM/yyyy"}}</span>
+                  <span class="issued" ng-if="training.data.fromDate">{{training.data.fromDate | date:"MMM/yyyy"}} - {{ (training.data.toDate) ? training.data.toDate :  'In Process' | date:"MMM/yyyy"}}</span>
                   <!-- <div class="pull-right">
                     <privacy-dropdown current-selected="training.currentSelectedPrivacy"></privacy-dropdown>
                   </div> -->
                 </h5>
               </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(training)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteTraining($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" ng-click="vm.editForm(training)">
                   <i class=" mr-5 icon-pencil"></i>
                 </a>
               </div>
             </div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="training.isEditable">
-            <form ng-submit="vm.onSubmit(training)" name="form" novalidate>
-              <formly-form model="training.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(training)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="training.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteTraining($index)">
-                  Remove this Training
-                </button>
-                <button ng-click="vm.updateTraining($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteTraining($index)" ng-if="!training.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updateTraining($index)" class="btn btn-primary btn-xs submit-button" type="submit">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs ">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-    	<button type="button" ng-click="vm.addTrainingModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
-		</div>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-copy"></i> <span>Add Training</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addTrainingModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
+    </div>
   </div>
 </div>

@@ -2,11 +2,14 @@
 <html ng-controller="AppShellController as app">
   <head>
     <meta charset="utf-8">
-    <title>lollibond</title>
+    <title ng-bind="pageTitle || 'lollibond'">lollibond</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">-->
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -21,18 +24,40 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body class="{{app.bodyClasses}}">
+  <body class="{{app.bodyClasses}}" lb-util-on-scroll ng-class="{hideNavBar:isScrollDown}" is-scroll-down="isScrollDown" ng-strict-di ng-cloak>
+
+
+  <toaster-container toaster-options="{'time-out': 2000, 'close-button':true, 'animation-class': 'toast-top-right', 'limit': 1}"></toaster-container>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
+    
     <div ui-view></div>
 
+    <!--chat content-->
+    <div class="lollichat">
+        <div class="chat-overlay" ng-if="app.socketService.reconnecting">
+            <div class="text">
+                <p class="bg-danger pt-10 pb-10">Reconnecting to server</p>
+                <i class="icon-spinner2 spinner"></i>
+            </div>
+        </div>
+       <div class="lb-chat-windows text-right">
+            <div class="chat-individual" ng-repeat="thread in app.openChatThreads">
+                <lb-chat-box thread-data="thread" close-chat-box="app.closeChatBox"></lb-chat-box>
+            </div>
+        </div>
+        <chat-sidebar chat-open="app.chatWindows" open-chat-box="app.getThreadDataByUserId"></chat-sidebar>  
+    </div>
+    <!--chat content-->
+
+    <user-summary-popup></user-summary-popup>
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
+    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
     <!-- inject:js -->
@@ -43,6 +68,6 @@
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
     <!-- endbuild -->
-
+    
   </body>
 </html>

@@ -1,9 +1,9 @@
 <div class="customized">
-  <div class="panel panel-white lb-panel--mini" id="award-honors">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/awards-section.jpg') no-repeat top center / cover;">
+  <div class="panel panel-white" id="award-honors">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/awards-section.jpg')">
       <h4 class="panel-title"><i class="icon-trophy2 position-left"></i> Awards &amp; Hounors</h4>
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="awr in vm.content track by $index">
           <div ng-if="!awr.isEditable">
@@ -13,53 +13,62 @@
 							</div>-->
 							<div class="lb-panel--description">
 								<h5 class="panel-title">
-									<span class="main-title text-semibold">{{awr.data.title}}</span>
+									<span class="main-title text-semibold" ng-if="awr.data.title">{{awr.data.title}}</span>
 									<span class="issued" ng-if="awr.data.issuer">By: {{awr.data.issuer}}</span>
+                  <span class="issued" ng-if="awr.data.issuedDate">{{awr.data.issuedDate | date:"MMM/yyyy"}}</span>
 									<!-- <div class="pull-right">
 										<privacy-dropdown current-selected="awr.data.currentSelectedPrivacy"></privacy-dropdown>
 									</div> -->
 								</h5>
 							</div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(awr)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteAwards($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" ng-click="vm.editForm(awr)" >
                   <i class=" mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a href="javascript:;" ng-show="awr.data.description || awr.data.occupation" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
 						</div>
 						<div class="list-padding" uib-collapse="!isCollapsed">
 							<ul class="list-condensed list-unstyled">
-								<li ng-if="awr.data.issuedDate">
-									<span class="text-semibold">Issued Date: </span> {{awr.data.issuedDate | date:"MMM/yyyy"}}
-								</li>
 								<li ng-if="awr.data.occupation">
-									<span class="text-semibold">Occupation: </span> {{awr.data.occupation}}
+									<span><strong>Occupation:</strong> </span> <div class="lb-text-wrap">{{awr.data.occupation}}</div>
 								</li>
                 <li ng-if="awr.data.description">
-									<span class="text-semibold">Description: </span> {{awr.data.description}}
+									<span><strong>Description:</strong> </span> <div class="lb-text-wrap">{{awr.data.description}}</div>
 								</li>
 							</ul>
 						</div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="awr.isEditable">
-            <form ng-submit="vm.onSubmit(awr)" name="form" novalidate>
-              <formly-form model="awr.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(awr)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="awr.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteAwards($index)">
-                  Remove this Awards
-                </button>
-                <button ng-click="vm.updateAwards($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteAwards($index)" ng-if="!awr.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updateAwards($index)" class="btn btn-primary btn-xs submit-button" type="submit">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs ">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-      <button type="button" ng-click="vm.addAwardsModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-trophy2"></i> <span>Add Awards</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addAwardsModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
     </div>
   </div>
 </div>

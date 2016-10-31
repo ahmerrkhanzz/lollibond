@@ -1,0 +1,18 @@
+<div class="panel">
+    <div class="panel-heading">
+        <h6 class="panel-title">Basic Information</h6>
+    </div>
+    <div class="panel-body">
+        <form name="vm.form" novalidate>
+            <formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
+            </formly-form>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button ng-click="vm.updateProfileInfo()" type="submit" class="btn btn-primary btn-xs submit-button">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

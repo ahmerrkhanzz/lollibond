@@ -1,70 +1,91 @@
 <div class="customized">
   <div class="panel panel-white" id="publication">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/college.jpg') no-repeat top center / cover;">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/college.jpg')">
       <h4 class="panel-title"><i class="icon-book position-left"></i> Publication</h4>
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="pub in vm.content track by $index">
           <div ng-if="!pub.isEditable">
             <div class="panel-heading no-padding">
               <div class="lb-panel--description">
                 <h5 class="panel-title">
-                  <span class="main-title text-semibold">{{pub.data.publisher}}</span>
+                  <span class="main-title text-semibold">{{pub.data.title}}</span>
+                  <span class="issued">by : {{pub.data.publisher}}</span>
+                  <span class="issued" ng-if="pub.data.publicationDate">{{pub.data.publicationDate | date:"MMM/yyyy"}}</span>
                   <!-- <div class="pull-right">
                     <privacy-dropdown current-selected="awr.currentSelectedPrivacy"></privacy-dropdown>
                   </div> -->
                 </h5>
               </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(pub)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deletePublication($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode"  ng-click="vm.editForm(pub)">
                   <i class=" mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a href="javascript:;" ng-show="pub.data.url || pub.data.description || pub.data.externalAuthors || pub.data.internalAuthors" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
             </div>
             <div class="list-padding no-padding" uib-collapse="!isCollapsed">
               <ul class="list-condensed list-unstyled">
-                <li ng-if="pub.data.fromDate">
-                  <span class="text-semibold">External Authors: </span> {{pub.data.externalAuthors}}
-                </li>
-                <li ng-if="pub.data.internalAuthors">
-                  <span class="text-semibold">Internal Authors: </span> {{pub.data.internalAuthors}}
-                </li>
-                <li ng-if="pub.data.publicationDate ">
-                  <span class="text-semibold">Publication Date: </span> {{pub.data.publicationDate | date:"MMM/yyyy"}}
-                </li>
-                <li ng-if="pub.data.publisher ">
-                  <span class="text-semibold">Publisher: </span> {{pub.data.publisher}}
+                <li ng-if="pub.data.internalAuthors.length > 0 || pub.data.externalAuthors.length > 0" >
+                  <span class="display-block text-bold">Authors: </span> 
+                  <div ng-repeat="extAuthor in pub.data.externalAuthors track by $index" 
+                       class="lb-tag mr-5 mb-5 ng-scope" 
+                       ng-if="pub.data.externalAuthors.length > 0">
+                    <span class="lb-tag-title p-5 lb-truncate">
+                      {{extAuthor}}
+                    </span>
+                  </div>
+                  <div  ng-repeat="intAuthor in pub.data.internalAuthors track by $index" 
+                        class="lb-tag mr-5 mb-5 ng-scope" 
+                        ng-if="pub.data.internalAuthors.length > 0">
+                    <span class="lb-tag-title p-5 lb-truncate">
+                      <a ui-sref="personal.profile.posts({ uid: intAuthor.id })">
+                        <lb-image src="{{::intAuthor.profilePicture}}" width="40" height="40" ng-if="intAuthor.profilePicture"></lb-image>
+                        {{intAuthor.firstName}}
+                      </a>
+                    </span>
+                  </div>
                 </li>
                 <li ng-if="pub.data.url ">
-                  <span class="text-semibold">URL: </span> {{pub.data.url}}
+                  <span class="text-semibold">URL: </span> <a lb-href="{{pub.data.url}}" lb-util-anchor target="blank">{{pub.data.url}}</a>
                 </li>
                 <li ng-if="pub.data.description ">
-                  <span class="text-semibold">Description: </span> {{pub.data.description}}
+                  <span class="text-semibold">Description: </span> <div class="lb-text-wrap">{{pub.data.description}}</div>
                 </li>
               </ul>
             </div>
           </div>
           <div class="panel-body no-padding row pb-15" ng-if="pub.isEditable">
-            <form ng-submit="vm.onSubmit(pub)" name="form" novalidate>
-              <formly-form model="pub.data" fields="fields" form="form">
+            <form ng-submit="vm.onSubmit(pub)" name="vm.form" novalidate lb-util-confirm-on-exit form-state="vm.form">
+              <formly-form model="pub.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deletePublication($index)">
-                  Remove this Publication
-                </button>
-                <button ng-click="vm.updatePublication($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deletePublication($index)" ng-if="!pub.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updatePublication($index)" type="submit" class="btn btn-primary btn-xs submit-button">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs ">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-      <button type="button" ng-click="vm.addPublicationModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-book"></i> <span>Add Publications</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addPublicationModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
     </div>
   </div>
 </div>

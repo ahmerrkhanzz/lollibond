@@ -13,9 +13,9 @@
         templateUrl: 'app/modules/feed/feed.html',
         controller: 'FeedController',
         controllerAs: 'vm',
-        onEnter: ['authService', function(authService) {
-          authService.verifyAuth();
-        }]
+        resolve: {
+          pageTitle: function() { return 'Welcome to lollibond';}
+        }
       })
   }
 

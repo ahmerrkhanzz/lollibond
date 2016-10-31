@@ -82,7 +82,7 @@
     // Mobile nav
     .navbar-nav {
         float: right;
-        margin-right: (@navbar-padding-horizontal - @content-padding-base);
+        // margin-right: (@navbar-padding-horizontal - @content-padding-base);
 
         > li {
             float: left;
@@ -167,7 +167,7 @@
         }
     }
     .navbar-top {
-        padding-top: @navbar-height;
+        margin-top: @navbar-height;
 
         // Sticky fixed sidebar
         .sidebar-fixed.affix {
@@ -294,7 +294,7 @@
 
 .navbar-nav {
     margin: 0;
-    text-align: left;
+    text-align: center;
 
     // Links
     > li > a {
@@ -313,7 +313,7 @@
             top: 0;
             right: 0;
         }
-        
+
         // Status mark
         > .status-mark {
             position: absolute;
@@ -849,7 +849,7 @@
     }
 
     // Nav dropdowns
-    .navbar-nav {   
+    .navbar-nav {
         @media (max-width: @grid-float-breakpoint-max) {
 
             // Dropdowns get custom display
@@ -1866,4 +1866,52 @@
     .table-responsive {
         margin-bottom: 0;
     }
+}
+
+
+/*custom lollibond styles */
+.lb-navbar{
+    .navbar-form{
+        width: 100%;
+        .form-group{
+            display: block;
+            margin-left: 0;
+            .input-group{
+                display: block;
+                .form-control{
+                    width: 100%;
+                    border: none;
+                    border-bottom: 1px solid rgba(221, 221, 221, 0.26);
+                }
+            }
+            .form-control-feedback{
+                left: -11px;
+            }
+            .icon-right{
+                left: 100%;
+                top: 0px;
+                margin-left: -36px;
+                pointer-events: auto;
+                line-height: 26px;
+            }
+        }
+    }
+    .navbar-nav > li > a{
+        font-weight: 400;
+    }
+}
+.content-group{
+    .navbar-default .navbar-nav > .active > a{
+        background: transparent !important;
+        font-weight: 900 !important;
+    }
+}
+
+.margin-topbar{
+    margin-top: @navbar-height + @navbar-height-mini;
+}
+
+
+.sub-navbar-fixed-top{
+    z-index: @zindex-sub-navbar-fixed;
 }

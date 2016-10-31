@@ -1,27 +1,63 @@
 <div class="customized">
-	<div class="panel " id="why-me">
-		<div class="panel-heading">
-		    <h6 class="panel-title">Skills</h6>
-		    <div class="heading-elements">
-		      <ul class="icons-list">
-		        <li>
-		          <a data-action="collapse"></a>
-		        </li>
-		        <li>
-		          <a data-action="reload"></a>
-		        </li>
-		        <li>
-		          <a data-action="close"></a>
-		        </li>
-		      </ul>
-		    </div>
-		</div>
-		<div class="panel-body">
-			<formly-form model="vm.model" fields="vm.fields" form="vm.form" options="vm.options">
-			</formly-form>
-			<div class="text-right mt-10">
-	            <button type="submit" class="btn btn-primary btn-xs submit-button" ng-disabled="vm.form.$invalid">Save</button>
-	        </div>
-		</div>
-	</div>
+    <div class="panel panel-white" id="why-me">
+        <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/school.jpg')">
+            <h4 class="panel-title"><i class="icon-quill2 position-left"></i> Skills</h4>
+            <!--<h4 class="no-margin-top">
+	          Skills
+	          <a ng-if="vm.profileService.ownProfile" class="pull-right ng-scope" ng-click="vm.toggleAddView()">
+	          	<i class=" mr-5 icon-cross2" ng-if="vm.isEditable"></i>
+	          	<i class=" mr-5 icon-pencil" ng-if="!vm.isEditable"></i>
+	          </a>
+	        </h4>-->
+        </div>
+        <div class="panel-body">
+            <a ng-if="vm.profileService.ownProfile" class="pull-right ng-scope" ng-click="vm.toggleAddView()">
+                <i class=" mr-5 icon-cross2" ng-if="vm.isEditable"></i>
+                <i class=" mr-5 icon-pencil" ng-if="!vm.isEditable"></i>
+            </a>
+            <div ng-if="vm.isEditable">
+                <form ng-submit="vm.addSkill()" name="vm.skillsForm">
+                    <div class="form-group display-inline-block full-width">
+                        <div class="input-group">
+                            <input type="text" 
+                            		ng-model="vm.skillsModel.name" 
+                            		placeholder="add Skills" 
+		                            uib-typeahead="skill for skill in vm.refreshSkills($viewValue)" 
+		                            typeahead-loading="loadingLocations" 
+		                            typeahead-no-results="noResults" 
+		                            required
+		                            ng-maxlength="50" 
+		                            class="form-control">
+                            <span class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<i class="icon-plus2"></i>
+								</button>
+							</span>
+                        </div>
+                        <div ng-messages="vm.skillsForm.$error" ng-if="vm.skillsForm.$error && vm.skillsForm.$dirty" class="error-messages" role="alert">
+                            <div ng-message="required">Please enter your skill</div>
+                            <div ng-message="maxlength">Your field is too long</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-repeat="skill in vm.userSkills track by $index" class="lb-tag mr-5 mb-5">
+                <span class="lb-tag-count p-5">
+				  {{skill.aceCount}}
+				  </span>
+                <span class="lb-tag-title p-5 lb-truncate">
+				  {{skill.name}}
+				  </span>
+                <span class="lb-tag-ace p-5" ng-class="(skill.aced == true)? 'lb-tag-aced': 'lb-tag-ace'" ng-click="vm.actionAce(skill.aced ,skill.id, $index)">
+                    <img ng-src="{{(skill.aced == true) ? 'assets/images/ace-white.png' : 'assets/images/ace-black.png'}}">
+				  </span>
+                <span class="lb-tag-del p-5" ng-if="vm.profileService.ownProfile" ng-click="vm.deleteSkills(skill.id, $index)">
+				  	<i class="icon-cross3"></i>
+				  </span>
+            </div>
+            <div ng-if="!vm.isEditable && !vm.hasSkillsData" class="lb-panel--placeholder border-top-danger" >
+                <i class="icon-user"></i> <span> Add Skills </span>
+            </div>
+        </div>
+    </div>
 </div>

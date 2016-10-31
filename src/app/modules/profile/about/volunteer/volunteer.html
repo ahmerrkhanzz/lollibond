@@ -1,39 +1,38 @@
 <div class="customized">
-  <div class="panel panel-white lb-panel--mini" id="volunteering-experience">
-    <div class="panel-heading lb-panel--cover" style="background: url('./assets/images/dummy/covers/volunteer.jpg') no-repeat top center / cover;">
+  <div class="panel panel-white" id="volunteering-experience">
+    <div class="panel-heading lb-panel--cover" style="background-image: url('./assets/images/dummy/covers/volunteer.jpg')">
       <h4 class="panel-title"><i class="icon-droplet position-left"></i> Volunteers &amp; Hounors</h4>
     </div>
-    <div class="panel-body border-top-danger">
+    <div class="panel-body border-top-danger" ng-if="vm.hasdata">
       <div ng-init="fields = vm.copyFields(vm.fields)">
         <div class="lb-panel--view" ng-repeat="vol in vm.content track by $index">
           <div ng-if="!vol.isEditable">
             <div class="panel-heading no-padding">
-							<div class="lb-panel--description">
-								<h5 class="panel-title">
-									<span class="main-title text-semibold">{{vol.data.title}}</span>
-                <span class="issued" ng-if="vol.data.organizationName">By: {{vol.data.organizationName}}</span>
-									<!-- <div class="pull-right">
-										<privacy-dropdown current-selected="vol.data.data.currentSelectedPrivacy"></privacy-dropdown>
-									</div> -->
-								</h5>
-							</div>
+              <div class="lb-panel--description">
+                <h5 class="panel-title">
+                  <span class="main-title text-semibold">{{vol.data.title}} </span>
+                  <span class="issued" ng-if="vol.data.cause">Cause:
+                    {{vm.causeList[vol.data.cause]}}
+                  </span>
+                  <span class="issued" ng-if="vol.data.organizationName">By: {{vol.data.organizationName}}</span>
+                  <span class="issued" ng-if="vol.data.fromDate">{{vol.data.fromDate | date:"MMM/yyyy"}} - {{ (vol.data.toDate) ? vol.data.toDate :  'In Process' | date:"MMM/yyyy"}}</span>
+                  <!-- <div class="pull-right">
+                    <privacy-dropdown current-selected="vol.data.data.currentSelectedPrivacy"></privacy-dropdown>
+                  </div> -->
+                </h5>
+              </div>
               <div class="lb-panel--actions">
-                <a ng-if="vm.profileService.ownProfile" ng-click="vm.editForm(vol)">
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" class="lb-sec-delete" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteVolunteers($index)"><i class="icon-bin"></i></a>
+                <a ng-if="vm.profileService.ownProfile && !vm.disabledAddMode" ng-click="vm.editForm(vol)">
                   <i class=" mr-5 icon-pencil"></i>
                 </a>
-                <a href="javascript:;" ng-click="isCollapsed = !isCollapsed">
+                <a ng-show="vol.data.location || vol.data.impact || vol.data.duties || vol.data.skills || vol.data.description" ng-click="isCollapsed = !isCollapsed">
                   <i class="icon-arrow-down32 ml-5"></i>
                 </a>
               </div>
-						</div>
-						<div class="list-padding" uib-collapse="!isCollapsed">
-							<ul class="list-condensed list-unstyled">
-								<li ng-if="vol.data.fromDate">
-                  <span class="text-semibold">From Date: </span> {{vol.data.fromDate | date:"MMM/yyyy"}}
-                </li>
-                <li ng-if="vol.data.toDate">
-                  <span class="text-semibold">To Date: </span> {{vol.data.toDate | date:"MMM/yyyy"}}
-                </li>
+            </div>
+            <div class="list-padding" uib-collapse="!isCollapsed">
+              <ul class="list-condensed list-unstyled">
                 <li ng-if="vol.data.location">
                   <span class="text-semibold">Location: </span> {{vol.data.location}}
                 </li>
@@ -41,34 +40,51 @@
                   <span class="text-semibold">Impact: </span> {{vol.data.impact}}
                 </li>
                 <li ng-if="vol.data.duties">
-                  <span class="text-semibold">Duties: </span> <div class="large-field">{{vol.data.duties}}</div>
+                  <span class="text-semibold">Duties: </span>
+                  <div class="large-field">{{vol.data.duties}}</div>
                 </li>
                 <li ng-if="vol.data.skills">
-                  <span class="text-semibold">Skills: </span> {{vol.data.skills}}
+                  <span class="display-block text-bold">Skills: </span>
+                  <div ng-repeat="skill in vol.data.skills track by $index" class="lb-tag mr-5 mb-5 ng-scope">
+                    <span class="lb-tag-title p-5 lb-truncate">
+                      {{skill.name || skill}}
+                    </span>
+                  </div>
                 </li>
                 <li ng-if="vol.data.description">
-                  <span class="text-semibold">Description: </span> <div class="large-field">{{vol.data.description}}</div>
+                  <span class="text-semibold">Description: </span>
+                  <div class="lb-text-wrap">{{vol.data.description}}</div>
                 </li>
-							</ul>
-						</div>
+              </ul>
+            </div>
           </div>
-          <div class="panel-body no-padding row pb-15" ng-if="vol.isEditable">
-            <form ng-submit="vm.onSubmit(vol)" name="form" novalidate>
-              <formly-form model="vol.data" fields="fields" form="form">
+          <div class="panel-body no-padding row pb-15" ng-if="vol.isEditable" lb-util-confirm-on-exit form-state="vm.form">
+            <form ng-submit="vm.onSubmit(vol)" name="vm.form" novalidate>
+              <formly-form model="vol.data" fields="vm.fields" options="vm.options" form="vm.form">
               </formly-form>
-              <div class="text-right col-md-12 mt-10">
-                <button type="button" class="btn btn-danger text-white btn-xs" ng-click="vm.deleteVolunteers($index)">
-                  Remove this Volunteers
-                </button>
-                <button ng-click="vm.updateVolunteers($index)" class="btn btn-primary btn-xs submit-button">Save</button>
+              <div class="row">
+                <div class="text-right col-md-12 mt-10">
+                  <button type="button" class="btn btn-danger text-white btn-xs" ng-really-message="Are you sure you want to delete?" lb-util-confirm-modal confirm-action="vm.deleteVolunteers($index)" ng-if="!vol.addInProcess">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <button ng-click="vm.updateVolunteers($index)" class="btn btn-primary btn-xs submit-button" type="button">
+                    <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <button ng-click="vm.reset($index)" class="btn btn-primary btn-xs ">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-    <div class="panel-footer" ng-if="vm.profileService.ownProfile">
-      <button type="button" ng-click="vm.addVolunteersModel()" ng-disabled="vm.addInProcess" class="btn bg-primary pull-right btn-xs heading-btn">Add Another </button>
+    <div class="panel-body lb-panel--placeholder border-top-danger" ng-if="!vm.hasdata">
+      <i class="icon-droplet"></i> <span>Add Volunteering</span>
+    </div>
+    <div class="panel-footer" ng-if="vm.profileService.ownProfile" >
+      <button type="button" ng-click="vm.addVolunteersModel()" ng-disabled="vm.disabledAddMode" class="btn bg-primary pull-right btn-xs heading-btn">Add</button>
     </div>
   </div>
 </div>

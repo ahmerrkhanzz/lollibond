@@ -1,16 +1,26 @@
-<div class="media-left">
-  <a href="#"><img ng-src="{{::vm.postData.author.profilePicture || 'assets/images/placeholder.jpg'}}" class="img-circle img-sm" alt=""></a>
+<div class="media-left ">
+  <a href="javascript:;">
+    <lb-image src="{{::vm.replyData.author.profilePicture}}" width="40" height="40"  class="img-circle img-sm display-inline-block overflow-hidden"></lb-image>
+  </a>
 </div>
 <div class="media-body">
   <div class="media-heading">
-    <a ui-sref="personal.profile.posts({ uid: vm.replyData.author.id })" class="text-warning">{{::vm.replyData.author.firstName}} {{::vm.replyData.author.lastName}}</a>
-    <span class="media-annotation dotted" title="{{::vm.replyData.time | date:'medium'}}">{{::vm.getTimestamp(vm.replyData.timestamp)}}</span>
+    <a ui-sref="personal.profile.posts({ uid: vm.replyData.author.id })" author-id="{{vm.replyData.author.id}}" lb-user-summary class="text-warning">{{::vm.replyData.author.firstName}} {{::vm.replyData.author.lastName}}</a>
+    <span class="media-annotation" title="{{::vm.replyData.time | date:'medium'}}">{{::vm.getTimestamp(vm.replyData.timestamp)}}</span>
   </div>
-  <p>{{::vm.replyData.text}}</p>
+  <!-- <p class="lb-text-wrap">{{::vm.replyData.text}}</p> -->
+  <div class="lb-text-wrap">{{vm.replyData.text | limitTo: vm.textLimit }}</div>
+  <div ng-if="!vm.isEditable && vm.replyData.text">
+    <p class="text-center no-margin" ng-show="vm.replyData.text.length > 250">
+      <a href="javascript:;" ng-click="vm.showMore($event)">
+        {{(vm.textLimit > 250)? "Show Less": "Show More"}}
+      </a>
+    </p>
+  </div>
   <ul class="list-inline list-inline-separate text-size-small">
     <li>
       <a ng-click="::vm.aceReply()">
-        <i class="icon-thumbs-up2 "></i> {{vm.replyAced ? 'Aced' : 'Ace'}} ({{vm.replyData.aceCount || 0}})
+        <img src="assets/images/ace.png" alt="" class="ace-icon"> {{vm.replyAced ? 'Aced' : 'Ace'}} <strong class="ml-5">{{vm.replyData.aceCount || 0}}</strong>
       </a>
     </li>
   </ul>

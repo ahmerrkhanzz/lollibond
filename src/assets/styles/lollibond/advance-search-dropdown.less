@@ -1,0 +1,36 @@
+/* ------------------------------------------------------------------------------
+ *
+ *  # Advance search dropdown component
+ *
+ * ---------------------------------------------------------------------------- */
+
+.lb-advance-search {
+  position: absolute;
+  width: 100%;
+  z-index:  @zindex-popover;
+
+  &__list {
+    width: 100%;
+  }
+
+  &__item {
+    cursor: pointer;
+
+    &--active,
+    .media-link:hover {
+      background-color: #ddd;
+    }
+
+    .media-body a {
+      // On small resolutions it turn white
+      // that is why it is over-riden here
+      color: #0086d6 !important;
+    }
+  }
+}
+.lb-navbar-right{
+  float: right;
+  .lb-notification{
+    padding: 18px 0;
+  }
+}

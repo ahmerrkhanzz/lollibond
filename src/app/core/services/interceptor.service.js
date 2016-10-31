@@ -27,6 +27,7 @@
       // Use the bearer token from keycloak
       else {
         if (authService.keycloak.token) {
+          // Update the token if its going to be expired in 5 sec
           authService.keycloak.updateToken(5).success(function() {
             config.headers = config.headers || {};
             config.headers.Authorization = 'Bearer ' + authService.keycloak.token;
@@ -35,6 +36,12 @@
           }).error(function() {
             deferred.reject('Failed to refresh token');
           });
+        } else {
+          // In case the there is no token
+          // redirect to login,
+          // it will refresh the page if the user is active
+          // or else user have to enter the credentials
+          authService.keycloak.login();
         }
       }
       return deferred.promise;

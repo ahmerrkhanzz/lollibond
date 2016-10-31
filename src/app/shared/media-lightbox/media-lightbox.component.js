@@ -3,11 +3,7 @@
 
   angular
     .module('lollibond.shared')
-    .component('mediaLightbox', {
-      controller: MediaLightboxController,
-      controllerAs: 'vm',
-      templateUrl: 'app/shared/media-lightbox/media-lightbox.html'
-    });
+    .controller('MediaLightboxController', MediaLightboxController);
 
   /** @ngInject */
   function MediaLightboxController($uibModalInstance, mediaData) {

@@ -1,0 +1,11 @@
+<label  ng-if="to.label">
+    {{to.label}}
+</label>
+<ui-select ng-model="model[options.key]" theme="bootstrap" class="mb-10">
+    <ui-select-match placeholder="{{to.placeholder}}">
+   		{{($select.selected.label) ? $select.selected[to.valueProp || 'value' ]: to.defaultValue}}
+    </ui-select-match>
+    <ui-select-choices repeat="option[to.labelProp || 'id'] as option in to.options | filter: $select.search" refresh="to.refresh($select.search, options)" refresh-delay="{{to.refreshDelay}}">
+        <div ng-bind-html="option[to.valueProp || 'value'] | highlight: $select.search"></div>
+    </ui-select-choices>
+</ui-select>

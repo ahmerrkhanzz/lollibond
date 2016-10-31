@@ -1,16 +1,14 @@
 <div class="modal-header bg-primary">
   <button type="button" class="close" ng-click="vm.dismisModal()">×</button>
-  <h6 class="modal-title">John Doe's Update</h6>
+  <h6 class="modal-title">{{::vm.mediaData.name || "No Title"}}</h6>
 </div>
 <div class="modal-body lb-media-lightbox">
   <div class="clearfix">
-    <div class="col-md-8 bg-slate-800 media-section">
+    <div class="col-md-12 bg-slate-800 media-section">
       <div class="center-block">
-        <img ng-src="{{vm.mediaData.mediaImg}}" class="img-responsive center-block">
+        <lb-image src="{{vm.mediaData.mediaImg}}" img-class="img-responsive center-block"></lb-image>
       </div>
     </div>
-    <div class="col-md-4 comments-section">
-      <user-post post-data="vm.mediaData"></user-post>
-    </div>
+    <div class="comments-section"></div>
   </div>
 </div>

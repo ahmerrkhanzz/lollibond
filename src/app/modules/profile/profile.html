@@ -1,86 +1,168 @@
 <!-- Page container -->
 <div class="page-container">
-	<!-- Page content -->
-	<div class="page-content">
-		<!-- Main content -->
-		<div class="content-wrapper">
+  <!-- Page content -->
+  <div class="page-content">
+    <!-- Main content -->
+    <div class="content-wrapper">
       <!-- Cover area -->
-      <!-- <div class="profile-cover">
-        <div class="profile-cover-img" style="background-image: url('assets/images/dummy/covers/user-cover.jpg'); background-position: 50% 70%;"></div>
-        <div class="media">
-          <div class="container">
-             <div class="media-left">
-                <a href="#" class="profile-thumb">
-                  <img src="assets/images/dummy/users/face9.jpg" class="img-circle" alt="">
+      <div class="profile-cover pt-15 pb-15 lb-profile"  ng-style="{'background-image': 'url(' + vm.coverPhoto + ')' }">
+        <div class="cover-loader" ng-if="vm.isCoverPhotoLoading">
+          <span class="loader">
+            <i class="icon-spinner10 spinner"></i>
+          </span>
+        </div>
+        <div class="container position-relative">
+          <div class="col-md-3 col-sm-3 col-xs-12 no-padding-left">
+            <div class="thumbnail lb-profileImage no-border-radius p-10 no-margin-bottom bg-tranparent no-border">
+              <div class="thumb thumb-slide">
+                <lb-image src="{{vm.profilePicture}}" width="300" height="300" is-loading="vm.isProfilePicLoading"></lb-image>
+                <span class="zoom-image" ng-if="vm.profileService.ownProfile && !vm.isProfilePicLoading">
+                  <a type="button" ng-click="vm.openProfilePictureModal()">
+                    <i class="icon-plus2"></i>
+                  </a>
+                  <a type="button" ng-click="vm.removeProfilePicture()" ng-if="vm.profilePictureExists">
+                    <i class="icon-trash"></i>
+                  </a>
+                </span>
+                <span ng-show="vm.profileService.ownProfile && vm.isProfilePicLoading"
+                      ng-class="{'loader-overlay zoom-image' : vm.isProfilePicLoading}" >
+                        <i class="icon-spinner2 spinner"></i>
+                </span>
+              </div>
+              <div ng-show="vm.postsLoading" class="text-center p-10">
+                <i class="icon-spinner2 spinner"></i>
+                Loading ...
+              </div>
+              <div class="caption p-10" ng-if="!vm.postsLoading">
+                <h5 class="text-semibold text-white lb-truncate no-margin" tooltip-placement="bottom" uib-tooltip="{{vm.username || 'No Name'}}">
+                  {{vm.username || "No Name"}}
+                </h5>
+                <span class="no-shadow display-block text-white lb-truncate" ng-if="vm.latestWorkExperience.title">
+                  {{vm.latestWorkExperience.title}}
+                </span>
+                <a href="javascript:;" class="no-shadow display-block lb-truncate" ng-if="vm.latestWorkExperience.companyName">
+                  {{vm.latestWorkExperience.companyName}}
                 </a>
               </div>
-
-              <div class="media-body">
-                  <h1>{{vm.username}} <small class="display-block">UX/UI designer</small></h1>
-              </div>
-
-              <div class="media-right media-middle" ng-if="vm.profileService.isLogged">
-                <ul class="list-inline list-inline-condensed no-margin-bottom text-nowrap">
-                  <li ng-if="vm.profileService.ownProfile">
-                    <a href="#" class="btn btn-default">Cover image</a>
-                  </li>
-                  <li ng-if="!vm.profileService.ownProfile">
-                    <button ng-click="::vm.bondUser()" ng-if="!vm.profileService.isBonded && !vm.profileService.isRequested" class="btn btn-primary">Bond</button>
-                    <button ng-click="::vm.unbondUser()" ng-if="vm.profileService.isBonded" class="btn btn-primary">Unbond</button>
-                    <button ng-click="::vm.cancelRequest()" ng-if="vm.profileService.isRequested" class="btn btn-primary">Requested</button>
-                  </li>
-                  <li ng-if="!vm.profileService.ownProfile">
-                    <button ng-click="::vm.followUser()" ng-if="!vm.profileService.isFollowed" class="btn btn-primary">Follow</button>
-                    <button ng-click="::vm.unfollowUser()" ng-if="vm.profileService.isFollowed" class="btn btn-primary">Unfollow</button>
-                  </li>
-                  <li ng-if="!vm.profileService.ownProfile">
-                    <ace-button data="vm.aceUser"></ace-button>
-                  </li>
-                </ul>
-              </div>
+            </div>
+          </div>
+          <div class="media-body media-middle" ng-if="vm.profileService.isLogged">
+            <ul class="list-inline mt-5 pull-right list-inline-condensed no-margin-bottom text-nowrap">
+              <li ng-if="vm.profileService.ownProfile">
+                <button type="button" class="btn btn-xs btn-primary" ng-click="vm.openCoverPhotoModal()">
+                    <i class="icon-upload4 position-left"></i>
+                  Upload
+                </button>
+                <button type="button" class="btn btn-xs btn-danger ml-5" ng-click="vm.deleteCoverPhoto()"  ng-if="vm.coverPhotoExists">
+                    <i class="icon-trash position-left"></i>
+                  Delete
+                </button>
+              </li>
+              <li ng-if="!vm.profileService.ownProfile">
+                <button ng-click="::vm.bondUser()" ng-if="!vm.profileService.isBonded && !vm.profileService.isRequested && !vm.profileService.isReceived" class="btn btn-primary btn-sm">Bond</button>
+                <button ng-click="::vm.unbondUser()" ng-if="vm.profileService.isBonded" class="btn btn-primary btn-sm">Unbond</button>
+                <button ng-click="::vm.cancelRequest()" ng-if="vm.profileService.isRequested" class="btn btn-danger btn-sm">Cancel Request</button>
+                <button ng-click="::vm.approveRequest()" ng-if="vm.profileService.isReceived" class="btn btn-success btn-sm">Approve Request</button>
+                <button ng-click="::vm.rejectRequest()" ng-if="vm.profileService.isReceived" class="btn btn-danger btn-sm">Reject Request</button>
+              </li>
+              <li ng-if="!vm.profileService.ownProfile">
+                <button ng-click="::vm.followUser()" ng-if="!vm.profileService.isFollowed" class="btn btn-primary btn-sm">Follow</button>
+                <button ng-click="::vm.unfollowUser()" ng-if="vm.profileService.isFollowed" class="btn btn-primary btn-sm">Unfollow</button>
+              </li>
+              <!-- <li ng-if="!vm.profileService.ownProfile">
+                <ace-button data="vm.aceUser"></ace-button>
+              </li> -->
+            </ul>
+            <!-- <ul class="profile-extras">
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/1.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/ace.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/2.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/3.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/4.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/6.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/7.png" alt=""></a>
+              </li>
+              <li>
+                <a href="javascript:;"><img src="assets/images/lb/lollitarget.png" alt=""></a>
+              </li>
+            </ul> -->
           </div>
         </div>
-      </div> -->
+      </div>
       <!-- /cover area -->
-
-			<!-- Toolbar -->
-			<div class="navbar navbar-default navbar-xs content-group">
-				<ul class="nav navbar-nav visible-xs-block">
-					<li class="full-width text-center"><a ng-click="vm.navbarCollapsed = !vm.navbarCollapsed"><i class="icon-menu7"></i></a></li>
-				</ul>
-				<div class="container">
-					<div class="navbar-collapse" uib-collapse="vm.navbarCollapsed">
-						<ul class="nav navbar-nav no-margin-left">
-							<li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
-								<a>
-									<i class="{{::tab.icon}} position-left"></i>
-              		<span>{{::tab.title | translate}}</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /toolbar -->
-
-      <!-- Content area -->
-      <div class="content container">
-        <div class="row">
-          <div class="tabbable">
-            <div ui-view></div>
+      <!-- Toolbar -->
+      <div class="navbar navbar-default navbar-xs content-group" >
+        <ul class="nav navbar-nav visible-xs-block">
+          <li class="full-width text-center"><a ng-click="vm.navbarCollapsed = !vm.navbarCollapsed"><i class="icon-menu7"></i></a></li>
+        </ul>
+        <div class="container">
+          <div class="navbar-collapse" uib-collapse="vm.navbarCollapsed">
+            <ul class="nav navbar-nav no-margin-left">
+              <li ng-repeat="tab in vm.tabs" ui-sref-active="active" ui-sref="{{::tab.route}}">
+                <a>
+                  <!-- <i class="{{::tab.icon}} position-left"></i> -->
+                  <span>{{::tab.title }}</span>
+                </a>
+              </li>
+            </ul>
+            <!-- <ul class="profile-nav-info">
+              <li>
+                <a href="javascript:;" class="bg-primary">
+                  <img class="ace-icon" src="assets/images/individual.png">
+                </a>
+                <div class="stats">
+                  <span>Public</span>
+                  <strong>481</strong>
+                </div>
+              </li>
+              <li>
+                <a href="javascript:;" class="bg-green">
+                  <img class="ace-icon" src="assets/images/epsn.png">
+                </a>
+                <div class="stats">
+                  <span>Business</span>
+                  <strong>246</strong>
+                </div>
+              </li>
+              <li>
+                <a href="javascript:;" class="bg-orange">
+                  <img class="ace-icon" src="assets/images/apsn.png">
+                </a>
+                <div class="stats">
+                  <span>Education</span>
+                  <strong>172</strong>
+                </div>
+              </li>
+            </ul> -->
           </div>
         </div>
-
-        <!-- Footer -->
-        <div class="footer text-muted">
-          &copy; 2016. <a href="#">Lollibond</a> by <a href="http://bondinco.com" target="_blank">Bond Internet Consultancy</a>
+      </div>
+      <!-- /toolbar -->
+      <!-- Content area -->
+      <div class="container">
+        <div class="tabbable">
+          <div ui-view></div>
         </div>
-        <!-- /footer -->
       </div>
       <!-- /content area -->
-		</div>
-		<!-- /main content -->
-	</div>
-	<!-- /page content -->
+    </div>
+    <!-- /main content -->
+  </div>
+  <!-- /page content -->
+
+
 </div>
 <!-- /page container -->

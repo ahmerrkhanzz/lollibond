@@ -6,20 +6,17 @@
                        model="element"
                        form="form">
         </formly-form>
-        <div class="col-xs-2 text-right">
-          <button type="button" 
-                  class="btn btn-primary btn-xs btn-icon" 
+        <div class="col-xs-2 no-padding mt-5 text-right">
+          <a href="javascript:;" 
                   ng-click="addNew()"
                   ng-hide="!$last">
-            <i class=" icon-plus2"></i>
-          </button>
-          <button type="button" 
-                  class="btn btn-danger btn-xs btn-icon" 
+            <i class="text-individual icon-plus3"></i>
+          </a>
+          <a href="javascript:;" 
                   ng-click="model[options.key].splice($index, 1)"
                   ng-hide="$first">
-            <i class=" icon-cross3"></i>
-          </button>
-          
+            <i class="text-danger icon-cross2"></i>
+          </a>  
         </div>
     </div>
   </div>
